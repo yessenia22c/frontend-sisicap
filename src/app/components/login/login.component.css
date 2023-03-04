@@ -1,0 +1,18 @@
+.body{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    background-color: rgb(235, 235, 235);
+}
+.login{
+    width: 50%;
+    max-width: 330px;
+    text-align: center;
+}
+.ancho{
+    width: 70%;
+}
+.button{
+    height: 50px;
+}
