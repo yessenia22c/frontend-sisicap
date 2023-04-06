@@ -14,6 +14,7 @@ import {Usuario, Token} from '../../models/Usuarios'
 export class LoginComponent implements OnInit {
   form: FormGroup;
   cargando = false;
+  escondeContra = true;
   /*usuario = {
     nombre_us: 'yessi',
     contrasena_us: '12345'
