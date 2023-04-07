@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-
+import {t} from 'tslib/modules'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -35,7 +35,6 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
     SharedModule
    
   ],
