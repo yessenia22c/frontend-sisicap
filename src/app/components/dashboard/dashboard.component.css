@@ -6,6 +6,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    box-shadow:none;
   }
   
   .example-is-mobile .example-toolbar {
@@ -28,4 +29,25 @@
     /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
        `<body>` to be our scrolling element for mobile layouts. */
     flex: 1 0 auto;
+  }
+
+  .fondo-menu{
+    background:#fff;
+    border: none;
+    box-shadow: 15px 0 20px -13px rgba(0, 0, 0, 0.2);
+  }
+
+  .elementos-menu{
+    background-color: #fff;
+    font-size: 14px;
+    
+    
+  }
+  .mat-nav-list.elementos-menu a:hover {
+    background-color: #fff;
+    color: #0236e2;
+  }
+  
+  .alto-elementos{
+    height:none ;
   }

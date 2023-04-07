@@ -10,7 +10,7 @@ export class DashboardComponent implements OnInit,OnDestroy {
   
   mobileQuery: MediaQueryList;
 
-  fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
+  fillerNav = Array.from({length: 6}, (_, i) => `Nav Item ${i + 1}`);
 
   fillerContent = Array.from(
     {length: 50},
