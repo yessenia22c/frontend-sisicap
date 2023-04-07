@@ -5,8 +5,7 @@
     </mat-toolbar>
 
     <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-        <!-- <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"> -->
+        
         <mat-sidenav class="fondo-menu" #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
             opened="true" fixedTopGap="56">
             <mat-nav-list class="elementos-menu" >
@@ -18,7 +17,7 @@
             <p *ngFor="let content of fillerContent">{{content}}</p>
         </mat-sidenav-content>
     </mat-sidenav-container>
-</div>
+</div> 
 
 
 
