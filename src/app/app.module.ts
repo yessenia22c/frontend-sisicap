@@ -43,7 +43,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
     // TOKEN INTERCEPTOR
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService,  multi: true}
-    
+
   ],
   bootstrap: [AppComponent]
 })

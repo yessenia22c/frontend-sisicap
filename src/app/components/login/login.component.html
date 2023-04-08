@@ -3,7 +3,7 @@
         <mat-spinner *ngIf="cargando" class="spinner" diameter="50"></mat-spinner>
 
         <form *ngIf="!cargando" [formGroup]="form" (ngSubmit)="ingresar()">
-            <mat-card>
+            <mat-card appearance="outlined">
                 <mat-card-content><h1>SIGESCA</h1></mat-card-content>
                 <img src="../../../assets/img/usuario.png" alt="" width="30%">
                 <h3>Login</h3>

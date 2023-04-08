@@ -1,4 +1,69 @@
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false">
+      <mat-list *ngIf="user">
+        <mat-list-item>
+           <mat-icon matListItemIcon>account_circle</mat-icon>
+           <h4 matListItemTitle>{{ user.nombre_usuario }}</h4>
+           <p matListItemLine class="demo-2"> {{ user.nombre_usuario }} </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+     </mat-list>
+      <mat-nav-list dense>
+        <a mat-list-item routerLink="/admin/dashboard">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          Dashboard
+        </a>
+        <a mat-list-item routerLink="/admin/form">
+          <mat-icon matListItemIcon>dns</mat-icon>
+          Form
+        </a>
+        <a mat-list-item routerLink="/admin/about">
+          <mat-icon matListItemIcon>dns</mat-icon>
+          About
+        </a>
+        <a mat-list-item routerLink="/admin/gallery">
+          <mat-icon matListItemIcon>photo_library</mat-icon>
+          Gallery
+        </a>
+        <a mat-list-item routerLink="/admin/pictures">
+          <mat-icon matListItemIcon>photo_library</mat-icon>
+          Pictures
+        </a>
+        <a mat-list-item (click)="logout()">
+          <mat-icon matListItemIcon>logout</mat-icon>
+          Logout
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span>ng Project</span>
+      </mat-toolbar>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
     <mat-toolbar color="primary" class="example-toolbar">
         <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
         <h1 class="example-app-name">SISICAP</h1>
@@ -20,7 +85,7 @@
 </div> 
 
 
-
+ -->
 
 
 

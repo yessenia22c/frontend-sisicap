@@ -13,10 +13,23 @@ export class AuthGuard implements CanActivate {
   ){
 
   }
-  canActivate(): boolean{
-    if(!this.authServiceLogin.isAuth()){
+  // canActivate(): boolean{
+
+  //   if(!this.authServiceLogin.isAuth()){
+  //     console.log('EL TOKEN NO ES VALIDO O YA EXPIRÓ');
+  //     this.router.navigate(['login']);
+
+  //     return false;
+  //   }
+  //   return true;
+  // }
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const token = this.authServiceLogin.getToken();
+    if (!token) {
       console.log('EL TOKEN NO ES VALIDO O YA EXPIRÓ');
-      this.router.navigate(['login'])
+      this.router.navigate(['/login']);
       return false;
     }
     return true;
