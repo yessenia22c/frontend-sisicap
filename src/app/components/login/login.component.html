@@ -1,25 +1,39 @@
 <div class="body">
     <div class="login">
         <mat-spinner *ngIf="cargando" class="spinner" diameter="50"></mat-spinner>
-
-        <form *ngIf="!cargando" [formGroup]="form" (ngSubmit)="ingresar()">
+        <mat-label *ngIf="incorrecto">{{mensajeError}}</mat-label>
+        <form *ngIf="!cargando" [formGroup]="form" >
             <mat-card appearance="outlined">
-                <mat-card-content><h1>SIGESCA</h1></mat-card-content>
-                <img src="../../../assets/img/usuario.png" alt="" width="30%">
+                <mat-card-content><h1>SISICAP</h1></mat-card-content>
+                <p>
+                    <img src="../../../assets/img/usuario.png" alt="" width="30%">
+                </p>
+                
                 <h3>Login</h3>
-                <mat-form-field appearance="fill">
-                    <mat-label>Usuario</mat-label>
-                    <input type="text"  matInput class="ancho" formControlName="nombreUsuario" >
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Contraseña</mat-label>
-                    <input type="password"  matInput class="ancho" formControlName="contrasenaUsuario">
-                </mat-form-field>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Usuario</mat-label>
+                        <input type="text"  matInput formControlName="nombreUsuario" >
+                        
+                        <mat-icon matSuffix>account_circle</mat-icon>
+                        
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="escondeContra ? 'password' : 'text'" formControlName="contrasenaUsuario">
+                        <button mat-icon-button matSuffix (click) ="escondeContra = !escondeContra" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="escondeContra">
+                          <mat-icon>{{escondeContra ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <!-- <input type="password"  matInput class="ancho" formControlName="contrasenaUsuario"> -->
+                    </mat-form-field>
+                </div>
+                
+                <div>
+                    <button type="submit" mat-raised-button color="primary" class="ancho" [disabled]="form.invalid" (click)="ingresar()" >Ingresar</button>
+                </div>
                 <br>
-                <button type="submit" mat-raised-button color="primary" class="ancho buttom" [disabled]="form.invalid" >Ingresar</button>
             </mat-card>
         </form>
                   
-    </div>
-    
+    </div>   
 </div>

@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 import { LoginComponent } from './components/login/login.component'
-import { AuthGuard } from './guards/auth.guard';
+import { myGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+
 
 const routes: Routes = [
   {
@@ -21,7 +22,7 @@ const routes: Routes = [
     path: 'dashboard',
     
     loadChildren: () => import('./components/dashboard/dashboard.module').then(x => x.DashboardModule),
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [myGuard, RoleGuard],
     data: { expectedRole:  1}//el 1 es que es tipo administrador
   },
   {

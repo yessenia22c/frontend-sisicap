@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from './../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { Usuario_perfil } from '../models/PerfilUsuario';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,15 +19,26 @@ export class LoginService {
   
   constructor(
     private http: HttpClient,
-    private jwtHelper: JwtHelperService
+    private jwtHelper: JwtHelperService,
+    private router : Router
     ) { }
 
 
   login(usuario: Usuario) {
     return this.http.post(`${this.API_URL_BACKEND}/auth/login`,usuario)
   }
-  getToken() {
-    return localStorage.getItem('access_token');
+  getToken():boolean {
+    const myToken = localStorage.getItem('access_token');
+    if (this.jwtHelper.isTokenExpired(myToken) || !localStorage.getItem('access_token')){
+      
+      this.router.navigate(['/login']);
+      console.log("NO PUEDES ACCEDER PERRO VUELVES A LOGIN");
+      return false
+    }else{
+      console.log("HAZ ACCEDIDO PERRO")
+      
+      return true
+    }
   }
   isAuth():boolean{
     const access_token = localStorage.getItem('access_token')

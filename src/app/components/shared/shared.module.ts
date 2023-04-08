@@ -19,7 +19,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatListModule} from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar'
 
 
 @NgModule({
@@ -38,7 +38,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatToolbarModule,
     MatListModule,
     MatMenuModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSnackBarModule
 
   ],
   exports: [
@@ -54,7 +55,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatToolbarModule,
     MatListModule,
     MatMenuModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSnackBarModule
   ]
 })
 export class SharedModule { }

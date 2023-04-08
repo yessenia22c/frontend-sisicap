@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { timeout } from 'rxjs';
+import { tap, timeout } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import {Usuario, Token} from '../../models/Usuarios'
 
@@ -15,11 +15,8 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   cargando = false;
   escondeContra = true;
-  /*usuario = {
-    nombre_us: 'yessi',
-    contrasena_us: '12345'
-  }*/
-
+  incorrecto = false;
+  mensajeError = "";
 
 
   constructor(
@@ -34,35 +31,46 @@ export class LoginComponent implements OnInit {
     })
    }
   ingresar(){
+    const nombreUsuario = this.form.value.nombreUsuario;
+    const contrasenaUsuario = this.form.value.contrasenaUsuario;
 
-
-    const user: Usuario = {
-      nombre_usuario: this.form.value.nombreUsuario,
-      contrasena_us: this.form.value.contrasenaUsuario
-    }
-
-    console.log(user.nombre_usuario); //Muestra el usuario en consola
-    console.log(user.contrasena_us); //muestra la contraseña en consola.
-    
-    if(true){
-      this.falsoCargando();
-      this.loginService.login(user).subscribe( (res: any)=> {
-        console.log(res);
-        localStorage.setItem('access_token', res.access_token);
-        
-      }) ///AQUI HAY QUE AVERIGUAR COMO SE UTILIZAN LOS VALORES DE UNA INTERFAZ
-    }else{
-      //No se
-    }
     
 
+    //console.log(user.nombre_usuario); //Muestra el usuario en consola
+    //console.log(user.contrasena_us); //muestra la contraseña en consola.
+    
+    if(nombreUsuario && contrasenaUsuario){
+      const user: Usuario = {
+        nombre_usuario: nombreUsuario,
+        contrasena_us: contrasenaUsuario
+      }
+    
+      this.loginService.login(user).pipe(tap((res: any)=> {
+        //console.log(res);
+        //localStorage.setItem('access_token', res.access_token);
+        if(res && res.access_token) {
+          this.falsoCargando();
+          this.incorrecto=false;
+          localStorage.setItem('access_token', res.access_token);
+          // Redirigir a la página principal, por ejemplo
+        } else {
+          this.usuarioIncorrecto()
+        }
+      })    
+      ).subscribe(); 
+    }   
+  }
+
+  usuarioIncorrecto(){  
+    this.incorrecto= true;  
+    this.mensajeError = "Usuario incorrecto";
   }
   falsoCargando(){
     this.cargando = true;
     setTimeout(()=>{
       this.router.navigate(['dashboard']);
       //this.cargando= false;
-    },1500);
+    },1000);
   }
 
   ngOnInit(): void {
