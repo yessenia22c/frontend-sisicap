@@ -3,38 +3,38 @@
         [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'"
         [opened]="(isHandset$ | async) === false">
-      <mat-list *ngIf="user">
+      <mat-list *ngIf="informacionUsuario">
         <mat-list-item>
            <mat-icon matListItemIcon>account_circle</mat-icon>
-           <h4 matListItemTitle>{{ user.nombre_usuario }}</h4>
-           <p matListItemLine class="demo-2"> {{ user.nombre_usuario }} </p>
+           <h4 matListItemTitle>{{ informacionUsuario.usuario.empleado.persona.nombres_per }}</h4>
+           <p matListItemLine class="demo-2">{{ informacionUsuario.usuario.tipo_usuario.nombre_tipo_usuario}} </p>
         </mat-list-item>
         <mat-divider></mat-divider>
-     </mat-list>
+      </mat-list>
       <mat-nav-list dense>
         <a mat-list-item routerLink="/admin/dashboard">
           <mat-icon matListItemIcon>dashboard</mat-icon>
           Dashboard
         </a>
         <a mat-list-item routerLink="/admin/form">
-          <mat-icon matListItemIcon>dns</mat-icon>
-          Form
+          <mat-icon matListItemIcon>group</mat-icon>
+          Usuarios
         </a>
         <a mat-list-item routerLink="/admin/about">
           <mat-icon matListItemIcon>dns</mat-icon>
-          About
+          Capacitacion
         </a>
         <a mat-list-item routerLink="/admin/gallery">
-          <mat-icon matListItemIcon>photo_library</mat-icon>
-          Gallery
+          <mat-icon matListItemIcon>summarize</mat-icon>
+          Reportes
         </a>
         <a mat-list-item routerLink="/admin/pictures">
-          <mat-icon matListItemIcon>photo_library</mat-icon>
-          Pictures
+          <mat-icon matListItemIcon>content_paste_search</mat-icon>
+          Seguimiento
         </a>
         <a mat-list-item (click)="logout()">
           <mat-icon matListItemIcon>logout</mat-icon>
-          Logout
+          Cerrar sesión
         </a>
       </mat-nav-list>
     </mat-sidenav>
@@ -48,7 +48,7 @@
           *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <span>ng Project</span>
+        <span>SISICAP</span>
       </mat-toolbar>
       <router-outlet></router-outlet>
     </mat-sidenav-content>

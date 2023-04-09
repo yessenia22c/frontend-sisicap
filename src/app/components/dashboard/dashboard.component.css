@@ -3,7 +3,9 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 220px;
+  box-shadow: 5px 0px 30px rgba(90, 90, 90, 0.1);
+  border: none;
 }
 
 .sidenav .mat-toolbar {

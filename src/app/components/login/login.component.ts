@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { tap, timeout } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import {Usuario, Token} from '../../models/Usuarios'
-
+import { PerfilUsuarioService } from 'src/app/services/perfil-usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
+    //private sharedService: SharedService,
     private router: Router
     ) {
     this.form = this.fb.group({
@@ -30,14 +31,10 @@ export class LoginComponent implements OnInit {
 
     })
    }
+  private perfilUsuario = inject(PerfilUsuarioService);
   ingresar(){
     const nombreUsuario = this.form.value.nombreUsuario;
     const contrasenaUsuario = this.form.value.contrasenaUsuario;
-
-    
-
-    //console.log(user.nombre_usuario); //Muestra el usuario en consola
-    //console.log(user.contrasena_us); //muestra la contraseña en consola.
     
     if(nombreUsuario && contrasenaUsuario){
       const user: Usuario = {
@@ -46,18 +43,20 @@ export class LoginComponent implements OnInit {
       }
     
       this.loginService.login(user).pipe(tap((res: any)=> {
-        //console.log(res);
-        //localStorage.setItem('access_token', res.access_token);
+        
         if(res && res.access_token) {
           this.falsoCargando();
           this.incorrecto=false;
+          console.log('respuesta id usurio desde login',res.id_user); //MUESTRA LA RESPUESTA DE LA API IMPORTANTE DEJARLO PARA PRUEBAS
           localStorage.setItem('access_token', res.access_token);
-          // Redirigir a la página principal, por ejemplo
+          const idUser = res.id_user;
+          this.perfilUsuario.setUserId(idUser);
+          console.log("Muestra desde el login compo",this.perfilUsuario.setUserId(idUser))
+          
         } else {
           this.usuarioIncorrecto()
         }
-      })    
-      ).subscribe(); 
+      })).subscribe(); 
     }   
   }
 
@@ -69,7 +68,7 @@ export class LoginComponent implements OnInit {
     this.cargando = true;
     setTimeout(()=>{
       this.router.navigate(['dashboard']);
-      //this.cargando= false;
+      
     },1000);
   }
 

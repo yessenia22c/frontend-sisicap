@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Usuario } from '../models/Usuarios'
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from './../../environments/environment';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Usuario_perfil } from '../models/PerfilUsuario';
 import { Router } from '@angular/router';
 @Injectable({
@@ -32,10 +32,10 @@ export class LoginService {
     if (this.jwtHelper.isTokenExpired(myToken) || !localStorage.getItem('access_token')){
       
       this.router.navigate(['/login']);
-      console.log("NO PUEDES ACCEDER PERRO VUELVES A LOGIN");
+      console.log("NO PUEDES ACCEDER VUELVES A LOGIN");
       return false
     }else{
-      console.log("HAZ ACCEDIDO PERRO")
+      console.log("HAZ ACCEDIDO ")
       
       return true
     }
@@ -48,12 +48,13 @@ export class LoginService {
     }
     return true
   }
-  getProfile() {
-     const url = `${environment.endPoint}/auth/usuario`;
-     return this.http.get<Usuario>(url);
-   }
+  // getProfile() {
+  //    const url = `${environment.endPoint}/auth/usuario`;
+  //    return this.http.get<Usuario>(url);
+  //  }
   limpiarToken() {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('usuarioId');
     
     //this.tokenService.clearToken();
   }

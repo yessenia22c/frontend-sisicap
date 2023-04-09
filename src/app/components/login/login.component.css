@@ -11,24 +11,56 @@
     text-align: center;
 }
 .ancho{
-    width: 75%;
+    width: 100%;
 }
-.button{
-    height: 50px;
-}
+
 .spinner{
     margin: 0 auto;
 }
 
-.example-container mat-form-field + mat-form-field {
+/* .example-container mat-form-field + mat-form-field {
   margin-left: 8px;
 }
 
 .example-right-align {
   text-align: right;
-}
-
+} */
+/* 
 input.example-right-align::-webkit-outer-spin-button,
 input.example-right-align::-webkit-inner-spin-button {
   display: none;
+} */
+
+.texto-alerta{
+    color: red;
+    display: flex;
+    justify-content: center;
+}
+.conf-icon{
+    font-size: 1.2em;
+}
+
+.login-body{
+    padding:1em;
+    background-color: white;
+    border-radius: 0.6em;
+    height: 350px;
+    width: auto;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
+    
+}
+
+
+.logo-imagen{
+    padding-bottom: 30px;
+}
+
+h2{
+    color: rgb(117, 117, 117);
+}
+
+.container-form{
+
+  padding: 0.7em;
+
 }
