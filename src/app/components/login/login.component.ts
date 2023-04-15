@@ -47,11 +47,8 @@ export class LoginComponent implements OnInit {
         if(res && res.access_token) {
           this.falsoCargando();
           this.incorrecto=false;
-          console.log('respuesta id usurio desde login',res.id_user); //MUESTRA LA RESPUESTA DE LA API IMPORTANTE DEJARLO PARA PRUEBAS
           localStorage.setItem('access_token', res.access_token);
-          const idUser = res.id_user;
-          this.perfilUsuario.setUserId(idUser);
-          console.log("Muestra desde el login compo",this.perfilUsuario.setUserId(idUser))
+
           
         } else {
           this.usuarioIncorrecto()

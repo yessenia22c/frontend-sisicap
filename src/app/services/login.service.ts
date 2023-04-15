@@ -4,7 +4,7 @@ import { Usuario } from '../models/Usuarios'
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from './../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Usuario_perfil } from '../models/PerfilUsuario';
+import { PerfilUsuario } from '../models/PerfilUsuario';
 import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
@@ -48,15 +48,10 @@ export class LoginService {
     }
     return true
   }
-  // getProfile() {
-  //    const url = `${environment.endPoint}/auth/usuario`;
-  //    return this.http.get<Usuario>(url);
-  //  }
+
   limpiarToken() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('usuarioId');
-    
-    //this.tokenService.clearToken();
   }
   setAuthState(user: Usuario | null) {
     this.authState.next(user);

@@ -5,18 +5,18 @@ import { Router } from '@angular/router';
 import { Observable, map, shareReplay, tap } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import { PerfilUsuarioService } from 'src/app/services/perfil-usuario.service';
-import { Usuario_perfil } from 'src/app/models/PerfilUsuario';
+import { PerfilUsuario } from 'src/app/models/PerfilUsuario';
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  templateUrl:'./layout.component.html' ,
+  styleUrls: ['./layout.component.css']
 })
 export class DashboardComponent implements OnInit{ 
   constructor(  ){
 
   }
   user: Usuario | null = null;
-  informacionUsuario: Usuario_perfil |  null = null ;
+  informacionUsuario: PerfilUsuario |  null = null ;
   private breakpointObserver = inject(BreakpointObserver);
   private authService = inject(LoginService);
   private router = inject(Router);
@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit{
     //   this.authService.getProfile().subscribe(user => {
     //   this.authService.setAuthState(user);     
     //  });
-    this.perfilUsuario.getUsuario().subscribe((data: Usuario_perfil) => {
+    this.perfilUsuario.getUsuario().subscribe((data) => {
       this.informacionUsuario = data;
       console.log('INFO USER suscribe',this.informacionUsuario);
       
@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit{
     });
 
     
-    // this.perfilUsuario.getUsuario().pipe(tap((informacionUsuario: Usuario_perfil)=> {   
+    // this.perfilUsuario.getUsuario().pipe(tap((informacionUsuario: PerfilUsuario)=> {   
     //    this.informacionUsuario = informacionUsuario 
     //    console.log('INFO USER',this.informacionUsuario);
     //   })).subscribe();

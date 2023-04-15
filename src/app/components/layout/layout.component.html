@@ -5,9 +5,14 @@
         [opened]="(isHandset$ | async) === false">
       <mat-list *ngIf="informacionUsuario">
         <mat-list-item>
-           <mat-icon matListItemIcon>account_circle</mat-icon>
-           <h4 matListItemTitle>{{ informacionUsuario.usuario.empleado.persona.nombres_per }}</h4>
-           <p matListItemLine class="demo-2">{{ informacionUsuario.usuario.tipo_usuario.nombre_tipo_usuario}} </p>
+          <mat-icon matListItemIcon>person</mat-icon>
+              <h4 matListItemTitle >
+                {{informacionUsuario.usuario.empleado.persona.nombres_per}}
+                
+              </h4>
+              <p matListItemLine >
+                {{informacionUsuario.usuario.tipo_usuario.nombre_tipo_usuario}}
+              </p>
         </mat-list-item>
         <mat-divider></mat-divider>
       </mat-list>
@@ -49,6 +54,15 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
         <span>SISICAP</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="belowMenu" aria-label="Example icon-button with share icon">
+          <mat-icon>person</mat-icon>   
+        </button>
+        <mat-menu #belowMenu="matMenu" yPosition="below">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
+
       </mat-toolbar>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
