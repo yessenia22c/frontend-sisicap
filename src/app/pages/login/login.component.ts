@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
 
     })
    }
-  private perfilUsuario = inject(PerfilUsuarioService);
+  
   ingresar(){
     const nombreUsuario = this.form.value.nombreUsuario;
     const contrasenaUsuario = this.form.value.contrasenaUsuario;
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
   falsoCargando(){
     this.cargando = true;
     setTimeout(()=>{
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['admin']);
       
     },1000);
   }

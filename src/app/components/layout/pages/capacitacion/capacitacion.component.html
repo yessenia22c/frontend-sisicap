@@ -1,0 +1,15 @@
+<div class="card-container">
+  <div *ngIf="this.informacionCapacitaciones$ | async as Capacitacion ">
+    <mat-card *ngFor="let item of Capacitacion.UnaCapacitacion " >
+      <mat-card-header>
+        <mat-card-title>{{item.nombre_capacitacion}}</mat-card-title> 
+        <mat-card-subtitle>Start</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-button color="warn">Eliminar</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+        
+</div>

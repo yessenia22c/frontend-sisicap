@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout';
 import { Usuario } from 'src/app/models/Usuarios';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { PerfilUsuario } from 'src/app/models/PerfilUsuario';
   templateUrl:'./layout.component.html' ,
   styleUrls: ['./layout.component.css']
 })
-export class DashboardComponent implements OnInit{ 
+export class LayoutComponent implements OnInit{ 
   constructor(  ){
 
   }
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit{
     //  });
     this.perfilUsuario.getUsuario().subscribe((data) => {
       this.informacionUsuario = data;
-      console.log('INFO USER suscribe',this.informacionUsuario);
+      //console.log('INFO USER suscribe',this.informacionUsuario);
       
     });
 

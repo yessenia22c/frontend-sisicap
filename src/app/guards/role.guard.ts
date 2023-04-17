@@ -26,7 +26,7 @@ export class RoleGuard implements CanActivate {
       
       const {tipoUser}: {tipoUser: number}= decode(access_token);
       
-      console.log(tipoUser)
+      console.log('id tipo user role guard',tipoUser)
       
       if ( !this.authServiceLogin.isAuth() || tipoUser !== expectedRole){
         console.log('USUARIO NO AUTORIZADO PARA LA VISTA');
