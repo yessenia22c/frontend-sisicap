@@ -32,14 +32,6 @@ export default class CapacitacionComponent implements OnInit {
         ];
       }
 
-      return [
-        { title: 'Card 1', cols: 1, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 2 }
-      ];
-    })
-  );
   
   constructor(private breakpointObserver: BreakpointObserver){}
   ngOnInit(): void {
