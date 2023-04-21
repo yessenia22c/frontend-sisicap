@@ -7,7 +7,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { PerfilUsuarioService } from 'src/app/services/perfil-usuario.service';
 import { PerfilUsuario } from 'src/app/models/PerfilUsuario';
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-layout',
   templateUrl:'./layout.component.html' ,
   styleUrls: ['./layout.component.css']
 })

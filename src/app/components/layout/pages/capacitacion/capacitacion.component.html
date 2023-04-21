@@ -1,15 +1,26 @@
-<div class="card-container">
-  <div *ngIf="this.informacionCapacitaciones$ | async as Capacitacion ">
-    <mat-card *ngFor="let item of Capacitacion.UnaCapacitacion " >
-      <mat-card-header>
-        <mat-card-title>{{item.nombre_capacitacion}}</mat-card-title> 
-        <mat-card-subtitle>Start</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-actions>
-        <button mat-button color="warn">Eliminar</button>
-        <button mat-button>SHARE</button>
-      </mat-card-actions>
-    </mat-card>
+<!-- <app-layout></app-layout> -->
+
+<div class="content" >
+
+  <div *ngIf="this.informacionCapacitaciones$ | async as Capacitacion " fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"  *ngFor="let item of Capacitacion.UnaCapacitacion" >
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>{{item.nombre_capacitacion}}</mat-card-title>
+          <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+        </mat-card-header>
+        <img mat-card-image src="./../../../../../assets/img/img-generica.jpg" >
+        <mat-card-content>
+          <p>
+            The Himalayas is a mountain range in Asia.
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button class="no-overlap" mat-raised-button color="warn">Eliminar</button>
+          <button class="no-overlap"  mat-raised-button color="primary">Ver</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    
   </div>
-        
 </div>

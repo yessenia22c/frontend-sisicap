@@ -10,12 +10,14 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     LayoutComponent,
-    DashboardComponent
+    DashboardComponent,
+    
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     SharedModule
-  ]
+  ],
+  // exports: [LayoutComponent]
 })
-export class DashboardModule { }
+export class LayoutModule { }

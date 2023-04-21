@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'admin',
     
-    loadChildren: () => import('./components/layout/layout.module').then(x => x.DashboardModule),
+    loadChildren: () => import('./components/layout/layout.module').then(x => x.LayoutModule),
     canActivate: [myGuard, RoleGuard],
     data: { expectedRole:  1},//el 1 es que es tipo administrador
     

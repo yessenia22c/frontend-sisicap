@@ -1,4 +1,20 @@
-.card-container {
-    margin: 30px;
-  }
+mat-toolbar {
+  justify-content: space-between;
   
+}
+.no-overlap {
+  position: relative;
+  margin-left: 8px;
+  z-index: 0;
+}
+.content {
+  padding: 16px;
+  z-index: 1;
+}
+
+.content > mat-card {
+  margin-bottom: 16px;
+}
+.mat-card{
+  z-index: 2;
+}
