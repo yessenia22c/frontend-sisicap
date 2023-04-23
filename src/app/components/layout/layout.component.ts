@@ -15,6 +15,7 @@ export class LayoutComponent implements OnInit{
   constructor(  ){
 
   }
+  panelOpenState = false;
   user: Usuario | null = null;
   informacionUsuario: PerfilUsuario |  null = null ;
   private breakpointObserver = inject(BreakpointObserver);
