@@ -1,5 +1,59 @@
-<h1 mat-dialog-title>Dialog with elements</h1>
-<div mat-dialog-content>This dialog showcases the title, close, content and actions elements.</div>
+<h1 mat-dialog-title>{{tituloAccion}} </h1>
+<div mat-dialog-content>
+  <form [formGroup]="formCap">
+    <mat-grid-list cols="1" rowHeight="80px">
+      <mat-grid-tile>
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre capacitacion</mat-label>
+          <input type="text" matInput formControlName="nombre_capacitacion" autocomplete="off">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de inicio</mat-label>
+          <input matInput formControlName="fecha_inicio_cap" autocomplete="off" [matDatepicker]="picker">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha final</mat-label>
+          <input matInput formControlName="fecha_fin_cap" autocomplete="off" [matDatepicker]="picker2">
+          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill">
+          <mat-label>Cantidad módulos</mat-label>
+          <input type="number" matInput formControlName="cantidad_modulos" autocomplete="off" min="0" max="20" pattern="[0-9]*">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill">
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="id_categoria" >
+            <div *ngIf="this.Listcategoria$ | async as listaCategoria">
+              <mat-option *ngFor="let item of listaCategoria.Categoria"  [value]="item.id_categoria">
+                {{item.nombre_categoria}}
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      
+      <mat-grid-tile></mat-grid-tile>
+
+    </mat-grid-list>
+  </form>
+</div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+  <button mat-raised-button color="primary"
+    (click)="crearCapacitacion()"
+    [disabled]="formCap.invalid"
+    >{{botonAccion}}
+  </button>
+
 </div>

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { tap, timeout } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import {Usuario, Token} from '../../models/Usuarios'
-import { PerfilUsuarioService } from 'src/app/services/perfil-usuario.service';
+
 
 @Component({
   selector: 'app-login',

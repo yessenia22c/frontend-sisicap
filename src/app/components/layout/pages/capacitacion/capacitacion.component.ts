@@ -45,7 +45,7 @@ export default class CapacitacionComponent implements OnInit {
     //console.log('SON LOS OBASEBAVLEs',this.informacionCapacitaciones$);
     
   }
-  openDialog() {
+  agregaCapacitacion() {
     this.dialog.open(FormCapacitacionComponent);
   } 
 
