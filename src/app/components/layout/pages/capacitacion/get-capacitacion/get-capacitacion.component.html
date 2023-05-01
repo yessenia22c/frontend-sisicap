@@ -1,0 +1,33 @@
+<mat-grid-list cols="4" rowHeight="100px">
+    <ng-container *ngIf="this.capacitacion$ | async as cap ">
+
+        <mat-grid-tile [colspan]="3"  >
+            <mat-card>
+                <mat-card-header>
+                  <mat-card-title>
+                    <h2>{{ cap.UnaCapacitacion.nombre_capacitacion}}</h2>
+                  </mat-card-title>
+                  <mat-card-subtitle>
+                    {{cap.UnaCapacitacion.fecha_inicio_cap}}
+                  </mat-card-subtitle>
+                </mat-card-header>
+        
+            </mat-card>   
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="3" >
+            
+            <mat-list>
+                <h3> General</h3>
+                <mat-list-item>
+                    <a matListItemTitle>Editar capacitación</a>
+                </mat-list-item>
+                <mat-list-item>Eliminar capacitacón</mat-list-item>
+            </mat-list>
+            
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="3" [rowspan]="2" style="background-color:rgb(255, 255, 255);">
+            Tabla inscritos
+        </mat-grid-tile>
+    </ng-container>
+
+</mat-grid-list>

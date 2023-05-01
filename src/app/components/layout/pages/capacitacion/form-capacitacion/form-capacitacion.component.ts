@@ -20,7 +20,7 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';//
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';//SOLO PUESTO PARA QUE FUNCIONE EL CALENDARIO DEL DATEPICKER
 
 import * as moment from 'moment';
-import { UnaCapacitacion } from 'src/app/models/capacitacion';
+import { CreaCapacitacion } from 'src/app/models/capacitacion';
 import { Categoria } from 'src/app/models/categoria';
 import { CapacitacionService } from 'src/app/services/capacitacion.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
@@ -64,7 +64,7 @@ export class FormCapacitacionComponent implements OnInit {
     private capacitacionService: CapacitacionService,
     private categoriaService: CategoriaService,
     private _snackBar: MatSnackBar,
-    public dialogRef: MatDialogRef<FormCapacitacionComponent>) {
+    public dialogReferencia: MatDialogRef<FormCapacitacionComponent>) {
 
     this.formCap = this.fb.group({
       nombre_capacitacion: ['', Validators.required],
@@ -75,7 +75,7 @@ export class FormCapacitacionComponent implements OnInit {
     });  
     
 }
-openSnackBar(mensaje: string, accion: string) {
+mostrarAlerta(mensaje: string, accion: string) {
     this._snackBar.open(mensaje, accion,{
       horizontalPosition: 'end',
       verticalPosition: 'top',
@@ -91,17 +91,24 @@ openSnackBar(mensaje: string, accion: string) {
 crearCapacitacion() {
   // console.log(this.formCap)
   console.log('FORMULARIO', this.formCap.value);
-  const modelo: UnaCapacitacion = {
-    id_capacitacion: 0,
+  const modelo: CreaCapacitacion = {
+    //id_capacitacion: undefined,
     nombre_capacitacion: this.formCap.value.nombre_capacitacion,
-    fecha_inicio_cap: this.formCap.value.fecha_inicio_cap,
-    fecha_fin_cap: this.formCap.value.fecha_fin_cap,
-    cantidad_modulos: this.formCap.value.cantidad_modulos,
-    Categoria: {
-      nombre_categoria: this.formCap.value.id_categoria
-    }
+    fecha_inicio_cap: moment(this.formCap.value.fecha_inicio_cap).format('YYYY-MM-DD'),
+    fecha_fin_cap: moment(this.formCap.value.fecha_fin_cap).format('YYYY-MM-DD'),
+    cantidad_modulos: this.formCap.value.cantidad_modulos ? this.formCap.value.cantidad_modulos : 0,
+    id_categoria: this.formCap.value.id_categoria,
+      //nombre_categoria: this.formCap.value.nombre_categoria
+    
   }
-  
+  this.capacitacionService.crearCapacitacion(modelo).subscribe({
+    next: (data) => {  
+      this.mostrarAlerta('Capacitación creada correctamente', 'Listo');
+      this.dialogReferencia.close("Creado");
+    },error:(e)=>{
+      this.mostrarAlerta('No se pudo crear', 'Error');
+    }
+  })
   console.log('MODELO', modelo);
 }
 ngOnInit(): void {

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+//import { GetCapacitacionComponent } from './pages/capacitacion/get-capacitacion/get-capacitacion.component';
 
 
 const routes: Routes = [
@@ -19,8 +20,14 @@ const routes: Routes = [
       },
       {
         path:'capacitacion',
-        loadComponent: () => import('../layout/pages/capacitacion/capacitacion.component')
+        loadComponent: () => import('../layout/pages/capacitacion/capacitacion.component'),
+        
+      },
+      {
+        path:'capacitacion/ver/:id_capacitacion',
+        loadComponent: () => import('../layout/pages/capacitacion/get-capacitacion/get-capacitacion.component')
       }
+      
     ]
   }
 ];
@@ -29,4 +36,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class LayoutRoutingModule { }

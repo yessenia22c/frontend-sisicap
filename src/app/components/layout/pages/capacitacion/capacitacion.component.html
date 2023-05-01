@@ -14,18 +14,18 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title class="texto-item"
-            [ngClass]="{'long-title': item.nombre_capacitacion.length > 20}">{{item.nombre_capacitacion}}</mat-card-title>
+            [ngClass]="{'long-title': item.nombre_capacitacion.length > 8}">{{item.nombre_capacitacion}}</mat-card-title>
           <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
         </mat-card-header>
         <img mat-card-image src="./../../../../../assets/img/img-generica.jpg" style="padding: 8px;">
         <mat-card-content>
         </mat-card-content>
         <mat-card-actions>
-
-          <button class="no-overlap boton-curso" mat-raised-button color="primary">Ver capacitación</button>
+          <a  [routerLink]="['ver', item.id_capacitacion]"  class="no-overlap boton-curso" mat-raised-button color="primary"  >Ver capacitación</a>
         </mat-card-actions>
+        
       </mat-card>
     </div>
-
+    
   </div>
 </div>
