@@ -1,33 +1,52 @@
-<mat-grid-list cols="4" rowHeight="100px">
-    <ng-container *ngIf="this.capacitacion$ | async as cap ">
+<div class="body">
+    <div>
+        <mat-grid-list [cols]="colSize" rowHeight="150px" >
+            <ng-container *ngIf="this.capacitacion$ | async as cap ">        
+                <mat-grid-tile [colspan]="cols" [rowspan]="1">
+                    <mat-card class="my-card">
+                        <mat-card-header>
+                          <mat-card-title>
+                            <h2>{{ cap.UnaCapacitacion.nombre_capacitacion}}</h2>
+                          </mat-card-title>
+                          <mat-card-subtitle>
+                            <div>
+                                <p>
+                                    <b>Fecha de inicio: </b>{{cap.UnaCapacitacion.fecha_inicio_cap}}
+                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <b>Fecha final: </b>{{cap.UnaCapacitacion.fecha_fin_cap}}
+                                </p>
+                                
+                            </div>
 
-        <mat-grid-tile [colspan]="3"  >
-            <mat-card>
-                <mat-card-header>
-                  <mat-card-title>
-                    <h2>{{ cap.UnaCapacitacion.nombre_capacitacion}}</h2>
-                  </mat-card-title>
-                  <mat-card-subtitle>
-                    {{cap.UnaCapacitacion.fecha_inicio_cap}}
-                  </mat-card-subtitle>
-                </mat-card-header>
+                          </mat-card-subtitle>
+                        </mat-card-header>        
+                    </mat-card>   
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="2" >                   
+                    <mat-list role="list">
+                        <mat-list-item role="listitem">
+                            <h2 matListItemTitle> General</h2>                       
+                        </mat-list-item>
+                        <mat-list-item role="listitem">
+                            <a matListItemTitle href="#">Editar capacitación</a>                                              
+                            
+                        </mat-list-item>
+                        <mat-list-item role="listitem">
+                            <a matListItemTitle href="#">Eliminar capacitación</a>                                             
+                               
+                        </mat-list-item>
+                        <mat-list-item role="listitem">
+                            <a matListItemTitle routerLink="/admin/capacitacion">Volver atras</a>
+                        </mat-list-item>
+                        
+                        
+                    </mat-list>
+                    
+                </mat-grid-tile>
+                
+            </ng-container>
         
-            </mat-card>   
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" [rowspan]="3" >
-            
-            <mat-list>
-                <h3> General</h3>
-                <mat-list-item>
-                    <a matListItemTitle>Editar capacitación</a>
-                </mat-list-item>
-                <mat-list-item>Eliminar capacitacón</mat-list-item>
-            </mat-list>
-            
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="3" [rowspan]="2" style="background-color:rgb(255, 255, 255);">
-            Tabla inscritos
-        </mat-grid-tile>
-    </ng-container>
-
-</mat-grid-list>
+        </mat-grid-list>
+    </div>
+    
+</div>

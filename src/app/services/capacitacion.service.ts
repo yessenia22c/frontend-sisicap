@@ -15,7 +15,6 @@ constructor(private http: HttpClient) {}
 
 getCapacitaciones(): Observable<Capacitacion>{
   return this.http.get<Capacitacion>(`${this.apiUrl}capacitacion/readAll`);
- 
 }
 getCapacitacion(id_capacitacion:number): Observable<GetCapacitacion>{
   return this.http.get<GetCapacitacion>(`${this.apiUrl}capacitacion/read/${id_capacitacion}`);

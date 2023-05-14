@@ -19,10 +19,16 @@ const routes: Routes = [
         component:DashboardComponent,
       },
       {
+        path:'persona',
+        loadComponent: () => import('../layout/pages/persona/persona.component'),
+        
+      },
+      {
         path:'capacitacion',
         loadComponent: () => import('../layout/pages/capacitacion/capacitacion.component'),
         
       },
+
       {
         path:'capacitacion/ver/:id_capacitacion',
         loadComponent: () => import('../layout/pages/capacitacion/get-capacitacion/get-capacitacion.component')
