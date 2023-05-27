@@ -12,15 +12,19 @@ import { MatSort } from '@angular/material/sort';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDialog} from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 import { PersonaService } from 'src/app/services/persona.service';
+import { FormPersonaAddEditComponent } from './form-persona-add-edit/form-persona-add-edit.component';
 
 
 @Component({
   selector: 'app-persona',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule,MatFormFieldModule,MatInputModule, MatButtonModule,MatIconModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule,MatFormFieldModule,
+    MatInputModule, MatButtonModule,MatIconModule, MatDialogModule],
   templateUrl: './persona.component.html',
   styleUrls: ['./persona.component.css']
 })
@@ -32,7 +36,7 @@ export default class PersonaComponent implements AfterViewInit, OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator ;
   @ViewChild(MatSort) sort!: MatSort ;
 
-  constructor(private personaServices: PersonaService) {
+  constructor(private personaServices: PersonaService, public dialog: MatDialog) {
     
   }
   ngOnInit(): void {
@@ -64,6 +68,10 @@ export default class PersonaComponent implements AfterViewInit, OnInit{
       
     })
   };
+
+  nuevaPersona() {
+    this.dialog.open(FormPersonaAddEditComponent);
+  }
 }
 /** Builds and returns a new User. */
 

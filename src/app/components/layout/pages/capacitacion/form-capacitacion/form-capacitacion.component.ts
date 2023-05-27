@@ -7,7 +7,7 @@ import {MatDialogModule, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import {MatDatepickerModule } from '@angular/material/datepicker';
@@ -20,6 +20,7 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';//
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';//SOLO PUESTO PARA QUE FUNCIONE EL CALENDARIO DEL DATEPICKER
 
 import * as moment from 'moment';
+
 import { CreaCapacitacion } from 'src/app/models/capacitacion';
 import { Categoria } from 'src/app/models/categoria';
 import { CapacitacionService } from 'src/app/services/capacitacion.service';
@@ -82,11 +83,7 @@ mostrarAlerta(mensaje: string, accion: string) {
       duration: 3000
 
     });
-    // this.categoriaService.getListCategoria().subscribe({
-    //   next: (data) => {
-    //     this.Listcategoria$ = data;
-    //   }
-    // })
+ 
 }
 crearCapacitacion() {
   // console.log(this.formCap)
