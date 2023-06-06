@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
-import { Persona, AllPersona } from 'src/app/models/persona';
+import { Persona, AllPersona, creaPersona } from 'src/app/models/persona';
 
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 
@@ -29,8 +29,8 @@ import { FormPersonaAddEditComponent } from './form-persona-add-edit/form-person
   styleUrls: ['./persona.component.css']
 })
 export default class PersonaComponent implements AfterViewInit, OnInit{
-  displayedColumns: string[] = ['id_persona', 'nombres_per', 'primer_apellido', 'segundo_apellido', 'nro_ci', 'correo', 'telefono', 'fecha_nac', 'sexo', 'ciudad', 'Pais', 'accion'];
-  
+  displayedColumns: string[] = ['id_persona', 'nombres_per','apellidos', 'nro_ci', 'correo', 'telefono', 'fecha_nac', 'sexo', 'ciudad', 'Pais', 'accion'];
+  informacionPersonas$: Observable<Persona> | undefined;
   dataSource = new  MatTableDataSource<AllPersona>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator ;
@@ -57,7 +57,9 @@ export default class PersonaComponent implements AfterViewInit, OnInit{
   }
 
   mostrarPersonas(){
-    this.personaServices.getPersonas().subscribe({
+    this.informacionPersonas$ = this.personaServices.getPersonas();
+
+    this.informacionPersonas$.subscribe({
       next: (resp: Persona) => {
         console.log('RESP',resp);
         this.dataSource.data = resp.AllPersonas;
@@ -70,8 +72,29 @@ export default class PersonaComponent implements AfterViewInit, OnInit{
   };
 
   nuevaPersona() {
-    this.dialog.open(FormPersonaAddEditComponent);
+    this.dialog.open(FormPersonaAddEditComponent,{
+      disableClose: true,
+      width: '700px',
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="Creado"){
+        this.mostrarPersonas();
+      }
+    })
+    
+  }
+  editarPersona(dataPersona: creaPersona) {
+    
+    this.dialog.open(FormPersonaAddEditComponent,{
+      disableClose: true,
+      width: '700px',
+      data: dataPersona
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="editado"){
+        this.mostrarPersonas();
+      }
+    })
+    
   }
 }
-/** Builds and returns a new User. */
+
 

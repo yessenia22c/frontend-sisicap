@@ -6,12 +6,11 @@ export interface Persona {
 export interface AllPersona {
     id_persona:       number;
     nombres_per:      string;
-    primer_apellido:  string;
-    segundo_apellido: null | string;
+    apellidos:        string;
     nro_ci:           string;
     correo:           string;
-    telefono:         null | string;
-    fecha_nac:        Date | null;
+    telefono:         string | null;
+    fecha_nac:        string;
     sexo:             Sexo;
     ciudad:           Ciudad;
     Pais:             Pais;
@@ -35,13 +34,13 @@ export interface Sexo {
 
 
 export interface creaPersona{
+    id_persona:       number;   
     nombres_per:      string;
-    primer_apellido:  string;
-    segundo_apellido: null | string;
+    apellidos:        string;
     nro_ci:           string;
     id_sexo:          number;
     correo:           string;
-    telefono:         null | string;
+    telefono:         string;
     id_ciudad:        number;
     fecha_nac:        string | null;
     id_pais:          number;

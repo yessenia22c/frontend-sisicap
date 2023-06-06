@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { Observable } from 'rxjs';
-import { Persona, AllPersona, creaPersona, Ciudad, Pais, Sexo } from '../models/persona';
+import { Persona, AllPersona, creaPersona, Ciudad, Pais, Sexo, AllCiudades, AllPaises, AllSexos } from '../models/persona';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -20,7 +20,9 @@ constructor(private http: HttpClient) {}
   crearPersona(persona: creaPersona): Observable<creaPersona>{
     return this.http.post<creaPersona>(`${this.apiUrl}persona/create`, persona);
   }
-
+  actualizaPersona(id_persona:number, modelo: creaPersona): Observable<creaPersona>{
+    return this.http.put<creaPersona>(`${this.apiUrl}persona/update`, modelo);
+  }
 
 
   //listar otros

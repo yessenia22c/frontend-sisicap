@@ -35,8 +35,7 @@ export interface Empleado {
 
 export interface Persona {
     nombres_per:      string;
-    primer_apellido:  string;
-    segundo_apellido?: string;
+    apellidos:  string;
 }
 
 export interface TipoUsuario {

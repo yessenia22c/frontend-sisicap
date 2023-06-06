@@ -24,6 +24,11 @@ const routes: Routes = [
         
       },
       {
+        path:'participante',
+        loadComponent: () => import('../layout/pages/participante/participante.component'),
+        
+      },
+      {
         path:'capacitacion',
         loadComponent: () => import('../layout/pages/capacitacion/capacitacion.component'),
         

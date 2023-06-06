@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>{{tituloAccion}} </h1>
 <div mat-dialog-content>
-  <form [formGroup]="formCap">
-    <mat-grid-list cols="1" rowHeight="80px">
+  <form [formGroup]="formPersona">
+    <mat-grid-list cols="2" rowHeight="80px">
       <mat-grid-tile>
         <mat-form-field appearance="fill" class="ancho">
           <mat-label>Nombre(s)</mat-label>
@@ -10,16 +10,11 @@
       </mat-grid-tile>
       <mat-grid-tile>
         <mat-form-field appearance="fill" class="ancho">
-          <mat-label>Primer apellido</mat-label>
-          <input type="text" matInput formControlName="primer_apellido" autocomplete="off">
+          <mat-label>Apellido(s)</mat-label>
+          <input type="text" matInput formControlName="apellidos" autocomplete="off">
         </mat-form-field>
       </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-form-field appearance="fill" class="ancho">
-          <mat-label>Segundo apellido</mat-label>
-          <input type="text" matInput formControlName="segundo_apellido" autocomplete="off">
-        </mat-form-field>
-      </mat-grid-tile>
+      
       <mat-grid-tile>
         <mat-form-field appearance="fill" class="ancho">
           <mat-label>C.I</mat-label>
@@ -43,7 +38,7 @@
       <mat-grid-tile>
         <mat-form-field appearance="fill" class="ancho">
           <mat-label>Correo electrónico</mat-label>
-          <input type="text" matInput formControlName="correo" autocomplete="off">
+          <input type="email" matInput formControlName="correo" autocomplete="off">
         </mat-form-field>
       </mat-grid-tile>
       
@@ -68,17 +63,23 @@
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>
+
       <mat-grid-tile>
         <mat-form-field appearance="fill" class="ancho">
           <mat-label>Fecha de nacimiento</mat-label>
-          <input matInput formControlName="fecha_nac" autocomplete="off" [matDatepicker]="picker2">
-          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
+          <input matInput [matDatepicker]="picker"  formControlName="fecha_nac">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+
+          <mat-error *ngIf="formPersona.controls['fecha_nac'].errors?.['mayorEdad']">Debes ser mayor de edad.</mat-error>
+          <mat-error *ngIf="formPersona.controls['fecha_nac'].errors?.['fechaMinima']">La fecha no puede ser menor a 1920.</mat-error>
         </mat-form-field>
+
       </mat-grid-tile>
+
       <mat-grid-tile>
         <mat-form-field appearance="fill" class="ancho">
-          <mat-label>Categoria</mat-label>
+          <mat-label>Pais:</mat-label>
           <mat-select formControlName="id_pais" >
             <div *ngIf="this.listaPais$ | async as listaPais">
               <mat-option *ngFor="let item of listaPais.AllPais"  [value]="item.id_pais">
@@ -89,15 +90,19 @@
         </mat-form-field>
       </mat-grid-tile>
       
+      
+
+
 
     </mat-grid-list>
+    
   </form>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
-  <button mat-raised-button color="primary"
+  <button  mat-raised-button color="primary"
     (click)="crearPersona()"
-    [disabled]="formCap.invalid"
+    [disabled]="formPersona.invalid"
     >{{botonAccion}}
   </button>
 

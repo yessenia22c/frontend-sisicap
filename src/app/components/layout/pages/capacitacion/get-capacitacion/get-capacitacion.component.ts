@@ -56,6 +56,7 @@ export default class GetCapacitacionComponent implements OnInit {
     this.capacitacion$ = this.capacitacionService.getCapacitacion(id_capacitacion);
       this.capacitacion$.pipe(
         tap((data: GetCapacitacion) => {
+          
           console.log('CAPACITACION',data);
         }
       ),catchError((err) => {

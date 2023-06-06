@@ -1,0 +1,132 @@
+<h2 mat-dialog-title>{{tituloAccion}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formParticipante">
+        <mat-grid-list cols="2" rowHeight="80px" >
+        
+            <!-- <mat-grid-tile colspan="2">
+                <mat-form-field class="ancho" >
+                    <mat-label>Assignee</mat-label>
+                    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option.name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+            </mat-grid-tile> -->
+            <div formGroupName="Personas">
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho" >
+                  <mat-label>Nombre(s)</mat-label>
+                  <input type="text" matInput formControlName="nombres_per" autocomplete="off">
+                  
+                </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho"  >
+                  <mat-label>Apellido(s)</mat-label>
+                  <input type="text" matInput formControlName="apellidos" autocomplete="off">
+                </mat-form-field>
+              </mat-grid-tile>
+              
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho"  >
+                  <mat-label>C.I</mat-label>
+                  <input type="text" matInput formControlName="nro_ci" autocomplete="off">
+                </mat-form-field>
+              </mat-grid-tile>
+    
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho"  >
+                  <mat-label>Género</mat-label>
+                  <mat-select formControlName="id_sexo" >
+                    <div *ngIf="this.listaSexo$ | async as listaSexo">
+                      <mat-option *ngFor="let item of listaSexo.AllSexo"  [value]="item.id_sexo">
+                        {{item.nombre_sexo}}
+                      </mat-option>
+                    </div>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>       
+        
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho"  >
+                  <mat-label>Correo electrónico</mat-label>
+                  <input type="email" matInput formControlName="correo" autocomplete="off">
+                </mat-form-field>
+              </mat-grid-tile>
+              
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho"  >
+                  <mat-label>Celular</mat-label>
+                  <input type="text" matInput formControlName="telefono" autocomplete="off">
+                </mat-form-field>
+              </mat-grid-tile>
+        
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho"  >
+                  <mat-label>Ciudad</mat-label>
+                  <mat-select formControlName="id_ciudad" >
+                    <div *ngIf="this.listaCiudad$ | async as listaCiudad">
+                      <mat-option *ngFor="let item of listaCiudad.AllCiudad"  [value]="item.id_ciudad">
+                        {{item.nombre_ciudad}}
+                      </mat-option>
+                    </div>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho"   >
+                  <mat-label>Fecha de nacimiento</mat-label>
+                  <input matInput formControlName="fecha_nac" autocomplete="off" [matDatepicker]="picker2">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                  
+                </mat-form-field>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <mat-form-field appearance="fill" class="ancho"   >
+                  <mat-label>Pais</mat-label>
+                  <mat-select formControlName="id_pais" >
+                    <div *ngIf="this.listaPais$ | async as listaPais">
+                      <mat-option *ngFor="let item of listaPais.AllPais"  [value]="item.id_pais">
+                        {{item.nombre_pais}}
+                      </mat-option>
+                    </div>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+            </div>
+            
+            <mat-grid-tile>
+              <mat-form-field appearance="fill" class="ancho">
+                <mat-label>Ocupación</mat-label>
+                <input type="text" matInput formControlName="ocupacion" autocomplete="off">
+              </mat-form-field>
+            </mat-grid-tile>
+          
+            
+            
+        </mat-grid-list>
+      </form>
+      
+      <p>
+        <pre>
+          {{formParticipante.value | json}}
+        </pre>
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+  <button  mat-raised-button color="primary"
+    (click)="crearParticipante()"
+    [disabled]="formParticipante.invalid"
+    >{{botonAccion}}
+  </button>
+
+</div>
+<!-- <mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary"[mat-dialog-close]="true" cdkFocusInitial>Guardar</button>
+</mat-dialog-actions> -->
