@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatButtonModule} from '@angular/material/button'; 
 import {FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 
-import {MatDialogModule, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -21,7 +21,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 
 import * as moment from 'moment';
 
-import { CreaCapacitacion } from 'src/app/models/capacitacion';
+import { CreaCapacitacion, EditarCapacitacion, GetCapacitacion, UnaCapacitacion } from 'src/app/models/capacitacion';
 import { Categoria } from 'src/app/models/categoria';
 import { CapacitacionService } from 'src/app/services/capacitacion.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
@@ -59,12 +59,13 @@ export class FormCapacitacionComponent implements OnInit {
   tituloAccion: string = 'Crear Capacitación';
   botonAccion: string = 'Guardar';
   Listcategoria$: Observable<Categoria> | undefined;
-
+  datoCapaitacion$: Observable<CreaCapacitacion> | undefined;
   constructor(
     private fb: FormBuilder,
     private capacitacionService: CapacitacionService,
     private categoriaService: CategoriaService,
     private _snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public dataCapacitacion: GetCapacitacion,
     public dialogReferencia: MatDialogRef<FormCapacitacionComponent>) {
 
     this.formCap = this.fb.group({
@@ -89,7 +90,7 @@ crearCapacitacion() {
   // console.log(this.formCap)
   console.log('FORMULARIO', this.formCap.value);
   const modelo: CreaCapacitacion = {
-    //id_capacitacion: undefined,
+    id_capacitacion: 0,
     nombre_capacitacion: this.formCap.value.nombre_capacitacion,
     fecha_inicio_cap: moment(this.formCap.value.fecha_inicio_cap).format('YYYY-MM-DD'),
     fecha_fin_cap: moment(this.formCap.value.fecha_fin_cap).format('YYYY-MM-DD'),
@@ -98,18 +99,61 @@ crearCapacitacion() {
       //nombre_categoria: this.formCap.value.nombre_categoria
     
   }
-  this.capacitacionService.crearCapacitacion(modelo).subscribe({
-    next: (data) => {  
-      this.mostrarAlerta('Capacitación creada correctamente', 'Listo');
-      this.dialogReferencia.close("Creado");
-    },error:(e)=>{
-      this.mostrarAlerta('No se pudo crear', 'Error');
+  if (this.dataCapacitacion === null) {
+    if (this.formCap.value.fecha_fin_cap === null || this.formCap.value.fecha_fin_cap === '') {
+      modelo.fecha_fin_cap = null; // Establecer el valor en null     
     }
-  })
-  console.log('MODELO', modelo);
+    this.datoCapaitacion$ = this.capacitacionService.crearCapacitacion(modelo);
+    this.datoCapaitacion$.subscribe({
+      next: (data) => {
+        this.mostrarAlerta('Capacitacion creada correctamente', 'Listo');
+        this.dialogReferencia.close("Creado");
+      }, error: (e) => {
+        this.mostrarAlerta('No se pudo crear', 'Error');
+      }
+    });
+    console.log('MODELO', modelo);
+  }else{
+    if (this.formCap.value.fecha_fin_cap === null || this.formCap.value.fecha_fin_cap === '') {
+      modelo.fecha_fin_cap = null; // Establecer el valor en null     
+    }
+    modelo.id_capacitacion = this.dataCapacitacion.UnaCapacitacion.id_capacitacion;
+    this.datoCapaitacion$ = this.capacitacionService.editarCapacitacion(this.dataCapacitacion.UnaCapacitacion.id_capacitacion, modelo);
+    this.datoCapaitacion$.subscribe({
+      next: (data) => {
+        this.mostrarAlerta('Capacitacion editada correctamente', 'Listo');
+        this.dialogReferencia.close("editado");
+      }, error: (e) => {
+        this.mostrarAlerta('No se pudo editar', 'Error');
+      }
+    });
+    console.log('MODELO', modelo);
+  }
+  // this.capacitacionService.crearCapacitacion(modelo).subscribe({
+  //   next: (data) => {  
+  //     this.mostrarAlerta('Capacitación creada correctamente', 'Listo');
+  //     this.dialogReferencia.close("Creado");
+  //   },error:(e)=>{
+  //     this.mostrarAlerta('No se pudo crear', 'Error');
+  //   }
+  // })
+  // console.log('MODELO', modelo);
 }
 ngOnInit(): void {
   this.Listcategoria$ = this.categoriaService.getListCategoria();
   console.log('LISTA DE CATEGORIAS', this.Listcategoria$);
+
+  if (this.dataCapacitacion ) {
+    
+    this.formCap.patchValue({
+      nombre_capacitacion: this.dataCapacitacion.UnaCapacitacion.nombre_capacitacion,
+      fecha_inicio_cap: this.dataCapacitacion.UnaCapacitacion.fecha_inicio_cap,
+      fecha_fin_cap: this.dataCapacitacion.UnaCapacitacion.fecha_fin_cap,
+      cantidad_modulos: this.dataCapacitacion.UnaCapacitacion.cantidad_modulos,
+      id_categoria: this.dataCapacitacion.UnaCapacitacion.Categoria.id_categoria
+    });
+    this.tituloAccion = 'Editar datos capacitacion';
+    this.botonAccion = 'Actualizar';
+  }
 }
 }

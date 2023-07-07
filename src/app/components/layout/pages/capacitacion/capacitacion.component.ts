@@ -14,6 +14,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { FormCapacitacionComponent } from './form-capacitacion/form-capacitacion.component';
 
+
 import { RouterModule } from '@angular/router';
 //import { LayoutRoutingModule } from '../../layout-routing.module'; 
 

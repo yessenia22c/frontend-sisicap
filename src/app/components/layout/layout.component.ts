@@ -12,6 +12,18 @@ import { PerfilUsuario } from 'src/app/models/PerfilUsuario';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit{ 
+
+  currentScreenSize = '';
+  orientation = '';
+  displayNameMap = new Map([
+    [Breakpoints.XSmall, 'XSmall'],
+    [Breakpoints.Small, 'Small'],
+    [Breakpoints.Medium, 'Medium'],
+    [Breakpoints.Large, 'Large'],
+    [Breakpoints.XLarge, 'XLarge'],
+    ['(orientation: portrait)', 'Portrait'],
+    ['(orientation: landscape)', 'Landscape'],
+  ]);
   constructor(  ){
 
   }
@@ -23,10 +35,12 @@ export class LayoutComponent implements OnInit{
   private router = inject(Router);
   private perfilUsuario = inject(PerfilUsuarioService);
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(
+    [Breakpoints.XSmall, Breakpoints.Small]
+    )
     .pipe(map(result => result.matches),shareReplay());
 
-
+  
      
   ngOnInit(): void {
     //   this.authService.getProfile().subscribe(user => {

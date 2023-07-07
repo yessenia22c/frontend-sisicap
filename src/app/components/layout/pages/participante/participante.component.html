@@ -12,13 +12,13 @@
       <table mat-table [dataSource]="dataSource" matSort>
     
         <!-- ID Column -->
-        <ng-container matColumnDef="id_participante" sticky>
-          <th mat-header-cell *matHeaderCellDef> ID </th>
-          <td mat-cell *matCellDef="let item"> {{item.id_participante}}</td>
+        <ng-container matColumnDef="id_participante" >
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <td mat-cell *matCellDef="let item; let i = index">{{ i + 1 }}</td>
         </ng-container>
     
         <!-- Progress Column -->
-        <ng-container matColumnDef="nombres_per">
+        <ng-container matColumnDef="nombres_per" sticky>
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre(s) </th>
           <td mat-cell *matCellDef="let item "> {{item.Personas.nombres_per}} </td>
         </ng-container>

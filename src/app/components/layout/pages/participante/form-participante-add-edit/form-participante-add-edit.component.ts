@@ -31,7 +31,8 @@ import { Observable, map, of, startWith } from 'rxjs';
 import { AllParticipante, NuevoParticipante } from 'src/app/models/participante';
 import { ParticipanteService } from 'src/app/services/participante.service';
 
-
+import jwt_decode from 'jwt-decode';
+import decode  from 'jwt-decode'
 export interface User {
   name: string;
 }
@@ -81,7 +82,7 @@ export class FormParticipanteAddEditComponent implements OnInit {
   filteredOptions!: Observable<User[]>;
   //datoPersona$: Observable<creaPersona> | undefined;
   datoParticipante$: Observable<NuevoParticipante> | undefined;
-
+  
 
   constructor(
     private fb: FormBuilder,
@@ -92,24 +93,14 @@ export class FormParticipanteAddEditComponent implements OnInit {
     public dialogReferencia: MatDialogRef<FormParticipanteAddEditComponent>) {
     
     this.formParticipante = this.fb.group({
-      // Personas: new FormGroup({
-      //   nombres_per: new FormControl('', Validators.required),
-      //   apellidos: new FormControl('', Validators.required),
-      //   nro_ci: new FormControl('', Validators.required),
-      //   id_sexo: new FormControl('', Validators.required),
-      //   correo: new FormControl('', Validators.required),
-      //   telefono: new FormControl(''),
-      //   id_ciudad: new FormControl(''),
-      //   fecha_nac: new FormControl(['', this.mayorEdadValidator]),
-      //   id_pais: new FormControl('', Validators.required)
-      // }),
+      
        Personas: this.fb.group({
          id_persona: [''],
          nombres_per: ['', Validators.required],
          apellidos: ['', Validators.required],
          nro_ci: ['', Validators.required],
          id_sexo: ['', Validators.required],
-         correo: ['', Validators.required],
+         correo: ['', [Validators.required, Validators.email]],
          telefono: [''],
          id_ciudad: [''],
          fecha_nac: ['', this.mayorEdadValidator],
@@ -133,7 +124,13 @@ mostrarAlerta(mensaje: string, accion: string) {
 }
 
 crearParticipante() {
-  // PAra verificar que hay ingresado en le formulario
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    const decodedToken: any = decode(token);
+    const id_regis = decodedToken.id_user;
+    
+
+    // PAra verificar que hay ingresado en le formulario
   console.log('FORMULARIO', this.formParticipante.value);
 
   const modelo: NuevoParticipante = {
@@ -146,22 +143,21 @@ crearParticipante() {
       correo:               this.formParticipante.value.Personas.correo,
       telefono:             this.formParticipante.value.Personas.telefono,
       id_ciudad:            this.formParticipante.value.Personas.id_ciudad,
-      fecha_nac:             moment(this.formParticipante.value.Personas.fecha_nac).format('YYYY-MM-DD'),
+      fecha_nac:            moment(this.formParticipante.value.Personas.fecha_nac).format('YYYY-MM-DD'),
       id_pais:              this.formParticipante.value.Personas.id_pais
     },
-    id_participante:       0, //SOLO PARA QUE NO DE ERROR
-    //id_persona: 0, //SOLO PARA QUE NO DE ERROR
-    id_registrante:       1, //SOLO PARA QUE NO DE ERROR
+    id_participante:       0, 
+    id_registrante:       id_regis, //SOLO PARA QUE NO DE ERROR
     ocupacion:            this.formParticipante.value.ocupacion,
   }
   //VALIDACION DE FECHA NULLA
   
   if (this.dataParticipante === null) {
-    // Verificar si el campo de fecha está vacío
-    // if (this.formParticipante.value.fecha_nac === null || this.formParticipante.value.fecha_nac === '') {
-    //   modelo.datos_persona.fecha_nac = null; // Establecer el valor en null
-    //   //this.formPersona.value.fecha_nac = ''; // Establecer el valor en un string vacío
-    // }
+    
+    const fechaNac = this.formParticipante.get('Personas.fecha_nac')?.value;
+    if (fechaNac === null || fechaNac === '' ) {
+      modelo.Personas.fecha_nac = null; // Establecer el valor en null     
+    }
     this.datoParticipante$ = this.participanteService.crearParticipante(modelo);
     this.datoParticipante$.subscribe({
       next: (data) => {
@@ -171,16 +167,17 @@ crearParticipante() {
         this.mostrarAlerta('No se pudo crear', 'Error');
       }
     });
-    console.log('MODELO', modelo);
+    console.log('MODEL CREAR', modelo);
   }else{
     //console.log('MODELO OBTEBIDO', modelo);
     //VALIDAR SI EL CAMPO DE FECHA ESTA VACIO
-    if (this.formParticipante.value.fecha_nac === null || this.formParticipante.value.fecha_nac === '' || this.formParticipante.value.fecha_nac === undefined || this.formParticipante.value.fecha_nac === 'Invalid date') {
+    const fechaNac = this.formParticipante.get('Personas.fecha_nac')?.value;
+    if (fechaNac === null || fechaNac === '' ) {
       modelo.Personas.fecha_nac = null; // Establecer el valor en null     
     }
     modelo.id_participante = this.dataParticipante.id_participante;
     this.datoParticipante$ = this.participanteService.actualizaParticipante(this.dataParticipante.id_participante, modelo);
-    console.log('MODELO', modelo);  
+    console.log('MODELO ACTUALIZAR', modelo);
     this.datoParticipante$.subscribe({
       next: (data) => {
         this.mostrarAlerta('Datos de participante actualizados correctamente', 'Listo');
@@ -190,8 +187,12 @@ crearParticipante() {
         console.log('MODELO ACTUALIZAR error', modelo);
       }
     });
-    console.log('MODELO ACTUALIZAR', modelo);
+    
   }
+
+  }
+
+  
 
 }
 
@@ -237,7 +238,8 @@ ngOnInit(): void {
    this.listaSexo$ = this.personaService.getListSexo();
 
   if (this.dataParticipante){
-    console.log('DATA PARTICIPANTE RECIBido', this.dataParticipante);
+    console.log('DATA PARTICIPANTE RECIBIDO', this.dataParticipante);
+    console.log('DATA PARTICIPANTE FECHA NAC', this.dataParticipante.Personas.fecha_nac);
     this.formParticipante.patchValue({
       Personas: {
         id_persona: this.dataParticipante.Personas.id_persona,

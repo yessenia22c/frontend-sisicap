@@ -37,7 +37,12 @@ const routes: Routes = [
       {
         path:'capacitacion/ver/:id_capacitacion',
         loadComponent: () => import('../layout/pages/capacitacion/get-capacitacion/get-capacitacion.component')
-      }
+      },
+
+      // {
+      //   path:'capacitacion/inscritos',
+      //   loadComponent: () => import('../layout/pages/capacitacion/inscritos-capacitacion/inscritos-capacitacion.component')
+      // }
       
     ]
   }

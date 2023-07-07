@@ -54,6 +54,9 @@
                 <mat-form-field appearance="fill" class="ancho"  >
                   <mat-label>Correo electrónico</mat-label>
                   <input type="email" matInput formControlName="correo" autocomplete="off">
+                  <!-- <mat-error *ngIf="formParticipante.hasError('email') && !formParticipante.hasError('required')">
+                    Please enter a valid email address
+                  </mat-error> -->
                 </mat-form-field>
               </mat-grid-tile>
               
@@ -83,6 +86,11 @@
                   <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                   <mat-datepicker #picker2></mat-datepicker>
                   
+                  <!-- <mat-error *ngIf="formParticipante.get('Personas.fecha_nac')?.hasError">Debe ser mayor de edad.</mat-error>                 -->
+                  <!--   -->
+                  
+                  <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['mayorEdad']">Debes ser mayor de edad.</mat-error> -->
+                  <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['fechaMinima']">La fecha no puede ser menor a 1920.</mat-error> -->
                 </mat-form-field>
               </mat-grid-tile>
               <mat-grid-tile>
@@ -126,7 +134,3 @@
   </button>
 
 </div>
-<!-- <mat-dialog-actions align="end">
-  <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
-  <button mat-raised-button color="primary"[mat-dialog-close]="true" cdkFocusInitial>Guardar</button>
-</mat-dialog-actions> -->

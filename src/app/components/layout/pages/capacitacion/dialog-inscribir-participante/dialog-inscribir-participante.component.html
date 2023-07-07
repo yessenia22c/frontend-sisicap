@@ -1,0 +1,56 @@
+<h1 mat-dialog-title>Inscribir participantes</h1>
+<div mat-dialog-content class="row">
+  <div class="col-md-12">
+    <form class="example-form">
+      <mat-label>Participantes a inscribir</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Participante seleccionado">
+        <mat-chip-row *ngFor="let seleccionado of participantesSeleccionados" (removed)="remove(seleccionado)">
+          {{ seleccionado }}
+          <button matChipRemove [attr.aria-label]="'remove ' + seleccionado">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+
+      <!-- <mat-form-field>
+        <input matInput [formControl]="filtroControl" #inscripcionInput [matAutocomplete]="auto" placeholder="Buscar participante">
+      </mat-form-field> -->
+      <mat-form-field class="example-full-width">
+
+        <!-- <mat-label>Selecciona una opción</mat-label>
+        <mat-select [formControl]="formcontrol" multiple>
+          <ng-container *ngIf="this.listaParticipantes$ | async as lista">
+            <mat-option *ngFor="let opcion of filteroptionslist | async "  [value]="opcion">
+              {{ opcion.Personas.nombres_per }} {{ opcion.Personas.apellidos  }}
+            </mat-option>
+          </ng-container>
+        </mat-select> -->
+
+        <input matInput placeholder="Buscar participantes" #inscripcionInput [matAutocomplete]="auto"
+          [formControl]="formcontrol" [matChipInputFor]="chipGrid"  />
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <ng-container *ngIf="this.listaParticipantes$ | async as lista">
+            <mat-option *ngFor="let option of filteroptionslist | async" [value]="option.id_participante"
+              [id]="option.Personas.nombres_per" (click)="seleccion.toggle(option.id_participante)"
+              (onSelectionChange)="seleccion.toggle(option.id_participante)">
+              {{option.Personas.nombres_per}} {{option.Personas.apellidos}}
+            </mat-option>
+          </ng-container>
+
+        </mat-autocomplete>
+      </mat-form-field>
+
+    </form>
+
+  </div>
+
+
+
+</div>
+<pre>
+  {{seleccion.selected | json}}
+</pre>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

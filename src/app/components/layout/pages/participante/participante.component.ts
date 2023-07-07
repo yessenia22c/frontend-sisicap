@@ -1,20 +1,28 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+///MATERIAL
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { FormParticipanteAddEditComponent } from './form-participante-add-edit/form-participante-add-edit.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+
+
+import { FormParticipanteAddEditComponent } from './form-participante-add-edit/form-participante-add-edit.component';
 import { DialogoDeleteComponent } from './dialogo-delete/dialogo-delete.component';
 import { Observable } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
+
 import { ParticipanteService } from 'src/app/services/participante.service';
 import { AllParticipante, DatosPersona, NuevoParticipante, Participante, personas } from 'src/app/models/participante';
+
+
+
 @Component({
   selector: 'app-participante',
   standalone: true,
@@ -26,7 +34,7 @@ import { AllParticipante, DatosPersona, NuevoParticipante, Participante, persona
 export default class ParticipanteComponent {
   
   displayedColumns: string[] = ['id_participante', 'nombres_per', 'apellidos', 'nro_ci', 'correo', 'telefono', 'ocupacion', 'codigo_participante', 'id_ciudad', 'id_usuario', 'accion'];
-  informacionPersonas$: Observable<Participante> | undefined;
+  informacionParticipante$: Observable<Participante> | undefined;
 
   dataSource = new  MatTableDataSource<AllParticipante>();
 
@@ -43,7 +51,7 @@ export default class ParticipanteComponent {
     
   }
   ngOnInit(): void {
-    this.mostrarPersonas();
+    this.mostrarParticipantes();
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -58,10 +66,10 @@ export default class ParticipanteComponent {
     this.dataSource.filter = this.filterValue.trim().toLowerCase();
   }
   
-  mostrarPersonas(){
-    this.informacionPersonas$ = this.participanteService.getParticipantes();
+  mostrarParticipantes(){
+    this.informacionParticipante$ = this.participanteService.getParticipantes();
 
-    this.informacionPersonas$.subscribe({
+    this.informacionParticipante$.subscribe({
       next: (resp: Participante) => {
         console.log('RESP',resp);
         this.dataSource.data = resp.AllParticipantes;
@@ -87,28 +95,22 @@ export default class ParticipanteComponent {
       width: '700px',
     }).afterClosed().subscribe(resultado => {
       if(resultado==="Creado"){
-        this.mostrarPersonas();
+        this.mostrarParticipantes();
       }
     })
     
   }
-  openDialog() {
-    const dialogRef = this.dialog.open(FormParticipanteAddEditComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-  editarParticipante(dataPersona: NuevoParticipante) {
-    console.log('DATA',dataPersona);
+  
+  editarParticipante(dataParticipante: NuevoParticipante) {
+    console.log('DATA',dataParticipante);
     this.dialog.open(FormParticipanteAddEditComponent,{
       
       disableClose: true,
       width: '700px',
-      data:  dataPersona
+      data:  dataParticipante
     }).afterClosed().subscribe(resultado => {
       if(resultado==="editado"){
-        this.mostrarPersonas();
+        this.mostrarParticipantes();
       }
     })
     
@@ -121,20 +123,20 @@ export default class ParticipanteComponent {
 
     });
   }
-  dialogoEliminarParticipante(dataPersona: NuevoParticipante) {
+  dialogoEliminarParticipante(dataParticipante: NuevoParticipante) {
 
     this.dialog.open(DialogoDeleteComponent,{
       
       disableClose: true,
-      data:  dataPersona
+      data:  dataParticipante
     }).afterClosed().subscribe(resultado => {
       if(resultado==="eliminar"){
-        this.participanteService.eliminarParticipante(dataPersona.id_participante).subscribe({
+        this.participanteService.eliminarParticipante(dataParticipante.id_participante).subscribe({
           next: (resp) => { 
             console.log('RESP',resp);
             this.mostrarAlerta('Participante eliminado correctamente', 'Listo');
             
-            this.mostrarPersonas();
+            this.mostrarParticipantes();
           },
           error: (err) => {
             console.log(err);

@@ -1,38 +1,80 @@
-.body{
-    padding: 2em;
+.body {
+  padding: 2em;
 }
 
-.my-card{
-    box-shadow: none;
-    width: 100%;
+.my-card {
+  box-shadow: none;
+  width: 100%;
+}
+
+.contenedor_incritos {
+  overflow: auto;
+  max-height: 100%;
+
 }
 
 nav {
-    background-color: none;
-    width: 250px;
-    height: 100%;
-  }
+  background-color: none;
+  width: 250px;
+  height: 100%;
+}
+
+nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: none;
+  text-align: left;
+}
+
+a.link:hover {
+  color: #75d301;
+
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+  text-decoration-line: none;
+  display: block;
+
+}
+
+.contenedor-info {
+  display: flex;
+  justify-content: center;
   
-  nav {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  nav  {
-    background-color: none;
-    text-align: left;
-  }
-  
-  mat-list-item a:hover {
-    color: rgb(40, 40, 202);
-    background-color: none;
-  }
-  
-  a {
-    color: #000000;
-    text-decoration: none;
-    text-decoration-line: none;
-    display: block;
-    
-  }
+  padding: 5px;
+  margin: 3px;
+  background-color: #0086e514;
+  border-radius: 5px;
+  justify-content: center;
+
+}
+
+.contenedor-titulo{
+  display: flex;
+  justify-content: center;
+
+  color: #ffffff;
+  font-size: 14px;
+  margin: 3px;
+  padding: 5px;
+  background-color: #006DB8;
+  border-radius: 5px;
+}
+
+.titulo{
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #006DB8;
+  font-size: 22px;
+  margin: 10px;
+  padding: 5px;
+  background-color: #ffffff;
+}
