@@ -43,6 +43,9 @@ export default class GetCapacitacionComponent implements OnInit {
   reportePdf$ : Observable<Blob> | undefined;
   informacionCapacitacione$: Observable<GetCapacitacion>  |  undefined;
   informacionCap$: Observable<CreaCapacitacion>  |  undefined;
+  informacionParticipante$: Observable<ParticipantesInscritos> | undefined;
+  
+  //tablaInscritos!: InscritosCapacitacionComponent ;
   constructor(private activatedRoute: ActivatedRoute, 
     private capacitacionService: CapacitacionService,
     private route: Router,
@@ -67,12 +70,13 @@ export default class GetCapacitacionComponent implements OnInit {
      }
   
   capacitacion$: Observable<GetCapacitacion>  |  undefined;
-
+  mylista$ = this.capacitacionService.listaTabla$;
   toggleGridColumns() {
     this.colSize = this.colSize === 2 ? 3 : 2;
   }
   ngOnInit(): void {
    this.verCapacitacion();
+   //this.tablaInscritos = new InscritosCapacitacionComponent();
     // if (id_capacitacion) {
          
     //   //console.log('CAPACITACION',this.capacitacion$);
@@ -118,7 +122,21 @@ export default class GetCapacitacionComponent implements OnInit {
     );
     
   }
+  actualizaDataTablaInscritos(){
+    const id_capacitacion = this.activatedRoute.snapshot.params['id_capacitacion'];
 
+    this.informacionParticipante$ = this.capacitacionService.getInscritosCapacitacion(id_capacitacion);
+
+    this.informacionParticipante$.subscribe({
+      next: (resp: ParticipantesInscritos) => {
+        console.log('RESP',resp);
+        this.capacitacionService.actualizarTabla(resp.inscritos);
+      }, error:(err)=> {
+        console.log(err);
+      },
+      
+    })
+  }
   inscribirParticipante(){
     this.dialog.open(DialogInscribirParticipanteComponent,
       {
@@ -126,6 +144,13 @@ export default class GetCapacitacionComponent implements OnInit {
         width: '600px',
         data:{id_capacitacion: this.activatedRoute.snapshot.params['id_capacitacion']}
 
+      }).afterClosed().subscribe(resultado => {
+        if(resultado==="Creado"){
+          this.actualizaDataTablaInscritos();
+          //const id_capacitacion =  this.activatedRoute.snapshot.params['id_capacitacion']
+          //this.tablaInscritos.mostrarParticipantes();
+          //this.informacionParticipante$ = this.capacitacionService.getInscritosCapacitacion(id_capacitacion);
+        }
       });
 
 

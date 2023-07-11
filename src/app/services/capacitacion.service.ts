@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
-import { Observable, map } from 'rxjs';
-import { Capacitacion, CreaCapacitacion, EditarCapacitacion, GetCapacitacion, Participante, ParticipantesInscritos, ParticipantesNoInscritos, UnaCapacitacion } from '../models/capacitacion';
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Capacitacion, CreaCapacitacion, EditarCapacitacion, GetCapacitacion, Inscrito, ListaInscripcion, Participante, ParticipantesInscritos, ParticipantesNoInscritos, UnaCapacitacion } from '../models/capacitacion';
 import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,10 @@ import { HttpClient } from '@angular/common/http';
 export class CapacitacionService {
   private endpoint: string = environment.endPoint;
   private apiUrl: string = this.endpoint;
+  private listaTabla: Inscrito[] = [];
+  private listaTablaSubject = new BehaviorSubject<Inscrito[]>([]);
+  public listaTabla$ = this.listaTablaSubject.asObservable();
+
 
   constructor(private http: HttpClient) { 
     
@@ -37,6 +41,9 @@ export class CapacitacionService {
 
   }
   ///Inscritos Capacitacion
+  actualizarTabla(lista: Inscrito[]): void {
+    this.listaTablaSubject.next(lista);
+  }
 
 
   getInscritosCapacitacion(id_capacitacion: number): Observable<ParticipantesInscritos> {
@@ -52,6 +59,10 @@ export class CapacitacionService {
 
   getParticipantesNoInscrtios(id_capacitacion: number): Observable<ParticipantesNoInscritos> {
     return this.http.get<ParticipantesNoInscritos>(`${this.apiUrl}participantes/disponibles/${id_capacitacion}`);
+  }
+
+  agregarInscritosCapacitacion(listaParticipantes: ListaInscripcion): Observable<ListaInscripcion> {
+    return this.http.post<ListaInscripcion>(`${this.apiUrl}capacitacion/participantes/nuevos/`, listaParticipantes );
   }
 }
 

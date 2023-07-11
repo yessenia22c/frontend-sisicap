@@ -111,7 +111,7 @@ export class InscritosCapacitacionComponent implements OnInit {
         console.log('RESP',resp);
         this.dataSource.data = resp.inscritos;
         console.log('DATASOURCE INSCRITOS',this.dataSource.data);
-
+        this.capacitacionService.actualizarTabla(resp.inscritos);
         //Filter predicate ayuda a obtener los datos relevantes para la busqueda dentro del DataSource
         this.dataSource.filterPredicate = (data: Inscrito, filter: string) => {
           const personasData = data.Participantes.Personas;
