@@ -76,5 +76,11 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     
 </div>
+<div *ngIf=" listTabla$ | async as list">
+  <div *ngFor="let items of list.inscritos">
+    {{items.Participantes.Personas.nombres_per}} {{items.Participantes.Personas.apellidos}}
+  </div>
+
+</div>
 
 

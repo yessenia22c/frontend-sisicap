@@ -1,0 +1,54 @@
+.boton-importar{
+    color: #ffffff !important;
+    margin: 5px;
+    background-color: #002f8d;
+  }
+
+  .no-overlap {
+    position: relative;
+    /* margin-left: 8px; */
+    z-index: 0;
+  }
+
+  .example-container {
+    height: 400px;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+
+  .subir-archivo{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 12px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #002f8d;    
+    font: 14px "Roboto", sans-serif;
+    color: #ffffff;
+  }
+  .subir-archivo input[type="file"] {
+    display: none;
+  }
+  .subir-archivo :hover{
+    background-color: #002f8d;
+  }
+  .subir-archivo mat-icon{
+    align-items: initial;
+    margin-right: 5px;
+    color: #ffffff;
+  
+  }
+  .texto-input{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+  }

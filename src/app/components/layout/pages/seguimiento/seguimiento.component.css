@@ -1,0 +1,62 @@
+mat-toolbar {
+    justify-content: space-between;
+    
+  }
+  .no-overlap {
+    position: relative;
+    /* margin-left: 8px; */
+    z-index: 0;
+  }
+  .content {
+    padding: 16px;
+    z-index: 1;
+  }
+  
+  .content > mat-card {
+    margin-bottom: 16px;
+  }
+  .mat-card{
+    z-index: 2;
+    
+  }
+  
+  .texto-item{
+    font-size: 16px;
+    color: rgb(46, 46, 46);
+    font-family: Helvetica;
+  
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+    grid-auto-rows: minmax(100px, auto);
+    margin-top: 2rem;
+  }
+  
+  .texto-item.long-title{
+    white-space: nowrap; /* hace que el texto no se salte a la siguiente línea */
+    overflow: hidden; /* oculta cualquier texto que desborde del contenedor */
+    text-overflow: ellipsis ; /* agrega puntos suspensivos para indicar que hay más texto oculto */
+  }
+  
+  .mat-mdc-card-header{
+    display: block;
+  }
+  .boton-curso{
+    width: 100%;
+  }
+  
+  .boton-agregar{
+    color: #ffffff !important;
+    background-color: #91BF23;
+  }
+
+  .example-card {
+    max-width: 400px;
+  }
+  

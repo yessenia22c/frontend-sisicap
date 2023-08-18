@@ -18,13 +18,14 @@ import {Observable, of, concat, Subject, BehaviorSubject} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatIconModule} from '@angular/material/icon';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
-import { Inscripciones, ListaInscripcion, Participante, ParticipantesNoInscritos } from 'src/app/models/capacitacion';
+import { Inscripciones, ListaInscripcion, Participante, ParticipantesInscritos, ParticipantesNoInscritos } from 'src/app/models/capacitacion';
 import { ActivatedRoute } from '@angular/router';
 import { CapacitacionService } from 'src/app/services/capacitacion.service';
 import { MatInputModule } from '@angular/material/input';
 //para seleccionar
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { InscritosCapacitacionComponent } from '../inscritos-capacitacion/inscritos-capacitacion.component';
 
 @Component({
   selector: 'app-dialog-inscribir-participante',
@@ -82,7 +83,9 @@ export class DialogInscribirParticipanteComponent implements OnInit {
   people$!: Observable<Participante[]>;
   listaInscritos$: Observable<ListaInscripcion> | undefined;
   habilitarBoton = true;
-  
+  listTabla$ = this.capacitacionService.listaTabla$;
+  // componeteInscritos = new InscritosCapacitacionComponent();
+
   ngOnInit(): void {
     this.id_cap = this.data.id_capacitacion;
     
@@ -152,7 +155,19 @@ export class DialogInscribirParticipanteComponent implements OnInit {
   
   
   termInput: any; // Inicializar term en null
-
+  // ActualizaDatosInscritos(){
+  //   const id_capacitacion = this.activatedRoute.snapshot.params['id_capacitacion'];
+    
+  //   this.listTabla$ = this.capacitacionService.getInscritosCapacitacion(id_capacitacion);
+  //   this.listTabla$.subscribe({
+  //     next: (data: ParticipantesInscritos) => {
+  //       this.componeteInscritos.actulizarTabla(data.inscritos);
+  //       console.log('Envio desde el dialog',data.inscritos);
+  //     },error: (error) => {
+  //       console.log(error);
+  //     }
+  //   });
+  // }
   actualizarTerm(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     this.termInput = (inputElement?.value?.trim() ?? '') !== '' ? inputElement?.value : null; // Actualizar term según el valor de la entrada de texto
@@ -173,6 +188,7 @@ export class DialogInscribirParticipanteComponent implements OnInit {
       this.listaInscritos$.subscribe({
       next: (data) => {
         this.mostrarAlerta('Participantes inscritos correctamente', 'Listo');
+        // this.ActualizaDatosInscritos();
         this.dialogReferencia.close("Creado");
         console.log('ESTO TIENE LA DATA',data);
       }, error: (e) => {

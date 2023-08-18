@@ -1,0 +1,9 @@
+.ancho {
+    font-size: 14px;
+    width: 100% !important;
+}
+
+.mat-mdc-form-field{
+    /* width: 100% !important; */
+    display: block !important;
+}

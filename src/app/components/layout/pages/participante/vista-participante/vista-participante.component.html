@@ -1,0 +1,51 @@
+<mat-nav-list>
+
+  <mat-list>
+    <h3>Datos del participante</h3>
+    <mat-list-item >
+      <span matListItemTitle>Nombres y apellidos</span>
+      <span matListItemLine>{{dataParticipante.Participantes.Personas.nombres_per}} {{dataParticipante.Participantes.Personas.apellidos}}</span>
+    </mat-list-item>
+    <mat-list-item >
+      <span matListItemTitle>Carnet de identidad:</span>
+      <span matListItemLine>{{dataParticipante.Participantes.Personas.nro_ci}}</span>
+    </mat-list-item>
+    <mat-list-item >
+      <span matListItemTitle>Correo electrónico: </span>
+      <span matListItemLine>{{dataParticipante.Participantes.Personas.correo}}</span>
+    </mat-list-item>
+    <mat-list-item >
+      <span matListItemTitle>Teléfono: </span>
+      <span matListItemLine>{{dataParticipante.Participantes.Personas.telefono}}</span>
+    </mat-list-item>
+    <mat-list-item >
+      <span matListItemTitle>Ocupación: </span>
+      <span matListItemLine>{{dataParticipante.Participantes.ocupacion}}</span>
+    </mat-list-item>
+    <mat-list-item >
+      <span matListItemTitle>Ciudad: </span>
+      <span matListItemLine>{{dataParticipante.Participantes.Personas.ciudad.nombre_ciudad}}</span>
+    </mat-list-item>
+    <mat-list-item >
+      <span matListItemTitle>País: </span>
+      <span matListItemLine>{{dataParticipante.Participantes.Personas.Pais.nombre_pais}}</span>
+    </mat-list-item>
+    <mat-list-item >
+      <span matListItemTitle>Género: </span>
+      <span matListItemLine>{{dataParticipante.Participantes.Personas.sexo.nombre_sexo}}</span>
+
+    </mat-list-item>
+    <mat-list-item >
+      <span matListItemTitle>Fecha de nacimiento: </span>
+      <span matListItemLine>{{dataParticipante.Participantes.Personas.fecha_nac}}</span>
+    </mat-list-item>
+
+  </mat-list>
+    <!-- <div>
+      {{dataParticipante.Participantes.Personas.nombres_per}}
+    </div>
+    <pre>
+     {{dataParticipante | json}}
+    </pre> -->
+    
+</mat-nav-list>

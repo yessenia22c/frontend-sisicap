@@ -29,6 +29,11 @@ const routes: Routes = [
         
       },
       {
+        path:'seguimiento',
+        loadComponent: () => import('../layout/pages/seguimiento/seguimiento.component'),
+        
+      },
+      {
         path:'capacitacion',
         loadComponent: () => import('../layout/pages/capacitacion/capacitacion.component'),
         
@@ -38,6 +43,15 @@ const routes: Routes = [
         path:'capacitacion/ver/:id_capacitacion',
         loadComponent: () => import('../layout/pages/capacitacion/get-capacitacion/get-capacitacion.component')
       },
+      {
+        path:'seguimiento/ver/:id_seguimiento',
+        loadComponent: () => import('../layout/pages/seguimiento/grupo-seguimiento/grupo-seguimiento.component')
+      },
+      {
+        path:'seguimiento/importar',
+        loadComponent: () => import('../layout/pages/seguimiento/importar-contactos/importar-contactos.component')
+      },
+      
 
       // {
       //   path:'capacitacion/inscritos',

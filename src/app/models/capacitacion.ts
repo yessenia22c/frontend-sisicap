@@ -44,6 +44,7 @@ export interface Inscrito {
 }
 
 export interface Participantes {
+    id_participante:      number;
     codigo_participante: string;
     ocupacion:           null | string;
     Personas:            Personas;
@@ -51,9 +52,29 @@ export interface Participantes {
 }
 
 export interface Personas {
-    nombres_per: string;
-    apellidos:   string;
-    nro_ci:      string;
+    id_persona:         number;
+    nombres_per:        string;
+    apellidos:          string;
+    nro_ci:             string;
+    correo:             string;
+    telefono:           null | string;
+    ciudad:             Ciudad;
+    sexo:               Sexo;
+    fecha_nac:          string | null;
+    Pais:               Pais;
+}
+export interface Ciudad {
+    id_ciudad:     number;
+    nombre_ciudad: string;
+}
+export interface Sexo {
+    id_sexo:     number;
+    nombre_sexo: string;
+}
+
+export interface Pais {
+    id_pais:     number;
+    nombre_pais: string;
 }
 
 export interface Usuario {

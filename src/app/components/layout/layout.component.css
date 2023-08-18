@@ -87,3 +87,9 @@
 *::after {
   box-sizing: content-box;
 }
+
+
+.mat-toolbar.mat-primary {
+  background: #002f8d;
+  color: #fff;
+}

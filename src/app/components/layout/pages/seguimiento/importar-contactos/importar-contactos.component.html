@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <label for="fileInput" class="subir-archivo">
+                <mat-icon class="material-symbols-outlined" fontIcon="upload"></mat-icon>
+                <span class="texto-input">Seleccionar archivo</span>   
+                <input type="file" mat-button extended (change)="leerExcel($event)" id="fileInput" name="fileInput">
+                
+            </label>
+        </div>
+        <div class="col-md-6">
+            <button mat-button extended class="boton-importar no-overlap" routerLink="../../importar" >Continuar
+                <mat-icon class="material-symbols-outlined" fontIcon="chevron_right"></mat-icon>
+            </button>
+        </div>
+    </div>
+    
+
+    
+        <!-- <mat-icon class="material-symbols-outlined" fontIcon="upload"></mat-icon> -->
+    <!-- <input type="file" mat-button extended (change)="leerExcel($event)" value="subir contactos" matIconSuffix="upload"> -->
+    
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="example-container mat-elevation-z8" tabindex="0">
+                <table mat-table [dataSource]="excelData">
+              
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="nro">
+                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <td mat-cell *matCellDef="let item; let i = index">{{ i + 1 }} </td>
+                  </ng-container>
+              
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="nombre_apellidos">
+                    <th mat-header-cell *matHeaderCellDef> Nombre completo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_apellidos}} </td>
+                  </ng-container>
+              
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="numero_contacto" >
+                    <th mat-header-cell *matHeaderCellDef> Nro celular </th>
+                    <td mat-cell *matCellDef="let element"> {{element.numero_contacto}} </td>
+                  </ng-container>
+              
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="correo_contacto">
+                    <th mat-header-cell *matHeaderCellDef> Correo electrónico </th>
+                    <td mat-cell *matCellDef="let element"> {{element.correo_contacto}} </td>
+                  </ng-container>
+              
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </section>
+              
+              
+        </div>
+    </div>
+</div>

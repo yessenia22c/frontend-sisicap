@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { CapacitacionService } from 'src/app/services/capacitacion.service';
 import { ActivatedRoute } from '@angular/router';
 //MATERIAL
@@ -25,7 +25,7 @@ import { ParticipanteService } from 'src/app/services/participante.service';
 @Component({
   selector: 'app-inscritos-capacitacion',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatDialogModule, MatFormFieldModule,
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatDialogModule, MatFormFieldModule,NgFor,
      MatInputModule , MatTableModule,MatPaginatorModule, MatAutocompleteModule,FormsModule, ReactiveFormsModule
     
     ],
@@ -34,7 +34,7 @@ import { ParticipanteService } from 'src/app/services/participante.service';
 })
 export class InscritosCapacitacionComponent implements OnInit {
 
-  myControl = new FormControl<string | Participante>('');
+  
   options: AllParticipante[] = [];
   filteredOptions!: Observable<AllParticipante[]> ;
   listParticipantes$: Observable<Participante> | undefined;
@@ -52,6 +52,7 @@ export class InscritosCapacitacionComponent implements OnInit {
   capacitacionService = inject(CapacitacionService);
   participantesService = inject(ParticipanteService);
 
+  listTabla$ = this.capacitacionService.listaTabla$;
   constructor(){
     this.listParticipantes$ = this.participantesService.getParticipantes();
     this.listParticipantes$.subscribe({
@@ -68,24 +69,7 @@ export class InscritosCapacitacionComponent implements OnInit {
     
     this.mostrarParticipantes();
 
-    // this.filteredOptions = this.myControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => {
-    //     const name = typeof value === 'string' ? value : value?.AllParticipantes;
-    //     return name ? this._filter(name as string) : this.options.slice();
-    //   }),
-    // );
   }
-  // displayFn(user: AllParticipante): string {
-  //   return user && user.Personas.nombres_per ? user.Personas.nombres_per : '';
-  // }
-
-  // private _filter(name: string): AllParticipante[] {
-  //   const filterValue = name.toLowerCase();
-
-  //   return this.options.filter(option => option.Personas.nombres_per.toLowerCase().includes(filterValue));
-  // }
-  
 
 
   ngAfterViewInit() {
@@ -103,29 +87,24 @@ export class InscritosCapacitacionComponent implements OnInit {
 
   mostrarParticipantes(){
     const id_capacitacion = this.activatedRoute.snapshot.params['id_capacitacion'];
+    //this.informacionParticipante$ = this.capacitacionService.getInscritosCapacitacion(id_capacitacion)
+     this.listTabla$ = this.capacitacionService.getInscritosCapacitacion(id_capacitacion);
+     this.listTabla$.subscribe({
+       next: (data: ParticipantesInscritos) => {
+         this.dataSource.data = data.inscritos;
 
-    this.informacionParticipante$ = this.capacitacionService.getInscritosCapacitacion(id_capacitacion);
+         console.log('DATASOURCE DEL LIST-TABLA',this.dataSource.data);
+         this.dataSource.filterPredicate = (data: Inscrito, filter: string) => {
+           const personasData = data.Participantes.Personas;
 
-    this.informacionParticipante$.subscribe({
-      next: (resp: ParticipantesInscritos) => {
-        console.log('RESP',resp);
-        this.dataSource.data = resp.inscritos;
-        console.log('DATASOURCE INSCRITOS',this.dataSource.data);
-        this.capacitacionService.actualizarTabla(resp.inscritos);
-        //Filter predicate ayuda a obtener los datos relevantes para la busqueda dentro del DataSource
-        this.dataSource.filterPredicate = (data: Inscrito, filter: string) => {
-          const personasData = data.Participantes.Personas;
-
-          const values = Object.values(personasData);
-          const valueStrings = values.map(value => (value !== null ? value.toString().toLowerCase() : ''));
-          return valueStrings.some(value => value.includes(filter));
-        };
-
-        console.log('DATASOURCE',this.dataSource);
-      }, error:(err)=> {
-        console.log(err);
-      },
-      
-    })
+           const values = Object.values(personasData);
+           const valueStrings = values.map(value => (value !== null ? value.toString().toLowerCase() : ''));
+           return valueStrings.some(value => value.includes(filter));
+         };
+       },error: (error) => {
+         console.log(error);
+       }
+     });
   };
+
 }

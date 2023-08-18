@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <h1 mat-dialog-title>{{tituloAccion}} </h1>
+<div mat-dialog-content>
+  <form [formGroup]="formGrupoSeguimiento">
+    
+      <div class="row">
+        <div class="row-md-4" >
+          <mat-form-field appearance="fill" class=>
+            <mat-label>Nombre de seguimiento</mat-label>
+            <input  type="text" matInput formControlName="nombre_seguimiento" autocomplete="off" >
+          </mat-form-field>
+        </div>
+        <div class="row-md-4">
+          <ng-container *ngIf="this.listaEmpleados$ | async as ListaEmpleado">
+            <ng-select [items]="ListaEmpleado.Empleados" formControlName="id_empleado"  bindLabel="nombreCompleto" bindValue="id_empleado" 
+              placeholder="Seleccione un responsable">
+            </ng-select>
+          </ng-container>
+        </div>
+        <div class="row-md-4">
+          <ng-container *ngIf="this.listaCapacitacion$ | async as Lista">
+            <ng-select [items]="Lista.UnaCapacitacion" formControlName="id_capacitacion" bindLabel="nombre_capacitacion" bindValue="id_capacitacion"
+              placeholder="Seleccione una capacitación">
+            </ng-select>
+          </ng-container>
+        </div>
+        <pre>
+          {{formGrupoSeguimiento.value | json}}
+        </pre>
+        <pre>
+          {{this.dataGrupoSeguimiento | json}}
+        </pre>
+      
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+  <button mat-raised-button color="primary"
+    (click)="crearSeguimiento()"
+    [disabled]="formGrupoSeguimiento.invalid"
+    >{{botonAccion}}
+  </button>
+
+</div>
+</div>
+

@@ -1,0 +1,142 @@
+.body {
+    padding: 2em;
+  }
+  
+  .my-card {
+    box-shadow: none;
+    width: 100%;
+  }
+  
+  .contenedor_incritos {
+    overflow: auto;
+    max-height: 100%;
+  
+  }
+  
+  nav {
+    background-color: none;
+    width: 250px;
+    height: 100%;
+  }
+  
+  nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav {
+    background-color: none;
+    text-align: left;
+  }
+  
+  a.link:hover {
+    color: #75d301;
+  
+  }
+  
+  a {
+    color: #000000;
+    text-decoration: none;
+    text-decoration-line: none;
+    display: block;
+  
+  }
+  
+  .contenedor-info {
+    display: flex;
+    justify-content: center;
+    
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #0086e514;
+    border-radius: 5px;
+    justify-content: center;
+  
+  }
+  
+  .contenedor-titulo{
+    display: flex;
+    justify-content: center;
+  
+    color: #ffffff;
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #006DB8;
+    border-radius: 5px;
+  }
+  
+  .titulo{
+    display: flex;
+    margin-top: 10px;
+    font-family: Roboto;
+    color: #002f8d;
+    font-size: 22px;
+    background-color: #ffffff;
+  }
+  
+  .espacio{
+    margin: 10px;
+    padding: 5px;
+  }
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.no-overlap {
+  position: relative;
+  /* margin-left: 8px; */
+  z-index: 0;
+}
+.boton-editar{
+  color: #89ba2c !important;
+  outline: 2px solid #89ba2c;
+  
+  margin-right: 5px;
+  /* background-color: #89ba2c; */
+}
+.boton-importar{
+  color: #ffffff !important;
+  margin: 5px;
+  background-color: #002f8d;
+}
+.mat-mdc-outlined-button:not(:disabled) {
+  border-color: #002f8d;
+}
+
+.titulo-cont{
+  color: #002f8d;
+  font-size: 18px;
+  justify-items: start;
+  align-items: start;
+}
+.subtitulo{
+  color: #6c6c6c ;
+}
+
+
+/* Structure */
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+
+.example-container {
+  
+  overflow: auto;
+  max-height: 350px;
+  
+}
+
