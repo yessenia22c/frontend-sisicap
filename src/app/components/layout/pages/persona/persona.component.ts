@@ -5,7 +5,7 @@ import { Persona, AllPersona, creaPersona } from 'src/app/models/persona';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 
 
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
 
 import { MatSort } from '@angular/material/sort';
@@ -18,6 +18,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { PersonaService } from 'src/app/services/persona.service';
 import { FormPersonaAddEditComponent } from './form-persona-add-edit/form-persona-add-edit.component';
+import { PaginatorService } from 'src/app/services/Paginator.service';
 
 
 @Component({
@@ -26,7 +27,11 @@ import { FormPersonaAddEditComponent } from './form-persona-add-edit/form-person
   imports: [CommonModule, MatTableModule, MatPaginatorModule,MatFormFieldModule,
     MatInputModule, MatButtonModule,MatIconModule, MatDialogModule],
   templateUrl: './persona.component.html',
-  styleUrls: ['./persona.component.css']
+  styleUrls: ['./persona.component.css'],
+  providers: [
+    // ...
+    { provide: MatPaginatorIntl, useClass: PaginatorService } // Usa el servicio personalizado
+  ]
 })
 export default class PersonaComponent implements AfterViewInit, OnInit{
   displayedColumns: string[] = ['id_persona', 'nombres_per','apellidos', 'nro_ci', 'correo', 'telefono', 'fecha_nac', 'sexo', 'ciudad', 'Pais', 'accion'];

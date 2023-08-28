@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { SeguimientoService } from 'src/app/services/seguimiento.service';
 import { Observable, catchError, of, tap } from 'rxjs';
-import { UnSeguimiento } from 'src/app/models/seguimiento';
+import { AllContactosSeguimiento, ContactosSeguimiento, UnSeguimiento } from 'src/app/models/seguimiento';
 
 //MATERIAL
 import {MatButtonModule} from '@angular/material/button';
@@ -12,7 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { PaginatorService } from 'src/app/services/Paginator.service';
 
 export interface PeriodicElement {
   name: string;
@@ -40,16 +42,39 @@ const ELEMENT_DATA: PeriodicElement[] = [
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule,RouterModule, MatTableModule, MatPaginatorModule],
   templateUrl: './grupo-seguimiento.component.html',
-  styleUrls: ['./grupo-seguimiento.component.css']
+  styleUrls: ['./grupo-seguimiento.component.css'],
+  providers: [
+    // ...
+    { provide: MatPaginatorIntl, useClass: PaginatorService } // Usa el servicio personalizado
+  ]
 })
 export default class GrupoSeguimientoComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  resultsLength = 12;
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  displayedColumns: string[] = [
+    'nro',
+    'nombre_apellidos', 
+    'numero_contacto', 
+    'correo_contacto',
+    'fecha_actualizacion',
+    'prox_llamada',
+    'id_tipo_seguimiento',
+    'nombre_empresa',
+    'profesion',
+    'intereses',
+    'observaciones',
+    'id_sexo',
+    'id_ciudad',
+    'id_pais',
+    'id_estado_contacto'
+  ];
+  @ViewChild(MatPaginator) paginator!: MatPaginator ;
+  @ViewChild(MatSort) sort!: MatSort ;
+  listContactos$: Observable<ContactosSeguimiento> | undefined;
+  dataSource = new MatTableDataSource<AllContactosSeguimiento>();
+  resultsLength = 0;
+
+  filterValue = '';
+
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private seguimientoService: SeguimientoService,
@@ -58,6 +83,7 @@ export default class GrupoSeguimientoComponent implements OnInit {
   UnSeguimiento$: Observable<UnSeguimiento> | undefined;
   ngOnInit() {
     this.verSeguimiento();
+    this.mostrarContactos();
   }
   verSeguimiento() {
     const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
@@ -73,6 +99,38 @@ export default class GrupoSeguimientoComponent implements OnInit {
         return of([]);
       })
     ).subscribe();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+  applyFilter(event: Event) {
+    this.filterValue = (event.target as HTMLInputElement).value;
+    this.filterData();
+  }
+
+  filterData() {
+    this.dataSource.filter = this.filterValue.trim().toLowerCase();
+  }
+  mostrarContactos() {
+    const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
+
+    this.listContactos$ =  this.seguimientoService.verContactosSeguimiento(id_grupo_seguimiento);
+    this.listContactos$.subscribe({
+      next: (data: ContactosSeguimiento) => {
+        this.dataSource.data = data.AllContactosSeguimiento;
+        console.log('CONTACTOS DATA SOURCE', this.dataSource.data);
+        this.dataSource.filterPredicate = (data: AllContactosSeguimiento, filter: string) => {
+          const contactoDatas = data.Contactos;
+
+          const values = Object.values(contactoDatas);
+          const valueStrings = values.map(value => (value !== null ? value.toString().toLowerCase() : ''));
+          return valueStrings.some(value => value.includes(filter));
+        };
+      }
+    });
+
   }
 
 

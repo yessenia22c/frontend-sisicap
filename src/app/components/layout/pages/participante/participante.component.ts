@@ -9,7 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 
@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 
 import { ParticipanteService } from 'src/app/services/participante.service';
 import { AllParticipante, DatosPersona, NuevoParticipante, Participante, personas } from 'src/app/models/participante';
+import { PaginatorService } from 'src/app/services/Paginator.service';
 
 
 
@@ -29,7 +30,11 @@ import { AllParticipante, DatosPersona, NuevoParticipante, Participante, persona
   imports: [CommonModule, MatButtonModule, MatIconModule, MatDialogModule, MatFormFieldModule, 
     MatInputModule, MatTableModule,MatPaginatorModule ],
   templateUrl: './participante.component.html',
-  styleUrls: ['./participante.component.css']
+  styleUrls: ['./participante.component.css'],
+  providers: [
+    // ...
+    { provide: MatPaginatorIntl, useClass: PaginatorService } // Usa el servicio personalizado
+  ]
 })
 export default class ParticipanteComponent {
   

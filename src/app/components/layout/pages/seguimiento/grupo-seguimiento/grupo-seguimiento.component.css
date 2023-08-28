@@ -123,9 +123,9 @@
 
 
 /* Structure */
-table {
+/* table {
   width: 100%;
-}
+} */
 
 .mat-mdc-form-field {
   font-size: 14px;
@@ -133,10 +133,65 @@ table {
 }
 
 
-.example-container {
+/* .example-container {
   
   overflow: auto;
   max-height: 350px;
   
+} */
+
+/*Aqui prueba*/
+
+.example-container {
+  height:auto;
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
 }
 
+table {
+  width: 100%;
+}
+
+td.mat-column-star {
+  width: auto;
+  padding-right: 8px;
+
+}
+
+th.mat-column-position, td.mat-column-position {
+  padding-left: 8px;
+  
+}
+
+.mat-mdc-table-sticky-border-elem-right {
+  border-left: 1px solid #e0e0e0;
+  
+}
+
+.mat-mdc-table-sticky-border-elem-left {
+  border-right: 1px solid #e0e0e0;
+  
+}
+
+.mat-mdc-table {
+  table-layout: auto;
+  white-space: nowrap;
+  
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 60px;
+}
+
+
+
+/*LINEAS DE TABLAS*/
+
+.mat-colum {
+  width: 15px;
+  border-right: 1px solid #e0e0e0;
+  padding-right: 24px;
+}

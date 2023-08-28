@@ -9,8 +9,8 @@
     </div> 
     <ng-container *ngIf="this.listSeguimientos$ | async as seguimiento ">
       <div class="row">
-        <div class="col-md-3 py-2" *ngFor="let item of seguimiento.UnGrupoSeguimiento">
-          <mat-card class="example-card">
+        <div class="col-sm-3 py-2" *ngFor="let item of seguimiento.UnGrupoSeguimiento">
+          <mat-card >
             <mat-card-header>
               <mat-card-title class="texto-item " [ngClass]="{'long-title': item.nombre_seguimiento.length > 8}">
                 {{item.nombre_seguimiento}}

@@ -48,7 +48,7 @@ const routes: Routes = [
         loadComponent: () => import('../layout/pages/seguimiento/grupo-seguimiento/grupo-seguimiento.component')
       },
       {
-        path:'seguimiento/importar',
+        path:'seguimiento/ver/:id_seguimiento/importar',
         loadComponent: () => import('../layout/pages/seguimiento/importar-contactos/importar-contactos.component')
       },
       

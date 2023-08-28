@@ -6,6 +6,10 @@ import { Observable, map, shareReplay, tap } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import { PerfilUsuarioService } from 'src/app/services/perfil-usuario.service';
 import { PerfilUsuario } from 'src/app/models/PerfilUsuario';
+
+
+
+
 @Component({
   selector: 'app-layout',
   templateUrl:'./layout.component.html' ,
@@ -24,6 +28,7 @@ export class LayoutComponent implements OnInit{
     ['(orientation: portrait)', 'Portrait'],
     ['(orientation: landscape)', 'Landscape'],
   ]);
+
   constructor(  ){
 
   }
@@ -36,7 +41,7 @@ export class LayoutComponent implements OnInit{
   private perfilUsuario = inject(PerfilUsuarioService);
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(
-    [Breakpoints.XSmall, Breakpoints.Small]
+    [Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge]
     )
     .pipe(map(result => result.matches),shareReplay());
 
@@ -64,6 +69,17 @@ export class LayoutComponent implements OnInit{
     //    console.log('INFO USER',this.informacionUsuario);
     //   })).subscribe();
   }
+  isCollapsed: boolean = true;
+
+  toggleCollapse(): void {
+    this.isCollapsed = !this.isCollapsed;
+    // cerrar el colapso al hacer clic en un enlace
+   
+   }
+
+  // JavaScript para cerrar el colapso al hacer clic en otro enlace
+  
+
 
   logout() {
     this.authService.limpiarToken();

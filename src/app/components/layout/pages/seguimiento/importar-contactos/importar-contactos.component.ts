@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import * as XLSX from 'xlsx';
 //Material
 
@@ -10,6 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatLabel } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ContactosAgregar, ListaContacto } from 'src/app/models/seguimiento';
+import { SeguimientoService } from 'src/app/services/seguimiento.service';
+import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-importar-contactos',
   standalone: true,
@@ -30,7 +34,13 @@ export default class ImportarContactosComponent {
   displayedColumns = ['nro', 'nombre_apellidos', 'numero_contacto', 'correo_contacto'];
   dataSource = ELEMENT_DATA;
   excelData: any;
-  constructor() { }
+  listContactos$: Observable<ContactosAgregar> | undefined;
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private seguimientoService: SeguimientoService,
+    private _snackBar: MatSnackBar,
+    private router: Router
+  ) { }
   leerExcel( event: any){
     let file = event.target.files[0];
     let reader = new FileReader();
@@ -41,7 +51,38 @@ export default class ImportarContactosComponent {
       this.excelData = XLSX.utils.sheet_to_json(workbook.Sheets[hoja[0]]);
 
       console.log(this.excelData)
+      
     }
+
+
+  }
+  mostrarAlerta(mensaje: string, accion: string) {
+    this._snackBar.open(mensaje, accion,{
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 8000
+
+    });
+ 
+}
+  
+  
+  subirContactos(): void{
+    const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
+    const modelo: ContactosAgregar = {
+      id_grupo_seguimiento: id_grupo_seguimiento,
+      listaContactos: this.excelData
+  
+    };
+    this.listContactos$ = this.seguimientoService.subirContactosSeguimiento(modelo);
+    this.listContactos$.subscribe({
+      next :(data) => {
+        this.mostrarAlerta('Contactos subidos exitosamente', 'Listo');
+        this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+      }, error: (e) => {
+        this.mostrarAlerta('No se ha podido subir', 'Error');
+      }
+    })
 
 
   }

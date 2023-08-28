@@ -11,7 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { Inscrito, ParticipantesInscritos } from 'src/app/models/capacitacion';
@@ -20,6 +20,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AllParticipante, Participante } from 'src/app/models/participante';
 import { ParticipanteService } from 'src/app/services/participante.service';
+import { PaginatorService } from 'src/app/services/Paginator.service';
 
 
 @Component({
@@ -30,7 +31,11 @@ import { ParticipanteService } from 'src/app/services/participante.service';
     
     ],
   templateUrl: './inscritos-capacitacion.component.html',
-  styleUrls: ['./inscritos-capacitacion.component.css']
+  styleUrls: ['./inscritos-capacitacion.component.css'],
+  providers: [
+    // ...
+    { provide: MatPaginatorIntl, useClass: PaginatorService } // Usa el servicio personalizado
+  ]
 })
 export class InscritosCapacitacionComponent implements OnInit {
 

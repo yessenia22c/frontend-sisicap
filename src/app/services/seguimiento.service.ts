@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { CreaGrupoSeguimiento, GrupoSeguimiento, UnSeguimiento } from '../models/seguimiento';
+import { AllContactosSeguimiento, ContactosAgregar, ContactosSeguimiento, CreaGrupoSeguimiento, GrupoSeguimiento, UnSeguimiento } from '../models/seguimiento';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,6 +27,14 @@ export class SeguimientoService {
   }
   verGrupoSeguimiento(id_grupo_seguimiento: number): Observable<UnSeguimiento> {
     return this.http.get<UnSeguimiento>(`${this.apiUrl}grupoSeguimiento/read/${id_grupo_seguimiento}`);
+  }
+
+  verContactosSeguimiento(id_grupo_seguimiento:number):Observable<ContactosSeguimiento>{
+    return this.http.get<ContactosSeguimiento>(`${this.apiUrl}historicoLlamadas/readAll/${id_grupo_seguimiento}`);
+  }
+
+  subirContactosSeguimiento(modelo:ContactosAgregar):Observable<ContactosAgregar>{
+    return this.http.post<ContactosAgregar>(`${this.apiUrl}historicoLlamadas/subir/`, modelo);
   }
 
 }

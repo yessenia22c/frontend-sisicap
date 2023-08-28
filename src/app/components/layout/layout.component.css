@@ -89,7 +89,166 @@
 }
 
 
-.mat-toolbar.mat-primary {
+/* .mat-toolbar.mat-primary {
   background: #002f8d;
   color: #fff;
+} */
+
+
+.lista{
+  background: #ffffff;
+  border: #002f8d 1px solid;
+  border-radius: 8px;
+  color: #fff;
+
 }
+
+
+
+/* .mdc-list-item__primary-text{
+  color: #fff !important;
+} */
+
+
+.mi-lista-1 {
+  color: #002f8d;
+  border: none;
+  display: flex;
+  padding: 10px;
+  background-color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+  align-items: center;
+  border-radius: 0.9rem;
+  user-select: none;
+  gap: 0.75rem;
+  /* transition: all .6s ease; */
+  cursor: pointer;
+  width: 100%;
+}
+
+
+.mi-lista-1:hover{
+  background: #f6f6f6;
+}
+ /* .mi-lista-1:active{
+  background: #0e42ac;
+  color: #fff ;
+} */
+
+.mi-lista {
+  color: #002f8d;
+  font-family: Helvetica;
+  font-size: 14px;
+  display: flex ;
+  position: relative;
+  /* justify-content: flex-start; */
+  overflow: hidden;
+  align-items: stretch;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.size-a{
+  width: 170px; /* Ancho fijo deseado */
+  text-decoration: none;
+}
+
+.mi-lista:hover{
+  background-color: #f6f6f6;
+  border-radius: 10px;
+  padding: 5px;
+  
+}
+
+
+li{
+  list-style: none;
+  align-items: center;
+}
+
+
+/* .collapse:not(.show) {
+  display: none;
+} */
+
+
+
+.contenido-lista{
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+
+ol, ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  /* align-content: center; */
+  padding: 5px;
+}
+
+
+/* Estilo para resaltar el enlace activo */
+.active {
+  background-color: #0e42ac; /* Color de fondo para resaltar */
+  color: #fff; /* Color de texto para resaltar */
+  /* Otros estilos que quieras aplicar */
+}
+.active:hover{
+  background-color: #0e42ac; /* Color de fondo para resaltar */
+  color: #fff; /* Color de texto para resaltar */
+  /* Otros estilos que quieras aplicar */
+}
+
+.collapse-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.collapse-toggle .icon {
+  margin-right: 8px;
+  transition: transform 0.2s;
+}
+
+.collapse-toggle[aria-expanded="true"] .icon {
+  transform: rotate(90deg);
+}
+.lista-usuario{
+  display: flex;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.contenedor-usuario{
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-left: 0.6rem;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin:0;
+  line-height: normal;
+}
+.item-usuario{
+  display: block;
+  
+}
+
+/* span:not(.item-uaurio) {
+  display: block;
+  margin-top: -3px;
+  color: #ffffff;
+  font-size: 13px;
+} */
