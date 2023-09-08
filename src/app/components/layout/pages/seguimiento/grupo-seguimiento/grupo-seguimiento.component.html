@@ -1,4 +1,193 @@
-<div class="container">
+<mat-sidenav-container>
+
+    <mat-sidenav class="containder-side" #snav position="end" mode="over" opened="false" fixedInViewport="true" fixedTopGap="56" >
+        <header class="fondo-header">
+            <ng-container *ngIf="this.Datomodelo$ | async as contacto ">
+                <div class="header-text">
+                    <div class=" titulo-mayuscula" [ngClass]="{'long-title': contacto.Contactos.nombre_apellidos.length > 14}">
+                        
+                        {{contacto.Contactos.nombre_apellidos}}
+                    </div>
+                    <div class="columna-cerrar">
+                        <a class="cerrar-side flex-end" (click)="snav.toggle()">
+                            <mat-icon>close</mat-icon>
+                        </a>
+                    </div>
+                </div>
+                    
+                
+            </ng-container>
+        
+        </header>
+        <mat-nav-list>
+            
+            <mat-card class="example-card">
+                
+                <mat-card-content>
+                    <form [formGroup]="formContacto">
+                        <div formGroupName="InformacionContacto">
+                            <div formGroupName="Contactos">
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Nombre completo</mat-label>
+                                    <input type="text" matInput formControlName="nombre_apellidos" autocomplete="off">
+                        
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Nro celular</mat-label>
+                                    <input type="text" matInput formControlName="numero_contacto" autocomplete="off">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Correo electrónico</mat-label>
+                                    <input type="email" matInput formControlName="correo_contacto" autocomplete="off">
+                                </mat-form-field>
+                        
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Empresa</mat-label>
+                                    <input type="text" matInput formControlName="nombre_empresa" autocomplete="off">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Profesión</mat-label>
+                                    <input type="text" matInput formControlName="profesion" autocomplete="off">
+                                    <!-- <mat-error *ngIf="formParticipante.hasError('email') && !formParticipante.hasError('required')">
+                                                                                    Please enter a valid email address
+                                                                                  </mat-error> -->
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Intereses</mat-label>
+                                    <input type="text" matInput formControlName="intereses" autocomplete="off">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Observaciones</mat-label>
+                                    <input type="text" matInput formControlName="observaciones" autocomplete="off">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Género</mat-label>
+                                    <!-- <mat-select formControlName="InformacionContacto.Contactos.Sexo_contacto.id_sexo" >
+                                        <div *ngIf="this.listaSexo$ | async as listaSexo">
+                                            <mat-option *ngFor="let item of listaSexo.AllSexo" [value]="item.id_sexo">
+                                                {{item.nombre_sexo}}
+                                            </mat-option>
+                                        </div>
+                                    </mat-select> -->
+                                      
+                                     <div formGroupName="Sexo_contacto">
+                                        <mat-select formControlName="id_sexo">
+                                            <div *ngIf="this.listaSexo$ | async as listaSexo">
+                                                <mat-option *ngFor="let item of listaSexo.AllSexo" [value]="item.id_sexo">
+                                                    {{item.nombre_sexo}}
+                                                </mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </div> 
+                    
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Ciudad</mat-label>
+                                    <div formGroupName="Ciudad_contacto">
+                                        <mat-select formControlName="id_ciudad">
+                                            <ng-container *ngIf="this.listaCiudad$ | async as listaCiudad">
+                                                <mat-option *ngFor="let item of listaCiudad.AllCiudad" [value]="item.id_ciudad">
+                                                    {{item.nombre_ciudad}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-select>
+                                    </div>
+                        
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>País</mat-label>
+                                    <div formGroupName="Pais_contacto">
+                                        <mat-select formControlName="id_pais">
+                                            <ng-container *ngIf="this.listaPais$ | async as listaPais" >
+                                                <mat-option *ngFor="let item of listaPais.AllPais" [value]="item.id_pais">
+                                                    {{item.nombre_pais}}
+                                                </mat-option>
+                                            </ng-container >
+                                        </mat-select>
+                                    </div>
+                        
+                        
+                                    <!-- <mat-error *ngIf="formParticipante.get('Personas.fecha_nac')?.hasError">Debe ser mayor de edad.</mat-error>                 -->
+                                    <!--   -->
+                        
+                                    <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['mayorEdad']">Debes ser mayor de edad.</mat-error> -->
+                                    <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['fechaMinima']">La fecha no puede ser menor a 1920.</mat-error> -->
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Estado</mat-label>
+                                    <div formGroupName="Estado">
+                                        <mat-select formControlName="id_estado_contacto">
+                                            <div *ngIf="this.listaEstado$ | async as listaEstado">
+                                                <mat-option *ngFor="let item of listaEstado.Estados" [value]="item.id_estado_contacto">
+                                                    {{item.nombre_estado}}
+                                                </mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </div>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field appearance="fill" class="ancho">
+                                <mat-label>Tipo de seguimiento</mat-label>
+                                <div formGroupName="TipoSeguimiento">
+                                    <mat-select formControlName="id_tipo_seguimiento">
+                                        <div *ngIf="this.listaTipoSeguimiento$ | async as listaTipoSeg">
+                                            <mat-option *ngFor="let item of listaTipoSeg.TipoSeguimientos" [value]="item.id_tipo_seguimiento" >
+                                                {{item.nombre_tipo_seguimiento}}
+                                                <mat-icon [ngStyle]="{ color: colorMap[item.id_tipo_seguimiento] }">radio_button_checked</mat-icon>
+
+                                            </mat-option>
+                                        </div>
+                                    </mat-select>
+                                </div>
+                            </mat-form-field>
+                        
+                            <!-- <mat-form-field appearance="fill" class="ancho">
+                                <mat-label>Próxima llamada</mat-label>
+                                <input matInput formControlName="prox_llamada" autocomplete="off" [matDatepicker]="picker2">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field> -->
+
+                            <mat-form-field appearance="fill" class="ancho">
+                                <input matInput formControlName="prox_llamada" autocomplete="off" [ngxMatDatetimePicker]="picker1"
+                                placeholder="Seleccionar fecha y hora" >
+                                <ngx-mat-datepicker-toggle matIconSuffix [for]="picker1"></ngx-mat-datepicker-toggle>
+                                <ngx-mat-datetime-picker #picker1  >
+                                    <ngx-mat-datepicker-actions>
+                                        <button mat-button ngxMatDatepickerCancel >Cancelar</button>
+                                        <button mat-raised-button color="primary" ngxMatDatepickerApply>Aplicar</button>
+                                    </ngx-mat-datepicker-actions>
+                                </ngx-mat-datetime-picker>
+                                
+                             </mat-form-field>
+
+                            <mat-form-field appearance="fill" class="ancho">
+                                <mat-label>Observación llamada</mat-label>
+                                <textarea matInput formControlName="observacion_llamada" autocomplete="off"
+                                 placeholder="Ej. No contesta..."></textarea>
+                            </mat-form-field>
+                        </div>
+                    
+                    </form>
+                     <pre>
+                        {{formContacto.value | json}}
+                    </pre>  
+                </mat-card-content>
+                <mat-card-actions>
+                  <button class="m-2" mat-raised-button color="warn" (click)="cerrarSidenav()">Cancelar</button>
+                  <button class="m-2" mat-raised-button color="primary" (click)="EditarContactoSeguimiento()">Registrar</button>
+                </mat-card-actions>
+              </mat-card>
+            <!-- <header class="cabecera-side" sticky>
+                <div>
+                    <h3>Seguimiento</h3>
+                </div>
+            </header> -->
+        </mat-nav-list>
+    </mat-sidenav>
+</mat-sidenav-container>
+
+<div class="container-fluid">
     <ng-container *ngIf="this.UnSeguimiento$ | async as Seguimiento ">
 
         <div class="row">
@@ -47,12 +236,33 @@
             </mat-form-field>
               
             <section class="example-container mat-elevation-z8" tabindex="0">
-                <table mat-table [dataSource]="dataSource" matSort>
+                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" multiTemplateDataRows>
                     <!-- Position Column -->
+                    <ng-container matColumnDef="accion" sticky >
+                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">Acción</th>
+                        <td mat-cell *matCellDef="let element; ">
+                          <div class="example-button-container">
+                            <button mat-icon-button color="primary" aria-label="Boton editar" (click)="abrirSidenav(element)" >
+                              <mat-icon>pending</mat-icon>
+                            </button>
+                            <button mat-icon-button aria-label="expand row"
+                                (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation(); (verCambios(element.id_historico))">
+                                <mat-icon mat-icon-button color="primary" *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                                <mat-icon mat-icon-button color="primary" *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                            </button>
+                          </div>
+                        </td>
+                    </ng-container>
+                    <!-- <ng-container matColumnDef="expand">
+                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                        <td mat-cell *matCellDef="let element">
+                             
+                        </td>
+                    </ng-container> -->
 
-                    <ng-container matColumnDef="nro">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> No. </th>
-                        <td mat-cell *matCellDef="let item; let i = index" class="mat-colum">{{ i + 1 }} </td>
+                    <ng-container matColumnDef="id_contacto">
+                        <th mat-header-cell *matHeaderCellDef class="mat-colum" > No. </th>
+                        <td mat-cell *matCellDef="let item; " class="mat-colum">{{item.Contactos.id_contacto}} </td>
                       </ng-container>
 
                     <ng-container matColumnDef="nombre_apellidos">
@@ -73,18 +283,27 @@
                     </ng-container>
 
                     <ng-container matColumnDef="fecha_actualizacion">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Actualización </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.fecha_actualizacion}}</td>
+                        <th mat-header-cell *matHeaderCellDef class="mat-colum" mat-sort-header sortActionDescription="Sort by fecha_actualizacion"> Actualización </th>
+                        <td mat-cell *matCellDef="let element" class="mat-colum" > {{element.fecha_actualizacion | date: 'dd/MM/yyyy'  }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="prox_llamada">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Próxima llamada </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.prox_llamada}}</td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.prox_llamada | date: 'dd/MM/yyyy HH:mm' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="observacion_llamada">
+                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Observación llamada </th>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.observacion_llamada}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="id_tipo_seguimiento">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Tipo seguimiento </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.TipoSeguimiento?.nombre_tipo_seguimiento}}</td>
+                        <td [class.color-amarillo]="element.TipoSeguimiento?.id_tipo_seguimiento === 1" [class.color-rojo]="element.TipoSeguimiento?.id_tipo_seguimiento === 2"
+                            [class.color-azul]="element.TipoSeguimiento?.id_tipo_seguimiento === 3" [class.color-verde]="element.TipoSeguimiento?.id_tipo_seguimiento === 4" mat-cell *matCellDef="let element" class="mat-colum">
+                            {{ getTipoSeguimientoNombre(element.TipoSeguimiento?.id_tipo_seguimiento) }}
+                            <!-- <mat-icon >radio_button_checked</mat-icon> -->
+                        </td>
                     </ng-container>
                     
                     <!-- Symbol Column -->
@@ -110,34 +329,62 @@
 
                     <ng-container matColumnDef="id_sexo">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Género </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Sexo_contacto?.nombre_sexo}} </td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{getGenero(element.Contactos.Sexo_contacto?.id_sexo)}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="id_ciudad">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Ciudad </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Ciudad_contacto?.nombre_ciudad}} </td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{getCiudad(element.Contactos.Ciudad_contacto?.id_ciudad)}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="id_pais">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> País </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Pais_contacto?.nombre_pais}} </td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{getPais(element.Contactos.Pais_contacto?.id_pais)}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="id_estado_contacto">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Estado </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Estado?.nombre_estado}} </td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{getEstado(element.Contactos.Estado?.id_estado_contacto)}}</td>
+                    </ng-container>
+
+                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                                <div class="body-acordion">
+                                    <ng-container *ngIf="this.listaCambios$ | async as lista">
+                                        <ul>
+                                            <li *ngFor="let item of lista.CambiosRegistrados" [value]="item.id_historico">
+                                                <span class="example-element-description-attribution"> {{item.fecha_seguimiento | date: 'dd/MM/yyyy HH:mm' }} </span>
+                                                <span class="example-element-description-attribution"> {{item.observacion_llamada}} </span>
+                                            </li>
+                                        </ul>
+                                    </ng-container>
+                                    <h4>AQUI contenido</h4>
+                                </div>
+                                <!-- <div class="body-acordion">
+                                    Aqui descripcion
+                                    <span class="example-element-description-attribution"> -- Wikipedia </span>
+                                </div> -->
+                            </div>
+                        </td>
                     </ng-container>
             
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns;" ></tr>
+                    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+                        class="example-element-row"
+                        [class.example-expanded-row]="expandedElement === element"
+                        >
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
                     <!-- Row shown when there is no matching data. -->
                     <tr class="mat-row" *matNoDataRow>
                         <td class="mat-cell" colspan="4">No se encuentran resultados"{{input.value}}"</td>
                     </tr>
                 </table>
             </section>
-              <mat-paginator [length]="resultsLength"  [pageSize]="10" aria-label="Mostrando paginas de contactos"></mat-paginator>
+              <mat-paginator [length]="resultsLength"  [pageSize]="50" aria-label="Mostrando paginas de contactos"></mat-paginator>
         </div>
 
     </div>

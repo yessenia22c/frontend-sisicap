@@ -1,61 +1,125 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { SeguimientoService } from 'src/app/services/seguimiento.service';
-import { Observable, catchError, of, tap } from 'rxjs';
-import { AllContactosSeguimiento, ContactosSeguimiento, UnSeguimiento } from 'src/app/models/seguimiento';
+import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
+import { ActualizarContactoSeguimiento, AllContactosSeguimiento, AllEstado, AllTipoSeguimiento, ContactosSeguimiento, Estado, SexoContacto, TipoSeguimiento, UnSeguimiento } from 'src/app/models/seguimiento';
+import { ChangeDetectorRef } from '@angular/core';
+import {CdkTableModule} from '@angular/cdk/table';
 
 //MATERIAL
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { PaginatorService } from 'src/app/services/Paginator.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import {MatSortModule} from '@angular/material/sort';
+import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
+import { NgxMatDatetimePickerModule, NgxMatDatepickerBase, NgxMatDateAdapter, NGX_MAT_DATE_FORMATS, NgxMatDateFormats } from '@angular-material-components/datetime-picker';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { DatePipe } from '@angular/common';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+import { NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+
+import { FormBuilder,ReactiveFormsModule, FormGroup, Validators, FormsModule } from '@angular/forms';
+import * as moment from 'moment';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AllCiudades, AllPaises, AllSexos, Ciudad, Pais, Sexo } from 'src/app/models/persona';
+import { PersonaService } from 'src/app/services/persona.service';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { AllCambio, InformacionContacto, SeguimientoContacto } from 'src/app/models/contacto';
+
+import { MatDatepicker } from '@angular/material/datepicker';
+
+export const MY_DATE_FORMATS: NgxMatDateFormats  = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  }
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-
-
 @Component({
   selector: 'app-grupo-seguimiento',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule,RouterModule, MatTableModule, MatPaginatorModule],
+  imports: [CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    RouterModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatSidenavModule,
+    MatListModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+
+
+  ],
   templateUrl: './grupo-seguimiento.component.html',
   styleUrls: ['./grupo-seguimiento.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
   providers: [
     // ...
-    { provide: MatPaginatorIntl, useClass: PaginatorService } // Usa el servicio personalizado
+    DatePipe,
+    { provide: MatPaginatorIntl, useClass: PaginatorService }, // Usa el servicio personalizado
+
+    {provide: MAT_DATE_LOCALE, useValue: 'es-BO'},//SOLO PUESTO PARA QUE FUNCIONE EL CALENDARIO DEL DATEPICKER
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]},//SOLO PUESTO PARA QUE FUNCIONE EL CALENDARIO DEL DATEPICKER
+    {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+    {
+      provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+      useValue: { useUtc: true } // Usar UTC para evitar problemas de zona horaria
+    },
+    {
+      provide: MAT_MOMENT_DATE_FORMATS,
+      useValue: { parse: 'YYYY-MM-DDTHH:mm:ssZ', display: 'MM/DD/YYYY' } // Formato deseado
+    }
   ]
 })
-export default class GrupoSeguimientoComponent implements OnInit {
+
+export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit  {
   displayedColumns: string[] = [
-    'nro',
-    'nombre_apellidos', 
-    'numero_contacto', 
+    'accion',
+    'id_contacto',
+    'nombre_apellidos',
+    'numero_contacto',
     'correo_contacto',
     'fecha_actualizacion',
     'prox_llamada',
+    'observacion_llamada',
     'id_tipo_seguimiento',
     'nombre_empresa',
     'profesion',
@@ -68,22 +132,109 @@ export default class GrupoSeguimientoComponent implements OnInit {
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator ;
   @ViewChild(MatSort) sort!: MatSort ;
+  
+  @ViewChild('snav') sidenav!: MatSidenav;
+  columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+  expandedElement!: AllContactosSeguimiento | null;
   listContactos$: Observable<ContactosSeguimiento> | undefined;
   dataSource = new MatTableDataSource<AllContactosSeguimiento>();
+  @ViewChild(MatTable) table!: MatTable<AllContactosSeguimiento>;
+  listaCambios$: Observable<AllCambio> | undefined;
+  // dataSource = new MatTableDataSource<any>([], {
+  //   data: (data: any) => data.id_historico // Debe ser una propiedad única en tus datos
+  // });
+  
   resultsLength = 0;
+  ContactoSeguimiento$: Observable<SeguimientoContacto> | undefined;
 
+  private modeloSubject = new BehaviorSubject<InformacionContacto | null>(null);
+  Datomodelo$ = this.modeloSubject.asObservable();
+
+  listaPais$: Observable<Pais> | undefined;
+  listaCiudad$: Observable<Ciudad> | undefined;
+  listaSexo$: Observable<Sexo> | undefined;
+  listaEstado$: Observable<AllEstado> | undefined;
+  listaTipoSeguimiento$: Observable<AllTipoSeguimiento> | undefined;
+  disabledInput: boolean = true;
   filterValue = '';
+  showFiller = false;
+  formContacto: FormGroup;
 
+  id_tipo_seguimiento: number | null  = null;
 
   constructor(
+    private _snackBar: MatSnackBar,
+    private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private seguimientoService: SeguimientoService,
-  ) { }
+    private _liveAnnouncer: LiveAnnouncer,
+    private personaService: PersonaService,
+    private datePipe: DatePipe
+
+  ) {
+
+    this.formContacto = this.fb.group({
+      InformacionContacto: this.fb.group({
+        id_historico: [''],
+        id_grupo_seguimiento: [''],
+        prox_llamada: [''],
+        observacion_llamada: [''],
+        Contactos: this.fb.group({
+          id_contacto: [''],
+          nombre_apellidos: ['', Validators.required],
+          numero_contacto: this.fb.control({disabled: true, value: '' }, Validators.required),
+          correo_contacto: [''],
+          nombre_empresa: [''],
+          profesion: [''],
+          intereses: [''],
+          observaciones: [''],
+          Sexo_contacto: this.fb.group({
+            id_sexo: ['']
+          }),
+          Ciudad_contacto: this.fb.group({
+            id_ciudad: ['']
+          }),
+          Pais_contacto: this.fb.group({
+            id_pais: ['']
+          }),
+          Estado: this.fb.group({
+            id_estado_contacto: ['']
+          }),
+
+        }),
+        TipoSeguimiento: this.fb.group({
+          id_tipo_seguimiento: ['']
+        })
+      })
+
+
+   });
+  }
 
   UnSeguimiento$: Observable<UnSeguimiento> | undefined;
+  dataParticipante$: Observable<AllContactosSeguimiento> | undefined;
+
+
+  colorMap: Record<number, string> = {
+    1: 'yellow',
+    2: 'red',
+    3: 'blue',
+    4: 'green',
+    // Agrega más entradas según tus necesidades
+  };
+
+  selectedTipoSeguimiento: number | null = null; // Inicializar como nulo o un valor por defecto si es necesario
+   
+// Función para manejar el cambio de selección
+  onTipoSeguimientoChange(event: any) {
+    this.selectedTipoSeguimiento = Number((event.target as HTMLSelectElement).value);
+  }
   ngOnInit() {
     this.verSeguimiento();
     this.mostrarContactos();
+
+    // this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.disable();
+
   }
   verSeguimiento() {
     const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
@@ -102,6 +253,7 @@ export default class GrupoSeguimientoComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -113,13 +265,84 @@ export default class GrupoSeguimientoComponent implements OnInit {
   filterData() {
     this.dataSource.filter = this.filterValue.trim().toLowerCase();
   }
+
+  trackByFn(index: number, item: AllContactosSeguimiento): number {
+    return item.Contactos.id_contacto;
+  }
+  
   mostrarContactos() {
+    function setDefaultIfNull(obj: any, defaultValue: any): any {
+      return obj !== null ? obj : defaultValue;
+    }
     const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
 
     this.listContactos$ =  this.seguimientoService.verContactosSeguimiento(id_grupo_seguimiento);
     this.listContactos$.subscribe({
       next: (data: ContactosSeguimiento) => {
+        
         this.dataSource.data = data.AllContactosSeguimiento;
+
+        //formaterar fecha ISO
+        // Suponiendo que tienes una fecha en formato ISO
+        //  data.AllContactosSeguimiento.forEach((item) => {
+        // //   item.prox_llamada = this.datePipe.transform(item.prox_llamada, 'dd/MM/yyyy HH:mm');
+        //   if(item.TipoSeguimiento === null){
+        //     item.TipoSeguimiento = {
+        //       id_tipo_seguimiento: null,
+        //       nombre_tipo_seguimiento: null
+        //     }
+        //   }
+        //   if(item.Contactos.Sexo_contacto === null){
+        //     item.Contactos.Sexo_contacto = {
+        //       id_sexo: null,
+        //       nombre_sexo: null
+        //     }
+        //   }
+        //   if(item.Contactos.Ciudad_contacto === null){
+        //     item.Contactos.Ciudad_contacto = {
+        //       id_ciudad: null,
+        //       nombre_ciudad: null
+        //     }
+        //   }
+        //   if(item.Contactos.Pais_contacto === null){
+        //     item.Contactos.Pais_contacto = {
+        //       id_pais: null,
+        //       nombre_pais: null
+        //     }
+        //   }
+        //   if(item.Contactos.Estado === null){
+        //     item.Contactos.Estado = {
+        //       id_estado_contacto: null,
+        //       nombre_estado: null
+        //     }
+        //   }
+        // });
+        this.dataSource.data = data.AllContactosSeguimiento.map(item => ({
+          ...item,
+          TipoSeguimiento: setDefaultIfNull(item.TipoSeguimiento, {
+            id_tipo_seguimiento: null,
+            nombre_tipo_seguimiento: null
+          }),
+          Contactos: {
+            ...item.Contactos,
+            Sexo_contacto: setDefaultIfNull(item.Contactos.Sexo_contacto, {
+              id_sexo: null,
+              nombre_sexo: null
+            }),
+            Ciudad_contacto: setDefaultIfNull(item.Contactos.Ciudad_contacto, {
+              id_ciudad: null,
+              nombre_ciudad: null
+            }),
+            Pais_contacto: setDefaultIfNull(item.Contactos.Pais_contacto, {
+              id_pais: null,
+              nombre_pais: null
+            }),
+            Estado: setDefaultIfNull(item.Contactos.Estado, {
+              id_estado_contacto: null,
+              nombre_estado: null
+            })
+          }
+        }));
         console.log('CONTACTOS DATA SOURCE', this.dataSource.data);
         this.dataSource.filterPredicate = (data: AllContactosSeguimiento, filter: string) => {
           const contactoDatas = data.Contactos;
@@ -135,4 +358,265 @@ export default class GrupoSeguimientoComponent implements OnInit {
 
 
 
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+  mostrarAlerta(mensaje: string, accion: string) {
+    this._snackBar.open(mensaje, accion,{
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000
+
+    });
+
+  }
+  cerrarSidenav() {
+    this.sidenav.close();
+  }
+
+  actualizarFila(index: number, newData: any) {
+    // Actualizar los datos en tu origen de datos (dataSource.data)
+    this.dataSource.data[index] = newData;
+
+    // Luego, después de haber cargado tus datos en dataSource.data, configura la función de identificación única
+    this.dataSource.data = newData;
+    this.dataSource.sort = this.sort; // Si también estás utilizando matSort
+
+    
+    console.log('DATA NUEVA FILA ACT', newData, 'INDEX', index)
+    // Volver a renderizar la tabla para reflejar los cambios
+    //this.table.renderRows();
+  }
+  arrayListaTipoSeguimiento: TipoSeguimiento[] = [];
+  arrayListaSexo: AllSexos[] = [];
+  arrayListaPais: AllPaises[] = [];
+  arrayListaCiudad: AllCiudades[] = [];
+  arrayListaEstado: AllEstado[] = [];
+  abrirSidenav(modelo: InformacionContacto): void {
+    this.sidenav.open();
+    console.log('MODELO', modelo);
+    this.disabledInput = !this.disabledInput;
+
+    
+    this.listaPais$ = this.personaService.getListPais();
+    this.listaCiudad$ = this.personaService.getListCiudad();
+    this.listaSexo$ = this.personaService.getListSexo();
+    this.listaEstado$ = this.seguimientoService.verEstadosSeguimiento();
+    this.listaTipoSeguimiento$ = this.seguimientoService.verTipoSeguimiento();
+
+    this.id_tipo_seguimiento = modelo.TipoSeguimiento!.id_tipo_seguimiento;
+
+    const datos = this.formContacto.patchValue({
+      InformacionContacto: {
+        id_historico: modelo.id_historico,
+        id_grupo_seguimiento: modelo.id_grupo_seguimiento,
+        prox_llamada:  modelo?.prox_llamada,
+        observacion_llamada: modelo?.observacion_llamada,
+        Contactos: {
+          id_contacto:  modelo.Contactos.id_contacto,
+          nombre_apellidos:   modelo.Contactos.nombre_apellidos,
+          numero_contacto:  modelo.Contactos.numero_contacto,
+          correo_contacto:  modelo.Contactos.correo_contacto,
+          nombre_empresa:   modelo.Contactos.nombre_empresa,
+          profesion:  modelo.Contactos.profesion,
+          intereses:  modelo.Contactos.intereses,
+          observaciones:  modelo.Contactos.observaciones,
+          Sexo_contacto: {
+            id_sexo:  modelo.Contactos.Sexo_contacto?.id_sexo
+          },
+          Ciudad_contacto: {
+            id_ciudad:  modelo.Contactos.Ciudad_contacto?.id_ciudad
+          },
+          Pais_contacto: {
+            id_pais:  modelo.Contactos.Pais_contacto?.id_pais
+          },
+          Estado: {
+            id_estado_contacto:   modelo.Contactos.Estado?.id_estado_contacto
+          }
+
+        },
+        TipoSeguimiento: {
+          id_tipo_seguimiento:  modelo.TipoSeguimiento?.id_tipo_seguimiento,
+        }
+      }
+
+
+    });
+
+    this.modeloSubject.next(modelo);
+
+
+
+  }
+  fechaActualEnBolivia = new Date().toLocaleString('en-US', { timeZone: 'America/La_Paz' });
+  fechaActual = new Date().toISOString().substring(0, 10); //YYYY-MM-DD
+  getTipoSeguimientoNombre(idTipoSeguimiento: number): string {
+    const tipoSeguimientoNombres: { [id: number]: string } = {
+      1: "Abierto",
+      2: "Rechazado",
+      3: "Registrado",
+      4: "Pagado",
+    };
+    return tipoSeguimientoNombres[idTipoSeguimiento] || "";
+  }
+  getGenero(idGenero: number): string {
+    const tipoSexo: { [id: number]: string } = {
+      1: "FEMENINO",
+      2: "MASCULINO",
+    };
+    return tipoSexo[idGenero] || "";
+  }
+  getEstado(idEstado: number): string {
+    const tipoEstado: { [id: number]: string } = {
+      1: "CLIENTE",
+      2: "POSIBLE CLIENTE",
+      3: "BLOQUEADO"
+    };
+    return tipoEstado[idEstado] || "";
+  }
+  getCiudad(idCiudad: number): string {
+    const listaCiudad: { [id: number]: string } = {
+      1: "SANTA CRUZ",
+      2: "BENI",
+      3: "PANDO",
+      4: "TARIJA",
+      5: "CHUQUISACA",
+      6: "COCHABAMBA",
+      7: "ORURO",
+      8: "POTOSÍ",
+      9: "LA PAZ"
+    };
+    return listaCiudad[idCiudad] || "";
+  }
+  getPais(idPais: number): string {
+    const listPaises: { [id: number]: string } = {
+      1: "BOLIVIA",
+      2: "OTRO PAÍS"
+    };
+    return listPaises[idPais] || "";
+  }
+
+  EditarContactoSeguimiento(): void {
+    console.log('FORMULARIO SEG CONTAC', this.formContacto.value);
+    //funcion que ayuda a establecer los valores en null si no se ha seleccionado nada en el select
+    function setDefaultIfNull(obj: any, defaultValue: any): any {
+      return obj !== null ? obj : defaultValue;
+    }
+    console.log(this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.value, 'NUMERO CONTACTO')
+    const modelo: SeguimientoContacto = {
+      InformacionContacto: {
+        id_historico: 0,
+        id_grupo_seguimiento: 0,
+        fecha_actualizacion: this.fechaActualEnBolivia,
+        prox_llamada: this.formContacto.value.InformacionContacto.prox_llamada,
+        observacion_llamada: this.formContacto.value.InformacionContacto.observacion_llamada,
+        Contactos: {
+          id_contacto: 0,
+          nombre_apellidos: this.formContacto.value.InformacionContacto.Contactos.nombre_apellidos,
+          numero_contacto: this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.value,
+          correo_contacto: this.formContacto.value.InformacionContacto.Contactos.correo_contacto,
+          nombre_empresa: this.formContacto.value.InformacionContacto.Contactos.nombre_empresa,
+          profesion: this.formContacto.value.InformacionContacto.Contactos.profesion,
+          intereses: this.formContacto.value.InformacionContacto.Contactos.intereses,
+          observaciones: this.formContacto.value.InformacionContacto.Contactos.observaciones,
+          Sexo_contacto: {
+            id_sexo: this.formContacto.value.InformacionContacto.Contactos.Sexo_contacto.id_sexo
+          },
+          Ciudad_contacto: {
+            id_ciudad: this.formContacto.value.InformacionContacto.Contactos.Ciudad_contacto.id_ciudad
+          },
+          Pais_contacto: {
+            id_pais: this.formContacto.value.InformacionContacto.Contactos.Pais_contacto.id_pais
+          },
+          Estado: {
+            id_estado_contacto: this.formContacto.value.InformacionContacto.Contactos.Estado.id_estado_contacto
+          }
+        },
+        TipoSeguimiento: {
+          id_tipo_seguimiento: this.formContacto.value.InformacionContacto.TipoSeguimiento.id_tipo_seguimiento,
+        }
+      }
+
+    };
+
+    // Supongamos que tienes el ID único del contacto que estás actualizando
+
+    if (this.formContacto.dirty == null) {
+      //Crear nuevo contacto
+    } else {
+      const fechaProxLlamada = this.formContacto.get('InformacionContacto.prox_llamada')?.value;
+      if (fechaProxLlamada === null || fechaProxLlamada === '') {
+        modelo.InformacionContacto.prox_llamada = null; // Establecer el valor en null
+      }
+      //PARA VERIFICAR CUANDO CAMBIA EL TIPO DE SEGUIMIENTO
+      if (modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento != this.id_tipo_seguimiento) {
+        const nuevoTipoSeguimiento = this.formContacto.value.InformacionContacto.TipoSeguimiento.id_tipo_seguimiento;
+        console.log('TIPO SEGUIMIENTO ANTES ', this.id_tipo_seguimiento, 'AHORA ', nuevoTipoSeguimiento);
+      }
+      //console.log('TIPO SEGUIMIENTO CAMBIO', this.id_tipo_seguimiento);
+      modelo.InformacionContacto.id_historico = this.formContacto.value.InformacionContacto.id_historico;
+      modelo.InformacionContacto.id_grupo_seguimiento = this.formContacto.value.InformacionContacto.id_grupo_seguimiento;
+      modelo.InformacionContacto.Contactos.id_contacto = this.formContacto.value.InformacionContacto.Contactos.id_contacto;
+      this.ContactoSeguimiento$ = this.seguimientoService.actualizarContactoSeguimiento(modelo);
+      this.ContactoSeguimiento$.subscribe({
+        next: (dato) => {
+          //this.actualizarFila(modelo.InformacionContacto.Contactos.id_contacto, modelo.InformacionContacto);
+          
+          console.log('CONTACTO ACTUALIZADO', dato);
+          this.mostrarAlerta('Datos registrados correctamente', 'Listo');
+          //this.mostrarContactos();
+          const datoExistente = this.dataSource.data.find((item) => item.id_historico === modelo.InformacionContacto.id_historico);
+          if(datoExistente){
+            datoExistente.fecha_actualizacion = modelo.InformacionContacto.fecha_actualizacion;
+            datoExistente.prox_llamada = modelo.InformacionContacto.prox_llamada;
+            datoExistente.observacion_llamada = modelo.InformacionContacto.observacion_llamada;
+            datoExistente.Contactos.nombre_apellidos = modelo.InformacionContacto.Contactos.nombre_apellidos;
+            datoExistente.Contactos.numero_contacto = modelo.InformacionContacto.Contactos.numero_contacto;
+            datoExistente.Contactos.correo_contacto = modelo.InformacionContacto.Contactos?.correo_contacto!;
+            datoExistente.Contactos.nombre_empresa = modelo.InformacionContacto.Contactos.nombre_empresa;
+            datoExistente.Contactos.profesion = modelo.InformacionContacto.Contactos.profesion;
+            datoExistente.Contactos.intereses = modelo.InformacionContacto.Contactos.intereses;
+            datoExistente.Contactos.observaciones = modelo.InformacionContacto.Contactos.observaciones;
+            datoExistente.Contactos.Sexo_contacto.id_sexo = modelo.InformacionContacto.Contactos.Sexo_contacto?.id_sexo!;
+            datoExistente.Contactos.Ciudad_contacto.id_ciudad = modelo.InformacionContacto.Contactos.Ciudad_contacto?.id_ciudad!;
+            datoExistente.Contactos.Pais_contacto.id_pais = modelo.InformacionContacto.Contactos.Pais_contacto?.id_pais!;
+            datoExistente.Contactos.Estado.id_estado_contacto = modelo.InformacionContacto.Contactos.Estado?.id_estado_contacto!;
+            datoExistente.TipoSeguimiento.id_tipo_seguimiento = modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento!;
+            
+          }else{
+            console.log('Fallo en el intento');
+          }
+          this.dataSource._renderChangesSubscription;
+          //this.table.renderRows();
+          this.cerrarSidenav();
+
+        },
+        error: (err) => {
+          console.log('ERROR', err);
+          this.mostrarAlerta('Error al registrar los datos', 'Error');
+        }
+      });
+
+      console.log('DATO A ACTUALIZAR', modelo);
+
+    }
+
+
+  }
+  verCambios(id_historico: number): void {
+    this.listaCambios$ = this.seguimientoService.verCambios(id_historico);
+    
+    console.log('MIRANDO CAMBIOS')
+  }
+
 }
+

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { AllContactosSeguimiento, ContactosAgregar, ContactosSeguimiento, CreaGrupoSeguimiento, GrupoSeguimiento, UnSeguimiento } from '../models/seguimiento';
+import { ActualizarContactoSeguimiento, AllContactosSeguimiento, AllEstado, AllTipoSeguimiento, ContactosAgregar, ContactosSeguimiento, CreaGrupoSeguimiento, Estado, GrupoSeguimiento, UnSeguimiento } from '../models/seguimiento';
 import { Observable } from 'rxjs';
+import { AllCambio, Cambio, SeguimientoContacto } from '../models/contacto';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,20 @@ export class SeguimientoService {
   subirContactosSeguimiento(modelo:ContactosAgregar):Observable<ContactosAgregar>{
     return this.http.post<ContactosAgregar>(`${this.apiUrl}historicoLlamadas/subir/`, modelo);
   }
+  actualizarContactoSeguimiento(modelo:SeguimientoContacto):Observable<SeguimientoContacto>{
+    return this.http.put<SeguimientoContacto>(`${this.apiUrl}historicoLlamadas/update`, modelo);
+  }
+  verEstadosSeguimiento():Observable<AllEstado>{
+    return this.http.get<AllEstado>(`${this.apiUrl}estados/readAll`);
+  }
+  verTipoSeguimiento():Observable<AllTipoSeguimiento>{
+    return this.http.get<AllTipoSeguimiento>(`${this.apiUrl}tipoSeguimiento/readAll`);
+  }
 
+  registrarCambios(modelo: Cambio):Observable<Cambio>{
+    return this.http.post<Cambio>(`${this.apiUrl}historicoLlamadas/registraCambios`, modelo);
+  }
+  verCambios(id_historico:number):Observable<AllCambio>{
+    return this.http.get<AllCambio>(`${this.apiUrl}historicoLlamadas/readAllCambios/${id_historico}`);
+  }
 }

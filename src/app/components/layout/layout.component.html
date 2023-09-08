@@ -1,124 +1,126 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
-    
+<div class="container-tolbar">
+  <mat-toolbar color="primary">
+    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+      *ngIf="isHandset$ | async">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <span>SISICAP</span>
+    <span class="example-spacer"></span>
 
       
-
-
-    <div class="contenido-lista">
-      <ul>
-        <li>
-          <a class="mi-lista-1 size-a" routerLink="/admin/dashboard" routerLinkActive="active">
-            <mat-icon >dashboard</mat-icon>
-            Dashboard
-          </a>
-        </li>
-        <li>
-          <a class="mi-lista-1 size-a" routerLink="/admin/persona" routerLinkActive="active">
-            <mat-icon >account_box</mat-icon>
-            Persona
-          </a>
-        </li>
-        <li>
-          <a class="mi-lista-1 size-a"  routerLink="/admin/participante" routerLinkActive="active">
-            <mat-icon >groups_2</mat-icon>
-            Participantes
-          </a>
-        </li>
-        <!-- <li>
-          <a class="mi-lista-1 " (click)="toggleCollapse()">
-            <mat-icon >school</mat-icon>
-            Cursos
-          </a>
-          <div id="lista-colapse" [ngClass]="{'collapse': isCollapsed}">
-            <ul class="lista">
-              <li class="mi-lista" routerLink="/admin/capacitacion">Listar capacitaciones</li>
-              <li class="mi-lista" href="#">Reportes</li>
-              <li class="mi-lista" href="#">Asistencias</li>
-    
-            </ul>
-          </div>
-        </li> -->
-        <li >
-          <a class="mi-lista-1 size-a collapse-toggle" data-bs-toggle="collapse" data-bs-target="#lista-colapse" aria-expanded="false" routerLinkActive="active">
-            <mat-icon >school</mat-icon>
-            Capacitación
-            <mat-icon class="icon">
-              chevron_right
-            </mat-icon>
-          </a>
-          <div id="lista-colapse" class="collapse"  style="padding: 0.4rem;">
-            <ul class="lista">
-              <li >
-                <a class="mi-lista size-a" routerLink="/admin/capacitacion"  routerLinkActive="active">Listar capacitaciones</a>
-              </li>
-              <li>
-                <a class="mi-lista size-a" href="#" routerLinkActive="active">Reportes</a>
-              </li>
-              <li>
-                <a class="mi-lista size-a" href="#">Asistencias</a>
-              </li>
-    
-            </ul>
-          </div>
-        </li>
-        
-        <li>
-          <a class="mi-lista-1 size-a" routerLink="/admin/seguimiento" routerLinkActive="active">
-            <mat-icon>contact_phone</mat-icon>
-            Seguimientos
-          </a>
-        </li>
-        <!-- <a mat-list-item (click)="logout()">
-          <mat-icon matListItemIcon>logout</mat-icon>
-          Cerrar sesión
-        </a> -->
-      </ul>
-    </div>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>SISICAP</span>
-      <span class="example-spacer"></span>
-
-        
-            <span [matMenuTriggerFor]="belowMenu" aria-label="Example icon-button with share icon">
-              <ul style="margin: 0; padding: 0;">
-                <li class="lista-usuario" style="margin: 1rem; padding: 0;">
-                  <mat-icon>person</mat-icon>
-                  <div class="contenedor-usuario" *ngIf="informacionUsuario">
-                    <span class="item-usuario" style="font-size: 14px; " >
-                      {{informacionUsuario.usuario.empleado.persona.nombres_per}} {{informacionUsuario.usuario.empleado.persona.apellidos}}
-                    </span>
-                    <span style="font-size: 13px; font-family: 'Roboto'; font-weight: 100;" >
-                      {{informacionUsuario.usuario.tipo_usuario.nombre_tipo_usuario}}
-                    </span>
-                
-                  </div>
-                  <mat-icon>
-                    arrow_drop_down
-                  </mat-icon>
-                </li>
-
-              </ul>
+          <span [matMenuTriggerFor]="belowMenu" aria-label="Example icon-button with share icon">
+            <ul style="margin: 0; padding: 0;">
+              <li class="lista-usuario" style="margin: 1rem; padding: 0;">
+                <mat-icon>person</mat-icon>
+                <div class="contenedor-usuario" *ngIf="informacionUsuario">
+                  <span class="item-usuario" style="font-size: 14px; " >
+                    {{informacionUsuario.usuario.empleado.persona.nombres_per}} {{informacionUsuario.usuario.empleado.persona.apellidos}}
+                  </span>
+                  <span style="font-size: 13px; font-family: 'Roboto'; font-weight: 100;" >
+                    {{informacionUsuario.usuario.tipo_usuario.nombre_tipo_usuario}}
+                  </span>
               
-            </span>
+                </div>
+                <mat-icon>
+                  arrow_drop_down
+                </mat-icon>
+              </li>
 
-      
-      <mat-menu #belowMenu="matMenu" yPosition="below">
-        <button mat-menu-item>Perfil</button>
-        <button mat-menu-item>Tareas</button>
-        <button mat-menu-item (click)="logout()">Cerrar sesión</button>
-      </mat-menu>
-    </mat-toolbar>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+            </ul>
+            
+          </span>
+
+    
+    <mat-menu #belowMenu="matMenu" yPosition="below">
+      <button mat-menu-item>Perfil</button>
+      <button mat-menu-item>Tareas</button>
+      <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+    </mat-menu>
+  </mat-toolbar>
+  
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false" fixedTopGap="56">
+      <mat-nav-list>
+        <div class="contenido-lista">
+          <ul>
+            <li>
+              <a class="mi-lista-1 size-a" routerLink="/admin/dashboard" routerLinkActive="active">
+                <mat-icon >dashboard</mat-icon>
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a class="mi-lista-1 size-a" routerLink="/admin/persona" routerLinkActive="active">
+                <mat-icon >account_box</mat-icon>
+                Persona
+              </a>
+            </li>
+            <li>
+              <a class="mi-lista-1 size-a"  routerLink="/admin/participante" routerLinkActive="active">
+                <mat-icon >groups_2</mat-icon>
+                Participantes
+              </a>
+            </li>
+            <!-- <li>
+              <a class="mi-lista-1 " (click)="toggleCollapse()">
+                <mat-icon >school</mat-icon>
+                Cursos
+              </a>
+              <div id="lista-colapse" [ngClass]="{'collapse': isCollapsed}">
+                <ul class="lista">
+                  <li class="mi-lista" routerLink="/admin/capacitacion">Listar capacitaciones</li>
+                  <li class="mi-lista" href="#">Reportes</li>
+                  <li class="mi-lista" href="#">Asistencias</li>
+        
+                </ul>
+              </div>
+            </li> -->
+            <li >
+              <a class="mi-lista-1 size-a collapse-toggle" data-bs-toggle="collapse" data-bs-target="#lista-colapse" aria-expanded="false" routerLinkActive="active">
+                <mat-icon >school</mat-icon>
+                Capacitación
+                <mat-icon class="icon">
+                  chevron_right
+                </mat-icon>
+              </a>
+              <div id="lista-colapse" class="collapse"  style="padding: 0.4rem;">
+                <ul class="lista">
+                  <li >
+                    <a class="mi-lista size-a" routerLink="/admin/capacitacion"  routerLinkActive="active">Listar capacitaciones</a>
+                  </li>
+                  <li>
+                    <a class="mi-lista size-a" href="#" routerLinkActive="active">Reportes</a>
+                  </li>
+                  <li>
+                    <a class="mi-lista size-a" href="#">Asistencias</a>
+                  </li>
+        
+                </ul>
+              </div>
+            </li>
+            
+            <li>
+              <a class="mi-lista-1 size-a" routerLink="/admin/seguimiento" routerLinkActive="active">
+                <mat-icon>contact_phone</mat-icon>
+                Seguimientos
+              </a>
+            </li>
+            <!-- <a mat-list-item (click)="logout()">
+              <mat-icon matListItemIcon>logout</mat-icon>
+              Cerrar sesión
+            </a> -->
+          </ul>
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
 
 
 

@@ -1,15 +1,15 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <ng-container *ngIf="this.capacitacion$ | async as cap ">
-                <div class="container">
+                
                     <div class="row">
                         <div class="col-md-12">
                             <h1 class="titulo">{{ cap.UnaCapacitacion.nombre_capacitacion}}</h1>
                         </div>
                     </div>
-                </div>
-                <div class="container">
+                
+                
                     <div class="row">
                         <div class="col-md-2">
                             <div class="contenedor-titulo">Fecha de inicio:</div>
@@ -28,7 +28,7 @@
                             <div class="contenedor-info">{{cap.UnaCapacitacion.cantidad_modulos}}</div>
                         </div>
                     </div>
-                </div>
+                
             </ng-container>
         </div>
     </div>
@@ -38,7 +38,7 @@
             <div>
                 <!-- <app-inscritos-capacitacion >           
                 </app-inscritos-capacitacion> -->
-                <div class="container">
+                
                     <div class="row">
                         <div class="col-md-12 p-2">
                             <mat-form-field style="width: 100%;">
@@ -93,7 +93,7 @@
                                 <td mat-cell *matCellDef="let element">
                                     <div class="example-button-container">
                                         <button mat-icon-button color="dark" aria-label="Boton editar" (click)="abrirInformacion(element)">
-                                            <mat-icon>preview</mat-icon>
+                                            <mat-icon style="color: #8c8c8c;">visibility</mat-icon>
                                         </button>
                                         <button mat-icon-button color="warn" aria-label="Boton eliminar">
                                             <mat-icon>delete</mat-icon>
@@ -113,13 +113,13 @@
                         aria-label="Select page of users">
                     </mat-paginator>
 
-                </div>
-                <div *ngIf=" listTabla$ | async as list">
+                
+                <!-- <div *ngIf=" listTabla$ | async as list">
                     <div *ngFor="let items of list.inscritos">
                         {{items.Participantes.Personas.nombres_per}} {{items.Participantes.Personas.apellidos}}
                     </div>
 
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-md-3">
@@ -160,98 +160,3 @@
         </div>
     </div>
 </div>
-
-
-<!-- <div class="flex-container">
-    <div class="flex-item-left">
-        <div class="contenedor_incritos">
-            <app-inscritos-capacitacion class="full-width">
-                
-            </app-inscritos-capacitacion>
-        </div>
-
-    </div>
-    <div class="flex-item-right">
-        <mat-list role="list">
-            <mat-list-item role="listitem">
-                <h2 matListItemTitle> General</h2>
-            </mat-list-item>
-            <mat-list-item role="listitem">
-                <a matListItemTitle href="#">Editar capacitación</a>
-
-            </mat-list-item>
-            <mat-list-item role="listitem">
-                <a matListItemTitle href="#">Eliminar capacitación</a>
-
-            </mat-list-item>
-            <mat-list-item role="listitem">
-                <a matListItemTitle routerLink="/admin/capacitacion">Volver atras</a>
-            </mat-list-item>
-
-
-        </mat-list>
-    </div>
-</div> -->
-<!-- 
-<div class="body">
-
-    <mat-grid-list [cols]="colSize" rowHeight="2:1">
-        <ng-container *ngIf="this.capacitacion$ | async as cap ">
-            <mat-grid-tile [colspan]="cols" [rowspan]="1">
-                <mat-card class="my-card">
-                    <mat-card-header>
-                        <mat-card-title>
-                            <h2>{{ cap.UnaCapacitacion.nombre_capacitacion}}</h2>
-                        </mat-card-title>
-                        <mat-card-subtitle>
-                            <div>
-                                <p>
-                                    <b>Fecha de inicio: </b>{{cap.UnaCapacitacion.fecha_inicio_cap}}
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                    <b>Fecha final: </b>{{cap.UnaCapacitacion.fecha_fin_cap}}
-                                </p>
-
-                            </div>
-
-                        </mat-card-subtitle>
-                    </mat-card-header>
-                </mat-card>
-
-
-            </mat-grid-tile>
-
-            <mat-grid-tile [colspan]="cols" rowspan="6">
-                <div class="contenedor_incritos">
-                    <app-inscritos-capacitacion>
-                    </app-inscritos-capacitacion>
-                </div>
-
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="2">
-                <mat-list role="list">
-                    <mat-list-item role="listitem">
-                        <h2 matListItemTitle> General</h2>
-                    </mat-list-item>
-                    <mat-list-item role="listitem">
-                        <a matListItemTitle href="#">Editar capacitación</a>
-
-                    </mat-list-item>
-                    <mat-list-item role="listitem">
-                        <a matListItemTitle href="#">Eliminar capacitación</a>
-
-                    </mat-list-item>
-                    <mat-list-item role="listitem">
-                        <a matListItemTitle routerLink="/admin/capacitacion">Volver atras</a>
-                    </mat-list-item>
-
-
-                </mat-list>
-
-            </mat-grid-tile>
-
-        </ng-container>
-
-    </mat-grid-list>
-
-
-</div> -->

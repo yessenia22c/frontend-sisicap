@@ -82,9 +82,10 @@ export interface AllContactosSeguimiento {
     id_historico:         number;
     id_grupo_seguimiento: number;
     fecha_actualizacion:  string;
-    prox_llamada:  string;
+    prox_llamada:         string | null;
     Contactos:            Contactos;
-    TipoSeguimiento:      TipoSeguimiento | null;
+    TipoSeguimiento:      TipoSeguimiento ;
+    observacion_llamada:  string | null;
 }
 
 export interface Contactos {
@@ -96,33 +97,78 @@ export interface Contactos {
     profesion:        null | string;
     intereses:        null | string;
     observaciones:    null | string;
-    Sexo_contacto:    SexoContacto | null;
-    Ciudad_contacto:  CiudadContacto | null;
-    Pais_contacto:    PaisContacto | null;
-    Estado:           Estado | null;
+    Sexo_contacto:    SexoContacto ;
+    Ciudad_contacto:  CiudadContacto;
+    Pais_contacto:    PaisContacto;
+    Estado:           Estado;
 }
 
 export interface CiudadContacto {
-    id_ciudad:     number;
-    nombre_ciudad: string;
+    id_ciudad:     number | null;
+    nombre_ciudad: string | null;
 }
 
 export interface Estado {
-    id_estado_contacto: number;
-    nombre_estado:      string;
+    id_estado_contacto: number | null;
+    nombre_estado:      string | null;
 }
 
 export interface PaisContacto {
-    id_pais:     number;
-    nombre_pais: string;
+    id_pais:     number     | null;
+    nombre_pais: string     | null;
 }
 
 export interface SexoContacto {
-    id_sexo:     number;
-    nombre_sexo: string;
+    id_sexo:     number | null;
+    nombre_sexo: string     | null;
 }
 
 export interface TipoSeguimiento {
-    id_tipo_seguimiento:     number;
-    nombre_tipo_seguimiento: string;
+    id_tipo_seguimiento:     number | null;
+    nombre_tipo_seguimiento: string | null;
+}
+
+
+//Actualizar DATOS
+export interface AllContactosSeguimiento {
+    id_historico:         number;
+    id_grupo_seguimiento: number;
+    fecha_actualizacion:  string;
+    prox_llamada:         string | null;
+    Contactos:            Contactos;
+    TipoSeguimiento:      TipoSeguimiento ;
+    observacion_llamada:  string | null;
+}
+
+export interface ActualizarContactoSeguimiento {
+    InformacionContacto: AllContactosSeguimiento;
+}
+
+
+export interface AllEstado {
+    status:  number;
+    Estados: EstadoElement[];
+}
+
+export interface EstadoElement {
+    id_estado_contacto: number | null;
+    nombre_estado:      string | null;
+}
+
+export interface AllTipoSeguimiento {
+    status:           number;
+    TipoSeguimientos: TipoSeguimientoLista[];
+}
+
+// export interface TipoSeguimiento {
+//     id_tipo_seguimiento:     number | null;
+//     nombre_tipo_seguimiento: string | null;
+// }
+
+
+//tipo seguimiento lista
+
+export interface TipoSeguimientoLista {
+    id_tipo_seguimiento:     number ;
+    nombre_tipo_seguimiento: string | null;
 }

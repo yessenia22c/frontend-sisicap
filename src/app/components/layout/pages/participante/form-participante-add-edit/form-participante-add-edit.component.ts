@@ -153,6 +153,7 @@ crearParticipante() {
   //VALIDACION DE FECHA NULLA
   
   if (this.dataParticipante === null) {
+    //si es null entonces crear
     
     const fechaNac = this.formParticipante.get('Personas.fecha_nac')?.value;
     if (fechaNac === null || fechaNac === '' ) {
@@ -169,7 +170,7 @@ crearParticipante() {
     });
     console.log('MODEL CREAR', modelo);
   }else{
-    //console.log('MODELO OBTEBIDO', modelo);
+    //si es diferente de null entonces editar
     //VALIDAR SI EL CAMPO DE FECHA ESTA VACIO
     const fechaNac = this.formParticipante.get('Personas.fecha_nac')?.value;
     if (fechaNac === null || fechaNac === '' ) {
