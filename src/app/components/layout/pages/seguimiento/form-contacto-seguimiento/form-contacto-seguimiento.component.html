@@ -1,0 +1,185 @@
+<mat-sidenav-container>
+
+    <mat-sidenav [opened]="sidenavService.isOpen$ | async" class="containder-side" #miFormSide position="end" mode="over" fixedInViewport="true" fixedTopGap="56" >
+        <header class="fondo-header">
+            <ng-container *ngIf="this.Datomodelo$ | async as contacto ">
+                <div class="header-text">
+                    <div class=" titulo-mayuscula" [ngClass]="{'long-title': contacto.Contactos.nombre_apellidos.length > 14}">
+                        
+                        {{contacto.Contactos.nombre_apellidos}}
+                    </div>
+                    <div class="columna-cerrar">
+                        <a class="cerrar-side flex-end" (click)="cerrarSidenav()">
+                            <mat-icon>close</mat-icon>
+                        </a>
+                    </div>
+                </div>
+            </ng-container>
+        </header>
+        <mat-nav-list>
+            
+            <mat-card class="example-card">
+                
+                <mat-card-content>
+                    <form [formGroup]="formContacto">
+                        <div formGroupName="InformacionContacto">
+                            <div formGroupName="Contactos">
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Nombre completo</mat-label>
+                                    <input type="text" matInput formControlName="nombre_apellidos" autocomplete="off">
+                        
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Nro celular</mat-label>
+                                    <input type="text" matInput formControlName="numero_contacto" autocomplete="off">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Correo electrónico</mat-label>
+                                    <input type="email" matInput formControlName="correo_contacto" autocomplete="off">
+                                </mat-form-field>
+                        
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Empresa</mat-label>
+                                    <input type="text" matInput formControlName="nombre_empresa" autocomplete="off">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Profesión</mat-label>
+                                    <input type="text" matInput formControlName="profesion" autocomplete="off">
+                                    <!-- <mat-error *ngIf="formParticipante.hasError('email') && !formParticipante.hasError('required')">
+                                                                                    Please enter a valid email address
+                                                                                  </mat-error> -->
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Intereses</mat-label>
+                                    <input type="text" matInput formControlName="intereses" autocomplete="off">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Observaciones</mat-label>
+                                    <input type="text" matInput formControlName="observaciones" autocomplete="off">
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Género</mat-label>
+                                    <!-- <mat-select formControlName="InformacionContacto.Contactos.Sexo_contacto.id_sexo" >
+                                        <div *ngIf="this.listaSexo$ | async as listaSexo">
+                                            <mat-option *ngFor="let item of listaSexo.AllSexo" [value]="item.id_sexo">
+                                                {{item.nombre_sexo}}
+                                            </mat-option>
+                                        </div>
+                                    </mat-select> -->
+                                      
+                                     <div formGroupName="Sexo_contacto">
+                                        <mat-select formControlName="id_sexo">
+                                            <div *ngIf="this.listaSexo$ | async as listaSexo">
+                                                <mat-option *ngFor="let item of listaSexo.AllSexo" [value]="item.id_sexo">
+                                                    {{item.nombre_sexo}}
+                                                </mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </div> 
+                    
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Ciudad</mat-label>
+                                    <div formGroupName="Ciudad_contacto">
+                                        <mat-select formControlName="id_ciudad">
+                                            <ng-container *ngIf="this.listaCiudad$ | async as listaCiudad">
+                                                <mat-option *ngFor="let item of listaCiudad.AllCiudad" [value]="item.id_ciudad">
+                                                    {{item.nombre_ciudad}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-select>
+                                    </div>
+                        
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>País</mat-label>
+                                    <div formGroupName="Pais_contacto">
+                                        <mat-select formControlName="id_pais">
+                                            <ng-container *ngIf="this.listaPais$ | async as listaPais" >
+                                                <mat-option *ngFor="let item of listaPais.AllPais" [value]="item.id_pais">
+                                                    {{item.nombre_pais}}
+                                                </mat-option>
+                                            </ng-container >
+                                        </mat-select>
+                                    </div>
+                        
+                        
+                                    <!-- <mat-error *ngIf="formParticipante.get('Personas.fecha_nac')?.hasError">Debe ser mayor de edad.</mat-error>                 -->
+                                    <!--   -->
+                        
+                                    <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['mayorEdad']">Debes ser mayor de edad.</mat-error> -->
+                                    <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['fechaMinima']">La fecha no puede ser menor a 1920.</mat-error> -->
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="ancho">
+                                    <mat-label>Estado</mat-label>
+                                    <div formGroupName="Estado">
+                                        <mat-select formControlName="id_estado_contacto">
+                                            <div *ngIf="this.listaEstado$ | async as listaEstado">
+                                                <mat-option *ngFor="let item of listaEstado.Estados" [value]="item.id_estado_contacto">
+                                                    {{item.nombre_estado}}
+                                                </mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </div>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field appearance="fill" class="ancho">
+                                <mat-label>Tipo de seguimiento</mat-label>
+                                <div formGroupName="TipoSeguimiento">
+                                    <mat-select formControlName="id_tipo_seguimiento">
+                                        <div *ngIf="this.listaTipoSeguimiento$ | async as listaTipoSeg">
+                                            <mat-option *ngFor="let item of listaTipoSeg.TipoSeguimientos" [value]="item.id_tipo_seguimiento" >
+                                                {{item.nombre_tipo_seguimiento}}
+                                                <mat-icon [ngStyle]="{ color: colorMap[item.id_tipo_seguimiento] }">radio_button_checked</mat-icon>
+
+                                            </mat-option>
+                                        </div>
+                                    </mat-select>
+                                </div>
+                            </mat-form-field>
+                        
+                            <!-- <mat-form-field appearance="fill" class="ancho">
+                                <mat-label>Próxima llamada</mat-label>
+                                <input matInput formControlName="prox_llamada" autocomplete="off" [matDatepicker]="picker2">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field> -->
+
+                            <mat-form-field appearance="fill" class="ancho">
+                                <input matInput formControlName="prox_llamada" autocomplete="off" [ngxMatDatetimePicker]="picker1"
+                                placeholder="Seleccionar fecha y hora" >
+                                <ngx-mat-datepicker-toggle matIconSuffix [for]="picker1"></ngx-mat-datepicker-toggle>
+                                <ngx-mat-datetime-picker #picker1  >
+                                    <ngx-mat-datepicker-actions>
+                                        <button mat-button ngxMatDatepickerCancel >Cancelar</button>
+                                        <button mat-raised-button color="primary" ngxMatDatepickerApply>Aplicar</button>
+                                    </ngx-mat-datepicker-actions>
+                                </ngx-mat-datetime-picker>
+                                
+                             </mat-form-field>
+
+                            <mat-form-field appearance="fill" class="ancho">
+                                <mat-label>Observación llamada</mat-label>
+                                <textarea matInput formControlName="observacion_llamada" autocomplete="off"
+                                 placeholder="Ej. No contesta..."></textarea>
+                            </mat-form-field>
+                        </div>
+                    
+                    </form>
+                     <pre>
+                        {{formContacto.value | json}}
+                    </pre>  
+                </mat-card-content>
+                <mat-card-actions>
+                   <button class="m-2" mat-raised-button color="warn" (click)="cerrarSidenav()">Cancelar</button>
+                  <button class="m-2" mat-raised-button color="primary" (click)="EditarContactoSeguimiento()">Registrar</button> 
+                </mat-card-actions>
+              </mat-card>
+            <!-- <header class="cabecera-side" sticky>
+                <div>
+                    <h3>Seguimiento</h3>
+                </div>
+            </header> -->
+        </mat-nav-list>
+    </mat-sidenav>
+</mat-sidenav-container>

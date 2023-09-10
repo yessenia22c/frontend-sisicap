@@ -45,6 +45,9 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, MAT_MOMENT_DATE_FOR
 import { AllCambio, InformacionContacto, SeguimientoContacto } from 'src/app/models/contacto';
 
 import { MatDatepicker } from '@angular/material/datepicker';
+import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/services/servicioActualizarCrearContactoSeguimiento.service';
+import { SidenavService } from 'src/app/services/sidenav.service';
+import { FormContactoSeguimientoComponent } from "../form-contacto-seguimiento/form-contacto-seguimiento.component";
 
 export const MY_DATE_FORMATS: NgxMatDateFormats  = {
   parse: {
@@ -58,56 +61,52 @@ export const MY_DATE_FORMATS: NgxMatDateFormats  = {
   }
 }
 @Component({
-  selector: 'app-grupo-seguimiento',
-  standalone: true,
-  imports: [CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    RouterModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatSidenavModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-
-
-  ],
-  templateUrl: './grupo-seguimiento.component.html',
-  styleUrls: ['./grupo-seguimiento.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
-  providers: [
-    // ...
-    DatePipe,
-    { provide: MatPaginatorIntl, useClass: PaginatorService }, // Usa el servicio personalizado
-
-    {provide: MAT_DATE_LOCALE, useValue: 'es-BO'},//SOLO PUESTO PARA QUE FUNCIONE EL CALENDARIO DEL DATEPICKER
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]},//SOLO PUESTO PARA QUE FUNCIONE EL CALENDARIO DEL DATEPICKER
-    {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
-    {
-      provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-      useValue: { useUtc: true } // Usar UTC para evitar problemas de zona horaria
-    },
-    {
-      provide: MAT_MOMENT_DATE_FORMATS,
-      useValue: { parse: 'YYYY-MM-DDTHH:mm:ssZ', display: 'MM/DD/YYYY' } // Formato deseado
-    }
-  ]
+    selector: 'app-grupo-seguimiento',
+    standalone: true,
+    templateUrl: './grupo-seguimiento.component.html',
+    styleUrls: ['./grupo-seguimiento.component.css'],
+    animations: [
+        trigger('detailExpand', [
+            state('collapsado', style({ height: '0px', minHeight: '0' })),
+            state('expanded', style({ height: '*' })),
+            transition('expanded <=> collapsado', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    providers: [
+        // ...
+        DatePipe,
+        { provide: MatPaginatorIntl, useClass: PaginatorService },
+        { provide: MAT_DATE_LOCALE, useValue: 'es-BO' },
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
+        { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+        {
+            provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+            useValue: { useUtc: true } // Usar UTC para evitar problemas de zona horaria
+        },
+        {
+            provide: MAT_MOMENT_DATE_FORMATS,
+            useValue: { parse: 'YYYY-MM-DDTHH:mm:ssZ', display: 'MM/DD/YYYY' } // Formato deseado
+        }
+    ],
+    imports: [CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        RouterModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatSidenavModule,
+        MatListModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgxMatDatetimePickerModule,
+        NgxMatNativeDateModule, FormContactoSeguimientoComponent]
 })
 
 export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit  {
@@ -169,8 +168,9 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     private seguimientoService: SeguimientoService,
     private _liveAnnouncer: LiveAnnouncer,
     private personaService: PersonaService,
-    private datePipe: DatePipe
-
+    private datePipe: DatePipe,
+    private servicioContactoSeguimiento: ServicioActualizarCrearContactoSeguimientoService,
+    public sidenavService: SidenavService
   ) {
 
     this.formContacto = this.fb.group({
@@ -281,7 +281,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
       next: (data: ContactosSeguimiento) => {
         
         this.dataSource.data = data.AllContactosSeguimiento;
-
+        this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data);
         //formaterar fecha ISO
         // Suponiendo que tienes una fecha en formato ISO
         //  data.AllContactosSeguimiento.forEach((item) => {
@@ -402,61 +402,67 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
   arrayListaCiudad: AllCiudades[] = [];
   arrayListaEstado: AllEstado[] = [];
   abrirSidenav(modelo: InformacionContacto): void {
-    this.sidenav.open();
-    console.log('MODELO', modelo);
-    this.disabledInput = !this.disabledInput;
+    this.sidenavService.open();
+    console.log('ENVIANDO?', this.servicioContactoSeguimiento.disparadorContactos.emit(modelo));
+    this.servicioContactoSeguimiento.disparadorContactos.emit(modelo);
+    this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data);
+  }
+  // abrirSidenav(modelo: InformacionContacto): void {
+  //   this.sidenav.open();
+  //   console.log('MODELO', modelo);
+  //   this.disabledInput = !this.disabledInput;
 
     
-    this.listaPais$ = this.personaService.getListPais();
-    this.listaCiudad$ = this.personaService.getListCiudad();
-    this.listaSexo$ = this.personaService.getListSexo();
-    this.listaEstado$ = this.seguimientoService.verEstadosSeguimiento();
-    this.listaTipoSeguimiento$ = this.seguimientoService.verTipoSeguimiento();
+  //   this.listaPais$ = this.personaService.getListPais();
+  //   this.listaCiudad$ = this.personaService.getListCiudad();
+  //   this.listaSexo$ = this.personaService.getListSexo();
+  //   this.listaEstado$ = this.seguimientoService.verEstadosSeguimiento();
+  //   this.listaTipoSeguimiento$ = this.seguimientoService.verTipoSeguimiento();
 
-    this.id_tipo_seguimiento = modelo.TipoSeguimiento!.id_tipo_seguimiento;
+  //   this.id_tipo_seguimiento = modelo.TipoSeguimiento!.id_tipo_seguimiento;
 
-    const datos = this.formContacto.patchValue({
-      InformacionContacto: {
-        id_historico: modelo.id_historico,
-        id_grupo_seguimiento: modelo.id_grupo_seguimiento,
-        prox_llamada:  modelo?.prox_llamada,
-        observacion_llamada: modelo?.observacion_llamada,
-        Contactos: {
-          id_contacto:  modelo.Contactos.id_contacto,
-          nombre_apellidos:   modelo.Contactos.nombre_apellidos,
-          numero_contacto:  modelo.Contactos.numero_contacto,
-          correo_contacto:  modelo.Contactos.correo_contacto,
-          nombre_empresa:   modelo.Contactos.nombre_empresa,
-          profesion:  modelo.Contactos.profesion,
-          intereses:  modelo.Contactos.intereses,
-          observaciones:  modelo.Contactos.observaciones,
-          Sexo_contacto: {
-            id_sexo:  modelo.Contactos.Sexo_contacto?.id_sexo
-          },
-          Ciudad_contacto: {
-            id_ciudad:  modelo.Contactos.Ciudad_contacto?.id_ciudad
-          },
-          Pais_contacto: {
-            id_pais:  modelo.Contactos.Pais_contacto?.id_pais
-          },
-          Estado: {
-            id_estado_contacto:   modelo.Contactos.Estado?.id_estado_contacto
-          }
+  //   const datos = this.formContacto.patchValue({
+  //     InformacionContacto: {
+  //       id_historico: modelo.id_historico,
+  //       id_grupo_seguimiento: modelo.id_grupo_seguimiento,
+  //       prox_llamada:  modelo?.prox_llamada,
+  //       observacion_llamada: modelo?.observacion_llamada,
+  //       Contactos: {
+  //         id_contacto:  modelo.Contactos.id_contacto,
+  //         nombre_apellidos:   modelo.Contactos.nombre_apellidos,
+  //         numero_contacto:  modelo.Contactos.numero_contacto,
+  //         correo_contacto:  modelo.Contactos.correo_contacto,
+  //         nombre_empresa:   modelo.Contactos.nombre_empresa,
+  //         profesion:  modelo.Contactos.profesion,
+  //         intereses:  modelo.Contactos.intereses,
+  //         observaciones:  modelo.Contactos.observaciones,
+  //         Sexo_contacto: {
+  //           id_sexo:  modelo.Contactos.Sexo_contacto?.id_sexo
+  //         },
+  //         Ciudad_contacto: {
+  //           id_ciudad:  modelo.Contactos.Ciudad_contacto?.id_ciudad
+  //         },
+  //         Pais_contacto: {
+  //           id_pais:  modelo.Contactos.Pais_contacto?.id_pais
+  //         },
+  //         Estado: {
+  //           id_estado_contacto:   modelo.Contactos.Estado?.id_estado_contacto
+  //         }
 
-        },
-        TipoSeguimiento: {
-          id_tipo_seguimiento:  modelo.TipoSeguimiento?.id_tipo_seguimiento,
-        }
-      }
-
-
-    });
-
-    this.modeloSubject.next(modelo);
+  //       },
+  //       TipoSeguimiento: {
+  //         id_tipo_seguimiento:  modelo.TipoSeguimiento?.id_tipo_seguimiento,
+  //       }
+  //     }
 
 
+  //   });
 
-  }
+  //   this.modeloSubject.next(modelo);
+
+
+
+  // }
   fechaActualEnBolivia = new Date().toLocaleString('en-US', { timeZone: 'America/La_Paz' });
   fechaActual = new Date().toISOString().substring(0, 10); //YYYY-MM-DD
   getTipoSeguimientoNombre(idTipoSeguimiento: number): string {
@@ -505,113 +511,113 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     return listPaises[idPais] || "";
   }
 
-  EditarContactoSeguimiento(): void {
-    console.log('FORMULARIO SEG CONTAC', this.formContacto.value);
-    //funcion que ayuda a establecer los valores en null si no se ha seleccionado nada en el select
-    function setDefaultIfNull(obj: any, defaultValue: any): any {
-      return obj !== null ? obj : defaultValue;
-    }
-    console.log(this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.value, 'NUMERO CONTACTO')
-    const modelo: SeguimientoContacto = {
-      InformacionContacto: {
-        id_historico: 0,
-        id_grupo_seguimiento: 0,
-        fecha_actualizacion: this.fechaActualEnBolivia,
-        prox_llamada: this.formContacto.value.InformacionContacto.prox_llamada,
-        observacion_llamada: this.formContacto.value.InformacionContacto.observacion_llamada,
-        Contactos: {
-          id_contacto: 0,
-          nombre_apellidos: this.formContacto.value.InformacionContacto.Contactos.nombre_apellidos,
-          numero_contacto: this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.value,
-          correo_contacto: this.formContacto.value.InformacionContacto.Contactos.correo_contacto,
-          nombre_empresa: this.formContacto.value.InformacionContacto.Contactos.nombre_empresa,
-          profesion: this.formContacto.value.InformacionContacto.Contactos.profesion,
-          intereses: this.formContacto.value.InformacionContacto.Contactos.intereses,
-          observaciones: this.formContacto.value.InformacionContacto.Contactos.observaciones,
-          Sexo_contacto: {
-            id_sexo: this.formContacto.value.InformacionContacto.Contactos.Sexo_contacto.id_sexo
-          },
-          Ciudad_contacto: {
-            id_ciudad: this.formContacto.value.InformacionContacto.Contactos.Ciudad_contacto.id_ciudad
-          },
-          Pais_contacto: {
-            id_pais: this.formContacto.value.InformacionContacto.Contactos.Pais_contacto.id_pais
-          },
-          Estado: {
-            id_estado_contacto: this.formContacto.value.InformacionContacto.Contactos.Estado.id_estado_contacto
-          }
-        },
-        TipoSeguimiento: {
-          id_tipo_seguimiento: this.formContacto.value.InformacionContacto.TipoSeguimiento.id_tipo_seguimiento,
-        }
-      }
+  // EditarContactoSeguimiento(): void {
+  //   console.log('FORMULARIO SEG CONTAC', this.formContacto.value);
+  //   //funcion que ayuda a establecer los valores en null si no se ha seleccionado nada en el select
+  //   function setDefaultIfNull(obj: any, defaultValue: any): any {
+  //     return obj !== null ? obj : defaultValue;
+  //   }
+  //   console.log(this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.value, 'NUMERO CONTACTO')
+  //   const modelo: SeguimientoContacto = {
+  //     InformacionContacto: {
+  //       id_historico: 0,
+  //       id_grupo_seguimiento: 0,
+  //       fecha_actualizacion: this.fechaActualEnBolivia,
+  //       prox_llamada: this.formContacto.value.InformacionContacto.prox_llamada,
+  //       observacion_llamada: this.formContacto.value.InformacionContacto.observacion_llamada,
+  //       Contactos: {
+  //         id_contacto: 0,
+  //         nombre_apellidos: this.formContacto.value.InformacionContacto.Contactos.nombre_apellidos,
+  //         numero_contacto: this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.value,
+  //         correo_contacto: this.formContacto.value.InformacionContacto.Contactos.correo_contacto,
+  //         nombre_empresa: this.formContacto.value.InformacionContacto.Contactos.nombre_empresa,
+  //         profesion: this.formContacto.value.InformacionContacto.Contactos.profesion,
+  //         intereses: this.formContacto.value.InformacionContacto.Contactos.intereses,
+  //         observaciones: this.formContacto.value.InformacionContacto.Contactos.observaciones,
+  //         Sexo_contacto: {
+  //           id_sexo: this.formContacto.value.InformacionContacto.Contactos.Sexo_contacto.id_sexo
+  //         },
+  //         Ciudad_contacto: {
+  //           id_ciudad: this.formContacto.value.InformacionContacto.Contactos.Ciudad_contacto.id_ciudad
+  //         },
+  //         Pais_contacto: {
+  //           id_pais: this.formContacto.value.InformacionContacto.Contactos.Pais_contacto.id_pais
+  //         },
+  //         Estado: {
+  //           id_estado_contacto: this.formContacto.value.InformacionContacto.Contactos.Estado.id_estado_contacto
+  //         }
+  //       },
+  //       TipoSeguimiento: {
+  //         id_tipo_seguimiento: this.formContacto.value.InformacionContacto.TipoSeguimiento.id_tipo_seguimiento,
+  //       }
+  //     }
 
-    };
+  //   };
 
-    // Supongamos que tienes el ID único del contacto que estás actualizando
+  //   // Supongamos que tienes el ID único del contacto que estás actualizando
 
-    if (this.formContacto.dirty == null) {
-      //Crear nuevo contacto
-    } else {
-      const fechaProxLlamada = this.formContacto.get('InformacionContacto.prox_llamada')?.value;
-      if (fechaProxLlamada === null || fechaProxLlamada === '') {
-        modelo.InformacionContacto.prox_llamada = null; // Establecer el valor en null
-      }
-      //PARA VERIFICAR CUANDO CAMBIA EL TIPO DE SEGUIMIENTO
-      if (modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento != this.id_tipo_seguimiento) {
-        const nuevoTipoSeguimiento = this.formContacto.value.InformacionContacto.TipoSeguimiento.id_tipo_seguimiento;
-        console.log('TIPO SEGUIMIENTO ANTES ', this.id_tipo_seguimiento, 'AHORA ', nuevoTipoSeguimiento);
-      }
-      //console.log('TIPO SEGUIMIENTO CAMBIO', this.id_tipo_seguimiento);
-      modelo.InformacionContacto.id_historico = this.formContacto.value.InformacionContacto.id_historico;
-      modelo.InformacionContacto.id_grupo_seguimiento = this.formContacto.value.InformacionContacto.id_grupo_seguimiento;
-      modelo.InformacionContacto.Contactos.id_contacto = this.formContacto.value.InformacionContacto.Contactos.id_contacto;
-      this.ContactoSeguimiento$ = this.seguimientoService.actualizarContactoSeguimiento(modelo);
-      this.ContactoSeguimiento$.subscribe({
-        next: (dato) => {
-          //this.actualizarFila(modelo.InformacionContacto.Contactos.id_contacto, modelo.InformacionContacto);
+  //   if (this.formContacto.dirty == null) {
+  //     //Crear nuevo contacto
+  //   } else {
+  //     const fechaProxLlamada = this.formContacto.get('InformacionContacto.prox_llamada')?.value;
+  //     if (fechaProxLlamada === null || fechaProxLlamada === '') {
+  //       modelo.InformacionContacto.prox_llamada = null; // Establecer el valor en null
+  //     }
+  //     //PARA VERIFICAR CUANDO CAMBIA EL TIPO DE SEGUIMIENTO
+  //     if (modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento != this.id_tipo_seguimiento) {
+  //       const nuevoTipoSeguimiento = this.formContacto.value.InformacionContacto.TipoSeguimiento.id_tipo_seguimiento;
+  //       console.log('TIPO SEGUIMIENTO ANTES ', this.id_tipo_seguimiento, 'AHORA ', nuevoTipoSeguimiento);
+  //     }
+  //     //console.log('TIPO SEGUIMIENTO CAMBIO', this.id_tipo_seguimiento);
+  //     modelo.InformacionContacto.id_historico = this.formContacto.value.InformacionContacto.id_historico;
+  //     modelo.InformacionContacto.id_grupo_seguimiento = this.formContacto.value.InformacionContacto.id_grupo_seguimiento;
+  //     modelo.InformacionContacto.Contactos.id_contacto = this.formContacto.value.InformacionContacto.Contactos.id_contacto;
+  //     this.ContactoSeguimiento$ = this.seguimientoService.actualizarContactoSeguimiento(modelo);
+  //     this.ContactoSeguimiento$.subscribe({
+  //       next: (dato) => {
+  //         //this.actualizarFila(modelo.InformacionContacto.Contactos.id_contacto, modelo.InformacionContacto);
           
-          console.log('CONTACTO ACTUALIZADO', dato);
-          this.mostrarAlerta('Datos registrados correctamente', 'Listo');
-          //this.mostrarContactos();
-          const datoExistente = this.dataSource.data.find((item) => item.id_historico === modelo.InformacionContacto.id_historico);
-          if(datoExistente){
-            datoExistente.fecha_actualizacion = modelo.InformacionContacto.fecha_actualizacion;
-            datoExistente.prox_llamada = modelo.InformacionContacto.prox_llamada;
-            datoExistente.observacion_llamada = modelo.InformacionContacto.observacion_llamada;
-            datoExistente.Contactos.nombre_apellidos = modelo.InformacionContacto.Contactos.nombre_apellidos;
-            datoExistente.Contactos.numero_contacto = modelo.InformacionContacto.Contactos.numero_contacto;
-            datoExistente.Contactos.correo_contacto = modelo.InformacionContacto.Contactos?.correo_contacto!;
-            datoExistente.Contactos.nombre_empresa = modelo.InformacionContacto.Contactos.nombre_empresa;
-            datoExistente.Contactos.profesion = modelo.InformacionContacto.Contactos.profesion;
-            datoExistente.Contactos.intereses = modelo.InformacionContacto.Contactos.intereses;
-            datoExistente.Contactos.observaciones = modelo.InformacionContacto.Contactos.observaciones;
-            datoExistente.Contactos.Sexo_contacto.id_sexo = modelo.InformacionContacto.Contactos.Sexo_contacto?.id_sexo!;
-            datoExistente.Contactos.Ciudad_contacto.id_ciudad = modelo.InformacionContacto.Contactos.Ciudad_contacto?.id_ciudad!;
-            datoExistente.Contactos.Pais_contacto.id_pais = modelo.InformacionContacto.Contactos.Pais_contacto?.id_pais!;
-            datoExistente.Contactos.Estado.id_estado_contacto = modelo.InformacionContacto.Contactos.Estado?.id_estado_contacto!;
-            datoExistente.TipoSeguimiento.id_tipo_seguimiento = modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento!;
+  //         console.log('CONTACTO ACTUALIZADO', dato);
+  //         this.mostrarAlerta('Datos registrados correctamente', 'Listo');
+  //         //this.mostrarContactos();
+  //         const datoExistente = this.dataSource.data.find((item) => item.id_historico === modelo.InformacionContacto.id_historico);
+  //         if(datoExistente){
+  //           datoExistente.fecha_actualizacion = modelo.InformacionContacto.fecha_actualizacion;
+  //           datoExistente.prox_llamada = modelo.InformacionContacto.prox_llamada;
+  //           datoExistente.observacion_llamada = modelo.InformacionContacto.observacion_llamada;
+  //           datoExistente.Contactos.nombre_apellidos = modelo.InformacionContacto.Contactos.nombre_apellidos;
+  //           datoExistente.Contactos.numero_contacto = modelo.InformacionContacto.Contactos.numero_contacto;
+  //           datoExistente.Contactos.correo_contacto = modelo.InformacionContacto.Contactos?.correo_contacto!;
+  //           datoExistente.Contactos.nombre_empresa = modelo.InformacionContacto.Contactos.nombre_empresa;
+  //           datoExistente.Contactos.profesion = modelo.InformacionContacto.Contactos.profesion;
+  //           datoExistente.Contactos.intereses = modelo.InformacionContacto.Contactos.intereses;
+  //           datoExistente.Contactos.observaciones = modelo.InformacionContacto.Contactos.observaciones;
+  //           datoExistente.Contactos.Sexo_contacto.id_sexo = modelo.InformacionContacto.Contactos.Sexo_contacto?.id_sexo!;
+  //           datoExistente.Contactos.Ciudad_contacto.id_ciudad = modelo.InformacionContacto.Contactos.Ciudad_contacto?.id_ciudad!;
+  //           datoExistente.Contactos.Pais_contacto.id_pais = modelo.InformacionContacto.Contactos.Pais_contacto?.id_pais!;
+  //           datoExistente.Contactos.Estado.id_estado_contacto = modelo.InformacionContacto.Contactos.Estado?.id_estado_contacto!;
+  //           datoExistente.TipoSeguimiento.id_tipo_seguimiento = modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento!;
             
-          }else{
-            console.log('Fallo en el intento');
-          }
-          this.dataSource._renderChangesSubscription;
-          //this.table.renderRows();
-          this.cerrarSidenav();
+  //         }else{
+  //           console.log('Fallo en el intento');
+  //         }
+  //         this.dataSource._renderChangesSubscription;
+  //         //this.table.renderRows();
+  //         this.cerrarSidenav();
 
-        },
-        error: (err) => {
-          console.log('ERROR', err);
-          this.mostrarAlerta('Error al registrar los datos', 'Error');
-        }
-      });
+  //       },
+  //       error: (err) => {
+  //         console.log('ERROR', err);
+  //         this.mostrarAlerta('Error al registrar los datos', 'Error');
+  //       }
+  //     });
 
-      console.log('DATO A ACTUALIZAR', modelo);
+  //     console.log('DATO A ACTUALIZAR', modelo);
 
-    }
+  //   }
 
 
-  }
+  // }
   verCambios(id_historico: number): void {
     this.listaCambios$ = this.seguimientoService.verCambios(id_historico);
     

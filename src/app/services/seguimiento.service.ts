@@ -17,6 +17,10 @@ export class SeguimientoService {
   constructor(private http: HttpClient) { 
     
   }
+  
+
+
+
   getGruposSeguimiento(): Observable<GrupoSeguimiento> {
     return this.http.get<GrupoSeguimiento>(`${this.apiUrl}grupoSeguimiento/readAll`);
   }
