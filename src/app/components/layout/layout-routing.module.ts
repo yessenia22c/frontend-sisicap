@@ -51,6 +51,14 @@ const routes: Routes = [
         path:'seguimiento/ver/:id_seguimiento/importar',
         loadComponent: () => import('../layout/pages/seguimiento/importar-contactos/importar-contactos.component')
       },
+      {
+        path: 'contactos/subir',
+        loadComponent: () => import('../layout/pages/contactos/subir-contactos/subir-contactos.component')
+      },
+      {
+        path:'contactos',
+        loadComponent: () => import('../layout/pages/contactos/contactos.component')
+      }
       
 
       // {

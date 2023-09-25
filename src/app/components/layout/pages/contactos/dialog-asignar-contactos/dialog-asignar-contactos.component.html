@@ -1,0 +1,58 @@
+<div class="size-dialog">
+  <h1 mat-dialog-title>Asignar contactos</h1>
+  <div class="size-input" mat-dialog-content>
+    <p>Selecciona el grupo de seguimiento a asignar</p>
+    <!-- <div class="scrollable-box">
+        <div class="overflow-box">
+            <ng-select [items]="this.seguimientos$ | async" bindLabel="nombre_seguimiento" placeholder="Select item"
+                appendTo=".scrollable-box" (change)="actualizarOpcionesSeleccionadas($event)" [(ngModel)]="selected3">
+            </ng-select>
+        </div>
+    </div>
+    <pre>
+        {{ seleccionado | json }}
+    </pre> -->
+    <form class="example-form example-full-width">
+      <mat-form-field class="example-full-width">
+        <mat-label>Seleccione grupo de seguimiento</mat-label>
+        <input
+          type="text"
+          placeholder="Buscar"
+          aria-label="seguimiento"
+          matInput
+          [formControl]="myControl"
+          (input)="onInputChange($event)"
+          [matAutocomplete]="auto"
+          #inputField
+          style="width: 100%;"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of filteredOptions$ | async"
+            [value]="option.nombre_seguimiento"
+            (onSelectionChange)="opcionSeleccionado( option)"
+          >
+            {{ option.nombre_seguimiento }}
+            <p style="font-size: 14px; color: rgb(126, 126, 126)">
+              Respondable: {{ option.Empleado.persona.nombres_per }}
+            </p>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <h3 style="align-items: end;">
+      Total contactos listo para asignar: {{this.data.length}}
+    </h3>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="asignarContactos()"
+      [disabled]="myControl.invalid"
+    >
+      Asignar
+    </button>
+  </div>
+</div>

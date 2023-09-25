@@ -1,0 +1,36 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+  .overflow-box {
+    padding: 5px;
+    height: 100px;
+    /* border: 1px solid #999; */
+    overflow: hidden;
+}
+
+.scrollable-box {
+    position: initial;
+    height: 400px;
+    overflow: auto;
+}
+
+/* .size-dialog{
+  display: flex;
+  align-items: center;
+  width: 600px;
+  height: 500px;
+} */
+
+.size-input{
+  padding-bottom: 250px;
+}
+.mat-mdc-text-field-wrapper{
+  width: 100% !important;
+}

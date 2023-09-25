@@ -24,6 +24,7 @@ export interface PerfilUsuario {
 
 export interface Usuario {
     nombre_usuario: string;
+    foto_perfil:    string;
     tipo_usuario:   TipoUsuario;
     empleado:       Empleado;
 }

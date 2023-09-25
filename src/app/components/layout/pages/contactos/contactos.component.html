@@ -1,0 +1,130 @@
+<div class="container-fluid">
+    <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Contactos</h4>
+    <div class="row">
+        <div class="col-md-2 p-2">
+            <button  mat-raised-button color="primary" (click)="abirDialogAsignarContacto()">Asignar contactos</button>
+        </div>
+        <div class="col-md-2 p-2">
+            <button  mat-raised-button color="primary" routerLink="subir"  ><mat-icon>upload</mat-icon> subir contactos</button>
+        </div>
+        <div class="col-md-8 p-2">
+            <mat-form-field >
+                <mat-label>Buscar</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. juan" #input>
+            </mat-form-field>
+        </div>
+    </div>
+    
+    
+
+    
+    <section class="example-container mat-elevation-z8" tabindex="0">
+        
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" multiTemplateDataRows>
+            <!-- Position Column -->
+            <ng-container matColumnDef="accion" sticky >
+                <!-- <th mat-header-cell *matHeaderCellDef aria-label="row actions">Acción</th>
+                <td mat-cell *matCellDef="let element; ">
+                  <div class="example-button-container">
+                    <button mat-icon-button color="primary" aria-label="Boton editar" >
+                        <mat-icon>pending</mat-icon>
+                    </button>
+                    
+                  </div>
+                </td> -->
+
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  color="primary"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                  [aria-label]="checkboxLabel()">
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)"
+                                  color="primary"
+                                  [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox>
+                  </td>
+            </ng-container>
+
+            <ng-container matColumnDef="id_contacto">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum" > No. </th>
+                <td mat-cell *matCellDef="let item; " class="mat-colum">{{item.id_contacto}} </td>
+              </ng-container>
+
+            <ng-container matColumnDef="nombre_apellidos">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Nombre y apellidos</th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.nombre_apellidos}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="numero_contacto">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Nro Celular </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.numero_contacto}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="correo_contacto">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Correo electrónico </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.correo_contacto}}</td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="nombre_empresa">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Empresa </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.nombre_empresa}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="profesion">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Profesión </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.profesion}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="intereses">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Intereses </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.intereses}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="observaciones">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Observaciones </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.observaciones}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="id_sexo">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Género </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Sexo_contacto?.nombre_sexo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="id_ciudad">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Ciudad </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Ciudad_contacto?.nombre_ciudad}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="id_pais">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> País </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Pais_contacto?.nombre_pais}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="id_estado_contacto">
+                <th mat-header-cell *matHeaderCellDef class="mat-colum"> Estado </th>
+                <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Estado?.nombre_estado}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;" ></tr>
+             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr> 
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No se encuentran resultados"{{input.value}}"</td>
+            </tr>
+            
+        </table>
+    </section>
+    <mat-paginator [length]="resultsLength"  [pageSize]="10" aria-label="Mostrando paginas de contactos"></mat-paginator>
+    <pre>
+        {{selection.selected | json}}
+    </pre>
+</div>

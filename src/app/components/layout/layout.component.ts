@@ -79,7 +79,9 @@ export class LayoutComponent implements OnInit{
 
   // JavaScript para cerrar el colapso al hacer clic en otro enlace
   
-
+  onImageError(event: any) {
+    event.target.src = '../../../assets/img/defecto-usuario.png'; // Reemplaza con la ruta de tu imagen por defecto
+  }
 
   logout() {
     this.authService.limpiarToken();

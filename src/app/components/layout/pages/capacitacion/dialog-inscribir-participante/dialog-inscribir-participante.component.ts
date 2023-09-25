@@ -62,6 +62,7 @@ export class DialogInscribirParticipanteComponent implements OnInit {
 
   seleccion = new SelectionModel<any>(true, []);
   constructor(
+    
     private _snackBar: MatSnackBar,
     private config: NgSelectConfig,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -89,7 +90,7 @@ export class DialogInscribirParticipanteComponent implements OnInit {
   ngOnInit(): void {
     this.id_cap = this.data.id_capacitacion;
     
-
+    
 
     this.filtrarParticipantesNoInscritos();
     //this.mostrarParticipantesNoInscritos();
@@ -101,7 +102,7 @@ export class DialogInscribirParticipanteComponent implements OnInit {
     this.actualizarOpcionesSeleccionadas
     
   }
-
+  
   // tarjetasPosicioandas():void {
   //   this.config.appendTo = this.tarjetasContenedor.nativeElement;
   // }
@@ -124,7 +125,7 @@ export class DialogInscribirParticipanteComponent implements OnInit {
   actualizarOpcionesSeleccionadas(event: any) {
 
     this.seleccionado = event;
-    this.mostrarParticipantesNoInscritos();
+    this.mostrarParticipantesNoInscritos(); //Saber por qué esta esto aqui
     this.id_cap = parseInt(this.data.id_capacitacion);
     const idCapacitacion: number = this.id_cap;
    

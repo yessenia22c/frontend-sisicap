@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { SeguimientoService } from 'src/app/services/seguimiento.service';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 import { ActualizarContactoSeguimiento, AllContactosSeguimiento, AllEstado, AllTipoSeguimiento, ContactosSeguimiento, Estado, SexoContacto, TipoSeguimiento, UnSeguimiento } from 'src/app/models/seguimiento';
@@ -42,7 +42,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AllCiudades, AllPaises, AllSexos, Ciudad, Pais, Sexo } from 'src/app/models/persona';
 import { PersonaService } from 'src/app/services/persona.service';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
-import { AllCambio, InformacionContacto, SeguimientoContacto } from 'src/app/models/contacto';
+import { AllCambio, CambiosRegistrado, InformacionContacto, SeguimientoContacto } from 'src/app/models/contacto';
 
 import { MatDatepicker } from '@angular/material/datepicker';
 import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/services/servicioActualizarCrearContactoSeguimiento.service';
@@ -170,7 +170,8 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     private personaService: PersonaService,
     private datePipe: DatePipe,
     private servicioContactoSeguimiento: ServicioActualizarCrearContactoSeguimientoService,
-    public sidenavService: SidenavService
+    public sidenavService: SidenavService,
+    private router: Router
   ) {
 
     this.formContacto = this.fb.group({
@@ -233,6 +234,19 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     this.verSeguimiento();
     this.mostrarContactos();
 
+    //Cerrar el sidenav si se cambia de ruta
+    this.router.events.subscribe(event => {
+      // Verifica si el evento es un cambio de ruta
+      if (event instanceof NavigationStart) {
+        // Cierra el sidenav
+        this.sidenavService.close();
+      }
+    });
+    // this.router.events.subscribe(() => {
+    //   if (this.sidenavService.isOpen.asObservable()) {
+    //     this.sidenavService.close();
+    //   }
+    // });
     // this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.disable();
 
   }
@@ -282,41 +296,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
         
         this.dataSource.data = data.AllContactosSeguimiento;
         this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data);
-        //formaterar fecha ISO
-        // Suponiendo que tienes una fecha en formato ISO
-        //  data.AllContactosSeguimiento.forEach((item) => {
-        // //   item.prox_llamada = this.datePipe.transform(item.prox_llamada, 'dd/MM/yyyy HH:mm');
-        //   if(item.TipoSeguimiento === null){
-        //     item.TipoSeguimiento = {
-        //       id_tipo_seguimiento: null,
-        //       nombre_tipo_seguimiento: null
-        //     }
-        //   }
-        //   if(item.Contactos.Sexo_contacto === null){
-        //     item.Contactos.Sexo_contacto = {
-        //       id_sexo: null,
-        //       nombre_sexo: null
-        //     }
-        //   }
-        //   if(item.Contactos.Ciudad_contacto === null){
-        //     item.Contactos.Ciudad_contacto = {
-        //       id_ciudad: null,
-        //       nombre_ciudad: null
-        //     }
-        //   }
-        //   if(item.Contactos.Pais_contacto === null){
-        //     item.Contactos.Pais_contacto = {
-        //       id_pais: null,
-        //       nombre_pais: null
-        //     }
-        //   }
-        //   if(item.Contactos.Estado === null){
-        //     item.Contactos.Estado = {
-        //       id_estado_contacto: null,
-        //       nombre_estado: null
-        //     }
-        //   }
-        // });
+
         this.dataSource.data = data.AllContactosSeguimiento.map(item => ({
           ...item,
           TipoSeguimiento: setDefaultIfNull(item.TipoSeguimiento, {
@@ -618,11 +598,16 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
 
 
   // }
+  arrayListaCambios: CambiosRegistrado[] = [];
   verCambios(id_historico: number): void {
     this.listaCambios$ = this.seguimientoService.verCambios(id_historico);
-    
+    this.listaCambios$.subscribe((data: AllCambio) => {
+      this.arrayListaCambios = data.CambiosRegistrados;
+    });
     console.log('MIRANDO CAMBIOS')
   }
+
+  
 
 }
 

@@ -18,10 +18,13 @@ import { NgxMatDatetimePickerModule, NgxMatDatepickerBase, NgxMatDateAdapter, NG
 import {Validators, FormsModule } from '@angular/forms';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
-import { InformacionContacto, SeguimientoContacto } from 'src/app/models/contacto';
+import { Cambio, InformacionContacto, SeguimientoContacto } from 'src/app/models/contacto';
 import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/services/servicioActualizarCrearContactoSeguimiento.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as moment from 'moment';
+
+
 @Component({
   selector: 'app-form-contacto-seguimiento',
   standalone: true,
@@ -50,9 +53,9 @@ export class FormContactoSeguimientoComponent implements OnInit {
   listaEstado$: Observable<AllEstado> | undefined;
   listaTipoSeguimiento$: Observable<AllTipoSeguimiento> | undefined;
   formContacto: FormGroup;
-  id_tipo_seguimiento: number | null  = null;
+  observacionLlamada: number | null  = null;
   ContactoSeguimiento$: Observable<SeguimientoContacto> | undefined;
-
+  registrarCambios$ : Observable<Cambio> | undefined;
   dataSourceSide: Array<AllContactosSeguimiento> = [];
   // @ViewChild('miFormSide') sidenav!: MatSidenav;
   private dataSubject = new BehaviorSubject<InformacionContacto | null>(null);
@@ -104,16 +107,18 @@ export class FormContactoSeguimientoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.listaPais$ = this.personaService.getListPais();
     this.listaCiudad$ = this.personaService.getListCiudad();
     this.listaSexo$ = this.personaService.getListSexo();
     this.listaEstado$ = this.seguimientoService.verEstadosSeguimiento();
     this.listaTipoSeguimiento$ = this.seguimientoService.verTipoSeguimiento();
+    
     this.servicioContactoSeguimiento.disparadorContactos.subscribe(data => {
       // this.sidenav.open();
       console.log("DATA QUE RECIBE CON EMIT", data);
 
-      this.id_tipo_seguimiento = data.TipoSeguimiento!.id_tipo_seguimiento;
+      this.observacionLlamada = data.observacion_llamada!;
 
       const datos = this.formContacto.patchValue({
         InformacionContacto: {
@@ -237,13 +242,32 @@ export class FormContactoSeguimientoComponent implements OnInit {
       //Crear nuevo contacto
     } else {
       const fechaProxLlamada = this.formContacto.get('InformacionContacto.prox_llamada')?.value;
+
       if (fechaProxLlamada === null || fechaProxLlamada === '') {
         modelo.InformacionContacto.prox_llamada = null; // Establecer el valor en null
       }
-      //PARA VERIFICAR CUANDO CAMBIA EL TIPO DE SEGUIMIENTO
-      if (modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento != this.id_tipo_seguimiento) {
-        const nuevoTipoSeguimiento = this.formContacto.value.InformacionContacto.TipoSeguimiento.id_tipo_seguimiento;
-        console.log('TIPO SEGUIMIENTO ANTES ', this.id_tipo_seguimiento, 'AHORA ', nuevoTipoSeguimiento);
+      //PARA VERIFICAR CUANDO CAMBIA la observacion llamada
+      if (modelo.InformacionContacto.observacion_llamada != this.observacionLlamada) {
+        //REGISTRA CAMBIOS EN EL SEGUMIENTO DE CONTACTO
+        const fechaParseada = moment(this.fechaActualEnBolivia, 'M/D/YYYY, h:mm:ss A');
+
+        // Formatea la fecha en el nuevo formato "YYYY-MM-DD HH:mm:ss"
+        const fechaFormateada = fechaParseada.format('YYYY-MM-DD HH:mm:ss');
+        const datosCambios: Cambio = {
+          id_historico: this.formContacto.value.InformacionContacto.id_historico,
+          observacion_llamada: modelo.InformacionContacto.observacion_llamada!,
+          fecha_seguimiento: this.fechaActualEnBolivia,
+        }
+        console.log('EL CAMBIO OBSE',datosCambios);
+        this.registrarCambios$ = this.seguimientoService.registrarCambios(datosCambios);
+        this.registrarCambios$.subscribe(
+          {
+            next: (dato) => {
+              console.log('DATOS CAMBIOS REGISTRADOS', dato);
+            }
+          });
+        const nuevaObservacion = this.formContacto.value.InformacionContacto.observacion_llamada;
+        console.log('Observacion ANTES ', this.observacionLlamada, 'AHORA ', nuevaObservacion);
       }
       //console.log('TIPO SEGUIMIENTO CAMBIO', this.id_tipo_seguimiento);
       modelo.InformacionContacto.id_historico = this.formContacto.value.InformacionContacto.id_historico;
