@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Contacto, ContactosAsignar, ContactosSubir, ListaContactoSubir } from '../models/contactoAsignar';
 import { Observable } from 'rxjs';
+import { CreaContacto, EstadoContactos } from '../models/contacto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,18 @@ export class ContactoService {
   contactosSubir(modelo: ListaContactoSubir): Observable<ListaContactoSubir> {
     return this.http.post<ListaContactoSubir>(`${this.apiUrl}contacto/subir`, modelo);
   }
+
+  crearContacto(modelo: CreaContacto): Observable<CreaContacto> {
+    return this.http.post<CreaContacto>(`${this.apiUrl}contacto/create`, modelo);
+  }
+
+  listarEstadosContacto(): Observable<EstadoContactos> {
+    return this.http.get<EstadoContactos>(`${this.apiUrl}estados/readAll`);
+  }
+
+  actualizarContacto(modelo: CreaContacto): Observable<CreaContacto> {
+    return this.http.put<CreaContacto>(`${this.apiUrl}contacto/update`, modelo);
+  }
+  
 }
 

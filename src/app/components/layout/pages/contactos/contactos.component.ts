@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {ViewChild, AfterViewInit} from '@angular/core';
 import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
 import {MatSort, Sort, SortDirection} from '@angular/material/sort';
-import {merge, Observable, of as observableOf} from 'rxjs';
+import {merge, Observable, of as observableOf, ReplaySubject} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -21,9 +21,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 
-import {SelectionModel} from '@angular/cdk/collections';
+import {DataSource, SelectionModel} from '@angular/cdk/collections';
 import { DialogAsignarContactosComponent } from './dialog-asignar-contactos/dialog-asignar-contactos.component';
 import { PaginatorService } from 'src/app/services/Paginator.service';
+import { FormCrearActualizarContactoComponent } from './form-crear-actualizar-contacto/form-crear-actualizar-contacto.component';
 @Component({
   selector: 'app-contactos',
   standalone: true,
@@ -61,10 +62,12 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     'id_sexo',
     'id_ciudad',
     'id_pais',
-    'id_estado_contacto'
+    'botones'
   ];
   dataSource = new MatTableDataSource<AllContacto>();
+ 
 
+  
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
@@ -74,6 +77,7 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
   IdContactosSeleccionados: ListaContacto[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  private _dataStream = new ReplaySubject<AllContacto[]>(); // Para el ejemplo de la tabla
   constructor(
     private serviceContacto: ContactoService,
     private _liveAnnouncer: LiveAnnouncer,
@@ -155,6 +159,7 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     this.listaContactos$.subscribe( {
       next: (data: Contacto) => {
         this.dataSource.data = data.AllContacto;
+        // this.dataSource.
         console.log('CONTACTOS DATA SOURCE', this.dataSource.data);
 
         this.dataSource.filterPredicate = (data: AllContacto, filter: string) => {
@@ -179,4 +184,34 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
       }
     })
   }
+
+  abirDialogCrearContacto(){
+    this.dialog.open(FormCrearActualizarContactoComponent,{
+      disableClose: true,
+      width: '700px',
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="Creado"){
+        this.mostrarContactos();
+        // this.mostrarContactos();
+        // this.dataToDisplay = [...this.dataToDisplay, ELEMENT_DATA[randomElementIndex]];
+        // this.dataSource.setData(this.dataToDisplay);
+      }
+    })
+  };
+
+  editarContacto(dataContacto: AllContacto) {
+    
+    this.dialog.open(FormCrearActualizarContactoComponent,{
+      disableClose: true,
+      width: '700px',
+      data: dataContacto
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="editado"){
+        this.mostrarContactos();
+      }
+    })
+    
+  }
 }
+
+

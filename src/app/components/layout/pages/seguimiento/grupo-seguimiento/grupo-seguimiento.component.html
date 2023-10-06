@@ -31,10 +31,16 @@
 
         <div class="row">
             <div class="col-md-12">
-                <button mat-stroked-button color="primary">Editar
-                    <mat-icon>edit_square</mat-icon>
-                </button>
-                <button mat-button extended class="boton-importar no-overlap" routerLink="importar" >Importar
+                <ng-container *ngIf="this.UnSeguimiento$ | async as Seg">
+                    <button mat-raised-button color="primary" style="margin-right: 1rem; margin-bottom: 1rem;" (click)="editarSeguimiento(Seg)">Editar
+                        <mat-icon>edit_square</mat-icon>
+                    </button>
+                    <button mat-raised-button color="warn" style="margin-right: 1rem; margin-bottom: 1rem;" (click)="eliminarSeguimiento(Seg)" >Eliminar seguimiento
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </ng-container>
+                
+                <button mat-raised-button color="primary" style="margin-bottom: 1rem;" extended routerLink="importar" >Importar
                     <mat-icon class="material-symbols-outlined" fontIcon="upload"></mat-icon>
                 </button>
 

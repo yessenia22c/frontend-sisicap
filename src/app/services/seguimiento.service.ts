@@ -57,4 +57,7 @@ export class SeguimientoService {
   verCambios(id_historico:number):Observable<AllCambio>{
     return this.http.get<AllCambio>(`${this.apiUrl}historicoLlamadas/readAllCambios/${id_historico}`);
   }
+  eliminarSeguimiento(id_grupo_seguimiento:number):Observable<GrupoSeguimiento>{
+    return this.http.delete<GrupoSeguimiento>(`${this.apiUrl}grupoSeguimiento/delete/${id_grupo_seguimiento}`);
+  }
 }

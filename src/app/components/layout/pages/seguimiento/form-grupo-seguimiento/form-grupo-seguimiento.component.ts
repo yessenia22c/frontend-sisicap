@@ -146,9 +146,9 @@ ngOnInit(): void {
   this.listaCapacitacion$ = this.capacitacionService.getCapacitaciones();
   console.log('LISTA DE Capacitaciones', this.listaCapacitacion$);
   if (this.dataGrupoSeguimiento ) {
-    
+    console.log('DATA DIALOG GRUPO SEGUIMIENTO', this.dataGrupoSeguimiento);
     this.formGrupoSeguimiento.patchValue({
-      nombre_capacitacion: this.dataGrupoSeguimiento.UnGrupoSeguimiento.nombre_seguimiento,
+      nombre_seguimiento: this.dataGrupoSeguimiento.UnGrupoSeguimiento.nombre_seguimiento,
       //fecha_creado: this.dataGrupoSeguimiento.UnGrupoSeguimiento.fecha_creado,
       id_capacitacion: this.dataGrupoSeguimiento.UnGrupoSeguimiento.Capacitacion.id_capacitacion,
       id_empleado: this.dataGrupoSeguimiento.UnGrupoSeguimiento.Empleado.id_empleado

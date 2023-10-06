@@ -59,4 +59,23 @@ mat-toolbar {
   .example-card {
     max-width: 400px;
   }
-  
+
+
+  /*PARA EL FILTRO*/
+/*   
+.cartas{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.carta{
+  background-color: #ffffff;
+  transition: all 0.3s ease-out;
+}
+.carta figcaption{
+  padding: 1rem;
+}
+.filter{
+  visibility: hidden;
+  opacity: 0;
+  order: 1;
+} */

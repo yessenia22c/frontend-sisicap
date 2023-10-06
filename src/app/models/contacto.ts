@@ -63,3 +63,30 @@ export interface CambiosRegistrado {
     observacion_llamada: string;
     fecha_seguimiento:   string;
 }
+
+
+export interface CreaContacto {
+    id_contacto:         number;
+    nombre_apellidos:    string;
+    numero_contacto:     string;
+    id_estado_contacto: number;
+    correo_contacto:     string;
+    nombre_empresa:      string;
+    id_sexo:             number | null;
+    id_ciudad:           number | null;
+    id_pais:             number | null;
+    profesion:           string;
+    intereses:           string;
+    observaciones:       string;
+}
+
+
+export interface EstadoContactos {
+    status:  number;
+    Estados: AllEstado[];
+}
+
+export interface AllEstado {
+    id_estado_contacto: number;
+    nombre_estado:      string;
+}

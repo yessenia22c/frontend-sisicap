@@ -4,14 +4,28 @@
 
   <div style="padding-bottom:1em;">
     <h4 style="font-size: 20px; font-weight: 500; color: #002f8d;">Capacitaciones</h4>
-    <button mat-button extended class="boton-agregar no-overlap" (click)="agregaCapacitacion()" >
-      <mat-icon>add_box</mat-icon>
-      Crear capacitación
-    </button>
+    <div class="row">
+      <div class="col-md-6">
+        <div style="padding-bottom:1em;">
+          <button mat-button extended class="boton-agregar no-overlap" (click)="agregaCapacitacion()" >
+            <mat-icon>add_box</mat-icon>
+            Crear capacitación
+          </button>
+        </div> 
+    
+      </div>
+      <div class="col-md-6">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Buscar</mat-label>
+          <input  matInput (input)="applyFilter($event)" placeholder="Ej. Nombre de capacitación..." #input>
+        </mat-form-field>
+      </div>
+    </div>
+    
   </div>
-  <div *ngIf="this.informacionCapacitaciones$ | async as Capacitacion " fxLayout="row wrap" fxLayoutGap="16px grid">
+  <div  fxLayout="row wrap" fxLayoutGap="16px grid">
     <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"
-      *ngFor="let item of Capacitacion.UnaCapacitacion">
+      *ngFor="let item of filtrados">
       <mat-card>
         <mat-card-header>
           <mat-card-title class="texto-item"

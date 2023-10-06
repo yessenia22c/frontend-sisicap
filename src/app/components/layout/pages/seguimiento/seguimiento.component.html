@@ -1,16 +1,30 @@
 
 <div class="content">
+  <div class="row">
+    <div class="col-md-6">
+      <div style="padding-bottom:1em;">
+        <button mat-raised-button extended color="primary" (click)="agregaSeguimiento()" >
+          <mat-icon>add_box</mat-icon>
+          Crear seguimiento
+        </button>
+      </div> 
+  
+    </div>
+    <div class="col-md-6">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Buscar</mat-label>
+        <input  matInput (input)="applyFilter($event)" placeholder="Ej. Seguimiento..." #input>
+      </mat-form-field>
+    </div>
+  </div>
 
-     <div style="padding-bottom:1em;">
-      <button mat-button extended class="boton-agregar no-overlap" (click)="agregaSeguimiento()" >
-        <mat-icon>add_box</mat-icon>
-        Crear seguimiento
-      </button>
-    </div> 
-    <ng-container *ngIf="this.listSeguimientos$ | async as seguimiento ">
-      <div class="row">
-        <div class="col-sm-3 py-2" *ngFor="let item of seguimiento.UnGrupoSeguimiento">
-          <mat-card >
+     
+    
+
+    <ng-container  >
+      <div class="row"  >
+        <div class="col-sm-3 py-2" *ngFor="let item of filtrados">
+          <mat-card>
             <mat-card-header>
               <mat-card-title class="texto-item " [ngClass]="{'long-title': item.nombre_seguimiento.length > 8}">
                 {{item.nombre_seguimiento}}
@@ -24,21 +38,6 @@
     
             </mat-card-actions>
           </mat-card>
-    
-          <!-- <div class="card">
-            <img class="card-img-top" mat-card-image src="./../../../../../assets/img/img-seguimiento.jpg"
-              style="padding: 8px;">
-            <div class="card-body">
-              <h4 class="card-title texto-item" [ngClass]="{'long-title': item.nombre_seguimiento.length > 8}">
-                {{item.nombre_seguimiento}}
-              </h4>
-              <p><b>Responsable:</b><br>{{item.Empleado.persona.nombres_per}} {{item.Empleado.persona.apellidos}}</p>
-    
-              <a [routerLink]="['ver', item.id_grupo_seguimiento]" class="no-overlap boton-curso" mat-raised-button
-                color="primary">Ver seguimiento</a>
-    
-            </div>
-          </div> -->
         </div>
       </div>
     </ng-container>

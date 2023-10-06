@@ -5,9 +5,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDialogModule, MatDialog} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {Capacitacion} from '../../../../models/capacitacion';
+import {Capacitacion, UnaCapacitacion} from '../../../../models/capacitacion';
 
 import {CapacitacionService} from '../../../../services/capacitacion.service'
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -22,7 +24,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-capacitacion',
   standalone: true,
   imports: [CommonModule, MatCardModule, MatGridListModule,MatButtonModule,
-     FlexLayoutModule, MatDialogModule, MatIconModule, RouterModule],
+     FlexLayoutModule, MatDialogModule, MatIconModule, RouterModule, MatFormFieldModule, MatInputModule],
   templateUrl: './capacitacion.component.html',
   styleUrls: ['./capacitacion.component.css']
 })
@@ -34,7 +36,8 @@ export default class CapacitacionComponent implements OnInit {
   }
   //informacionCapacitaciones: Capacitacion[] = null;
   informacionCapacitaciones$: Observable<Capacitacion>  |  undefined;
-  
+  filtrados: UnaCapacitacion[] = [];
+  capacitacionesLista: UnaCapacitacion[] = [];
   gridColumns = 4;
  
 
@@ -45,10 +48,23 @@ export default class CapacitacionComponent implements OnInit {
     //gridColumns: any;
   
   ngOnInit(): void {
-    this.informacionCapacitaciones$ = this.capacitacionService.getCapacitaciones();
+    this.mostrarCapacitaciones();
     //console.log('SON LOS OBASEBAVLEs',this.informacionCapacitaciones$);
     
   }
+  mostrarCapacitaciones(){
+    this.informacionCapacitaciones$ = this.capacitacionService.getCapacitaciones();
+    this.informacionCapacitaciones$.subscribe({
+      next: (data) => {
+        this.capacitacionesLista = data.UnaCapacitacion;
+        this.filtrados = data.UnaCapacitacion;
+      },
+      error: (error) => {
+        console.error('Error cargando capacitaciones', error);
+      },
+    })
+  }
+
   agregaCapacitacion() {
     this.dialog.open(FormCapacitacionComponent,{
       disableClose: true,
@@ -62,6 +78,18 @@ export default class CapacitacionComponent implements OnInit {
   verCapacitacion(id: number){
     console.log('ID CAPACITACION',id);
   } 
+
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+    console.log('filterValue',filterValue);
+    if (!filterValue) {
+      this.filtrados = this.capacitacionesLista ;
+      return;
+    }
+    this.filtrados = this.filtrados.filter(item =>item.nombre_capacitacion.toLowerCase().includes(filterValue));
+    console.log('filtrados lista',this.capacitacionesLista.filter(item =>item.nombre_capacitacion.toLowerCase().includes(filterValue)));     
+  }
 
 }
 

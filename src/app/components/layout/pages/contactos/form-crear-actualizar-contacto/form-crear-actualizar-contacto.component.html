@@ -1,0 +1,109 @@
+<h1 mat-dialog-title>{{tituloAccion}} </h1>
+<div mat-dialog-content>
+  <form [formGroup]="formContacto">
+    <mat-grid-list cols="2" rowHeight="80px">
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Nombre contacto</mat-label>
+          <input type="text" matInput formControlName="nombre_apellidos" autocomplete="off">
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Número de contacto</mat-label>
+          <input type="text" matInput formControlName="numero_contacto" autocomplete="off" >
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Estado contacto</mat-label>
+          <mat-select formControlName="id_estado_contacto" >
+            <div *ngIf="this.listaEstadoContacto$ | async as listaEstados">
+              <mat-option *ngFor="let item of listaEstados.Estados"  [value]="item.id_estado_contacto">
+                {{item.nombre_estado}}
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Correo electrónico</mat-label>
+          <input type="email" matInput formControlName="correo_contacto" autocomplete="off" >
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Nombre empresa</mat-label>
+          <input type="text" matInput formControlName="nombre_empresa" autocomplete="off" >
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>País</mat-label>
+          <mat-select formControlName="id_pais" >
+            <div *ngIf="this.listaPais$ | async as listaPais">
+              <mat-option *ngFor="let item of listaPais.AllPais"  [value]="item.id_pais">
+                {{item.nombre_pais}}
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Ciudad</mat-label>
+          <mat-select formControlName="id_ciudad" >
+            <div *ngIf="this.listaCiudad$ | async as listaCiudad">
+              <mat-option *ngFor="let item of listaCiudad.AllCiudad"  [value]="item.id_ciudad">
+                {{item.nombre_ciudad}}
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Género</mat-label>
+          <mat-select formControlName="id_sexo" >
+            <div *ngIf="this.listaSexo$ | async as listaSexo">
+              <mat-option *ngFor="let item of listaSexo.AllSexo"  [value]="item.id_sexo">
+                {{item.nombre_sexo}}
+              </mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Profesión</mat-label>
+          <input type="text" matInput formControlName="profesion" autocomplete="off" >
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Intereses</mat-label>
+          <input type="text" matInput formControlName="intereses" autocomplete="off" >
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="fill" class="ancho">
+          <mat-label>Observaciones</mat-label>
+          <input type="text" matInput formControlName="observaciones" autocomplete="off" >
+        </mat-form-field>
+      </mat-grid-tile>
+      
+      
+
+    </mat-grid-list>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+  <button mat-raised-button color="primary"
+    (click)="crearContacto()"
+    [disabled]="formContacto.invalid"
+    >{{botonAccion}}
+  </button>
+
+</div>

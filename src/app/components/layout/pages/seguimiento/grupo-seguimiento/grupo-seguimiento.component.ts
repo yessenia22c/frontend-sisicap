@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { SeguimientoService } from 'src/app/services/seguimiento.service';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
-import { ActualizarContactoSeguimiento, AllContactosSeguimiento, AllEstado, AllTipoSeguimiento, ContactosSeguimiento, Estado, SexoContacto, TipoSeguimiento, UnSeguimiento } from 'src/app/models/seguimiento';
+import { ActualizarContactoSeguimiento, AllContactosSeguimiento, AllEstado, AllTipoSeguimiento, ContactosSeguimiento, Estado, GetSeguimiento, GrupoSeguimiento, SexoContacto, TipoSeguimiento, UnGrupoSeguimiento, UnSeguimiento } from 'src/app/models/seguimiento';
 import { ChangeDetectorRef } from '@angular/core';
 import {CdkTableModule} from '@angular/cdk/table';
 
@@ -23,6 +23,7 @@ import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -48,6 +49,9 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/services/servicioActualizarCrearContactoSeguimiento.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
 import { FormContactoSeguimientoComponent } from "../form-contacto-seguimiento/form-contacto-seguimiento.component";
+import { FormGrupoSeguimientoComponent } from '../form-grupo-seguimiento/form-grupo-seguimiento.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogEliminarSeguimientoComponent } from '../dialog-eliminar-seguimiento/dialog-eliminar-seguimiento.component';
 
 export const MY_DATE_FORMATS: NgxMatDateFormats  = {
   parse: {
@@ -106,6 +110,7 @@ export const MY_DATE_FORMATS: NgxMatDateFormats  = {
         ReactiveFormsModule,
         FormsModule,
         NgxMatDatetimePickerModule,
+        MatDialogModule,
         NgxMatNativeDateModule, FormContactoSeguimientoComponent]
 })
 
@@ -162,6 +167,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
   id_tipo_seguimiento: number | null  = null;
 
   constructor(
+    public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -211,7 +217,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
 
    });
   }
-
+  capacitacion$: Observable<UnGrupoSeguimiento>  |  undefined;
   UnSeguimiento$: Observable<UnSeguimiento> | undefined;
   dataParticipante$: Observable<AllContactosSeguimiento> | undefined;
 
@@ -607,7 +613,59 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     console.log('MIRANDO CAMBIOS')
   }
 
-  
+  editarSeguimiento(dataCapacitacion: GetSeguimiento) {  
+    console.log('DATO SEGUIMIENTO', dataCapacitacion);
+    this.dialog.open(FormGrupoSeguimientoComponent,{
+      disableClose: true,
+      width: '400px',
+      data: dataCapacitacion
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="editado"){
+        this.verSeguimiento();
+      }
+    })
+    
+  }
+  eliminarSeguimiento( dataParticipante: GetSeguimiento){
+    this.dialog.open(DialogEliminarSeguimientoComponent,{
+      disableClose: true,
+      data:  dataParticipante
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="eliminar"){
+        this.seguimientoService.eliminarSeguimiento(dataParticipante.UnGrupoSeguimiento.id_grupo_seguimiento).subscribe({
+          next: (resp) => { 
+            console.log('RESP',resp);
+            this.mostrarAlerta('Seguimiento eliminado correctamente', 'Listo');
+            this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        });
+      }
+    });
+  }
+  // dialogoEliminarParticipante(dataParticipante: NuevoParticipante) {
 
+  //   this.dialog.open(DialogoDeleteComponent,{
+      
+  //     disableClose: true,
+  //     data:  dataParticipante
+  //   }).afterClosed().subscribe(resultado => {
+  //     if(resultado==="eliminar"){
+  //       this.participanteService.eliminarParticipante(dataParticipante.id_participante).subscribe({
+  //         next: (resp) => { 
+  //           console.log('RESP',resp);
+  //           this.mostrarAlerta('Participante eliminado correctamente', 'Listo');
+            
+  //           this.mostrarParticipantes();
+  //         },
+  //         error: (err) => {
+  //           console.log(err);
+  //         }
+  //       });
+  //     }
+  //   })
+  // }
 }
 
