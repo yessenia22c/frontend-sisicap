@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ViewChild, AfterViewInit} from '@angular/core';
 import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
@@ -6,7 +6,7 @@ import {MatSort, Sort, SortDirection} from '@angular/material/sort';
 import {merge, Observable, of as observableOf, ReplaySubject} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AllContacto, Contacto, ListaContacto } from 'src/app/models/contactoAsignar';
@@ -25,6 +25,7 @@ import {DataSource, SelectionModel} from '@angular/cdk/collections';
 import { DialogAsignarContactosComponent } from './dialog-asignar-contactos/dialog-asignar-contactos.component';
 import { PaginatorService } from 'src/app/services/Paginator.service';
 import { FormCrearActualizarContactoComponent } from './form-crear-actualizar-contacto/form-crear-actualizar-contacto.component';
+import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/services/servicioActualizarCrearContactoSeguimiento.service';
 @Component({
   selector: 'app-contactos',
   standalone: true,
@@ -62,12 +63,14 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     'id_sexo',
     'id_ciudad',
     'id_pais',
+    'id_estado_contacto',
     'botones'
   ];
   dataSource = new MatTableDataSource<AllContacto>();
  
 
-  
+  @ViewChild(MatTable) table!: MatTable<AllContacto>;
+
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
@@ -77,21 +80,65 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
   IdContactosSeleccionados: ListaContacto[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+
+  listaIdContactos: ListaContacto[] = [];
+
   private _dataStream = new ReplaySubject<AllContacto[]>(); // Para el ejemplo de la tabla
   constructor(
     private serviceContacto: ContactoService,
     private _liveAnnouncer: LiveAnnouncer,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef,
+    private servicioContactoSeguimiento: ServicioActualizarCrearContactoSeguimientoService,
     ) {}
   ngOnInit(): void {
     this.mostrarContactos();
+    
+    this.servicioContactoSeguimiento.obtenerActualizacionesContactos().subscribe(update => {
+      if (update) {
+        // Update the specific item in your array based on the id
+        const index = this.dataSource.data.findIndex(item => {
+          console.log('ITEM IGUAL', item.id_contacto === update.id);
+          return item.id_contacto === update.id; 
+        });
+
+        console.log("id_contacto update", update.id)
+        console.log('INDEX', index);
+        if (index !== -1) {
+          // Update the specific field
+          this.dataSource.data[index] = { ...this.dataSource.data[index], ...update.contacto };
+          console.log('DATOS DATA SOURCE', this.dataSource.data[index]);
+          console.log('DATOS DATA SOURCE ACT', update.contacto );
+
+          this.dataSource._updateChangeSubscription();
+
+          // Actualizar los selected después de la actualización
+          //quitar el elemento del seleccionado array
+          
+           // Detect changes
+          // this.cdr.detectChanges();
+          // this.table.renderRows();
+        }
+      }
+  
+    });
+
+
+    this.serviceContacto.onNuevoContacto().subscribe((nuevoContacto) => {
+      // Agregar el nuevo contacto a la tabla
+      this.dataSource.data = [...this.dataSource.data, nuevoContacto];
+      console.log('NUEVO CONTACTO ON NUEVO CONTACTO', nuevoContacto);
+      //this.table.renderRows();
+    });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    const numRowFiltered = this.dataSource.filteredData.length;
+    return numSelected === numRows || numSelected === numRowFiltered;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -102,18 +149,27 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     }
     if (this.filterValue.length > 0) {
       this.selection.select(...this.dataSource.filteredData);
+      // Si estan todos seleccionados, deseleccionar todos
+      
       return;
     }
-
+    
     this.selection.select(...this.dataSource.data);
+    
+    //Actualizar lista de contactos seleccionados
+    // this.listaIdContactos = this.selection.selected.map(item => ({
+    //   id_contacto: item.id_contacto
+    // }));
+    
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: AllContacto): string {
-    const listaIdContactos: ListaContacto[] = this.selection.selected.map(item => ({
+  checkboxLabel(row?: AllContacto):string {
+    
+    this.listaIdContactos = this.selection.selected.map(item => ({
       id_contacto: item.id_contacto
     }));
-    this.IdContactosSeleccionados = listaIdContactos;
+    this.IdContactosSeleccionados = this.listaIdContactos;
     //console.log('LISTA ID CONTACTOS', listaIdContactos);
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
@@ -159,9 +215,11 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     this.listaContactos$.subscribe( {
       next: (data: Contacto) => {
         this.dataSource.data = data.AllContacto;
+        //this.servicioContactoSeguimiento.listaContactos.emit(this.dataSource.data);
+        //this.servicioContactoSeguimiento.actualizarListaContactos(this.dataSource.data);
         // this.dataSource.
         console.log('CONTACTOS DATA SOURCE', this.dataSource.data);
-
+        
         this.dataSource.filterPredicate = (data: AllContacto, filter: string) => {
           const contactoDatas = data;
 
@@ -191,7 +249,9 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
       width: '700px',
     }).afterClosed().subscribe(resultado => {
       if(resultado==="Creado"){
-        this.mostrarContactos();
+        //this.mostrarContactos();
+        //this.dataSource.push();
+        this.table.renderRows();
         // this.mostrarContactos();
         // this.dataToDisplay = [...this.dataToDisplay, ELEMENT_DATA[randomElementIndex]];
         // this.dataSource.setData(this.dataToDisplay);
@@ -200,14 +260,16 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
   };
 
   editarContacto(dataContacto: AllContacto) {
-    
+    //this.servicioContactoSeguimiento.listaContactos.emit(this.dataSource.data);
+    //console.log('DATOS ENVIADOS', this.servicioContactoSeguimiento.listaContactos.emit(this.dataSource.data));
     this.dialog.open(FormCrearActualizarContactoComponent,{
       disableClose: true,
       width: '700px',
       data: dataContacto
     }).afterClosed().subscribe(resultado => {
       if(resultado==="editado"){
-        this.mostrarContactos();
+
+        this.selection.deselect(dataContacto);
       }
     })
     

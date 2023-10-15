@@ -302,7 +302,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
         
         this.dataSource.data = data.AllContactosSeguimiento;
         this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data);
-
+        console.log('CONTACTOS DATA SOURCE ENVIADOS', this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data));
         this.dataSource.data = data.AllContactosSeguimiento.map(item => ({
           ...item,
           TipoSeguimiento: setDefaultIfNull(item.TipoSeguimiento, {
@@ -392,6 +392,8 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     console.log('ENVIANDO?', this.servicioContactoSeguimiento.disparadorContactos.emit(modelo));
     this.servicioContactoSeguimiento.disparadorContactos.emit(modelo);
     this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data);
+    // console.log('CONTACTOS DATA SOURCE ENVIADOS DESDE ABIR', this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data));
+
   }
   // abrirSidenav(modelo: InformacionContacto): void {
   //   this.sidenav.open();

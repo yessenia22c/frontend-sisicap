@@ -45,11 +45,20 @@
             <div *ngIf="this.listaPais$ | async as listaPais">
               <mat-option *ngFor="let item of listaPais.AllPais"  [value]="item.id_pais">
                 {{item.nombre_pais}}
-              </mat-option>
+              </mat-option> 
             </div>
           </mat-select>
+          
         </mat-form-field>
+        
       </mat-grid-tile>
+      <!-- <div>
+        <p>Pais seleccionado</p>
+        <pre>
+          {{ selectedPais | json }}
+        </pre>
+      </div>
+       -->
       <mat-grid-tile>
         <mat-form-field appearance="fill" class="ancho">
           <mat-label>Ciudad</mat-label>
@@ -97,7 +106,9 @@
 
     </mat-grid-list>
   </form>
+  <pre>{{dataSourceContacto | json}}</pre>
 </div>
+
 <div mat-dialog-actions>
   <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
   <button mat-raised-button color="primary"

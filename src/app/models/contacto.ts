@@ -78,6 +78,11 @@ export interface CreaContacto {
     profesion:           string;
     intereses:           string;
     observaciones:       string;
+    datosContacto:       any  ;
+}
+export interface PaisSeleccionado {
+    id_pais: number | null;
+    nombre_pais: string | null; // Solo para mostrar en la tabla
 }
 
 

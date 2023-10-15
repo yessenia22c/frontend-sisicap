@@ -166,6 +166,7 @@ export class FormContactoSeguimientoComponent implements OnInit {
 
     this.servicioContactoSeguimiento.disparadorContactosAct.subscribe(data => {
       this.dataSourceSide = data;
+      console.log('DATASOUSE QUE LLGA', this.dataSourceSide);
     });
 
   }

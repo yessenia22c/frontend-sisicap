@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Contacto, ContactosAsignar, ContactosSubir, ListaContactoSubir } from '../models/contactoAsignar';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { CreaContacto, EstadoContactos } from '../models/contacto';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class ContactoService {
   private endpoint: string = environment.endPoint;
   private apiUrl: string = this.endpoint;
   
-
+  private nuevoContactoSubject = new Subject<any>();
 
   constructor(private http: HttpClient) { 
     
@@ -28,7 +28,12 @@ export class ContactoService {
   }
 
   crearContacto(modelo: CreaContacto): Observable<CreaContacto> {
-    return this.http.post<CreaContacto>(`${this.apiUrl}contacto/create`, modelo);
+    return this.http.post<CreaContacto>(`${this.apiUrl}contacto/create`, modelo)
+    // .pipe(
+    //   tap(() => {
+    //     this.emitNuevoContacto(modelo);
+    //   })
+    // );
   }
 
   listarEstadosContacto(): Observable<EstadoContactos> {
@@ -37,6 +42,16 @@ export class ContactoService {
 
   actualizarContacto(modelo: CreaContacto): Observable<CreaContacto> {
     return this.http.put<CreaContacto>(`${this.apiUrl}contacto/update`, modelo);
+  }
+
+  // Método para emitir el evento de nuevo contacto
+  emitNuevoContacto(modelo: CreaContacto) {
+    this.nuevoContactoSubject.next(modelo);
+  }
+
+  // Método para suscribirse al evento de nuevo contacto
+  onNuevoContacto(): Observable<any> {
+    return this.nuevoContactoSubject.asObservable();
   }
   
 }

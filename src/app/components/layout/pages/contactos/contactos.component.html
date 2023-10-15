@@ -131,7 +131,7 @@
                 </td>
               </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns;" ></tr>
-             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr> 
+             <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr> 
             <!-- Row shown when there is no matching data. -->
             <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" colspan="4">No se encuentran resultados"{{input.value}}"</td>
@@ -139,7 +139,7 @@
             
         </table>
     </section>
-    <mat-paginator [length]="resultsLength"  [pageSize]="10" aria-label="Mostrando paginas de contactos"></mat-paginator>
+    <mat-paginator [length]="resultsLength"  [pageSize]="50" aria-label="Mostrando paginas de contactos"></mat-paginator>
     <pre>
         {{selection.selected | json}}
     </pre>
