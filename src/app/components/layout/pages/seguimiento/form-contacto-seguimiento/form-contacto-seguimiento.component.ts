@@ -232,8 +232,10 @@ export class FormContactoSeguimientoComponent implements OnInit {
         },
         TipoSeguimiento: {
           id_tipo_seguimiento: this.formContacto.value.InformacionContacto.TipoSeguimiento.id_tipo_seguimiento,
-        }
-      }
+        },
+        
+      },
+      informacionActualizadoContacto: null
 
     };
 
@@ -281,30 +283,31 @@ export class FormContactoSeguimientoComponent implements OnInit {
           
           console.log('CONTACTO ACTUALIZADO', dato);
           this.mostrarAlerta('Datos registrados correctamente', 'Listo');
+          this.seguimientoService.actualizarContacto(dato.informacionActualizadoContacto);
           //this.mostrarContactos();
           // console.log('DATASOURCE DE SIDENAV', this.servicioContactoSeguimiento.disparadorContactosAct.subscribe(data => {console.log('DATASOUSE desde Sidenav', data);}))
-          const datoExistente = this.dataSourceSide.find((item: any) => item.id_historico === modelo.InformacionContacto.id_historico);
-            if (datoExistente) {
-              console.log('Lo encontro')
-              datoExistente.fecha_actualizacion = modelo.InformacionContacto.fecha_actualizacion;
-              datoExistente.prox_llamada = modelo.InformacionContacto.prox_llamada;
-              datoExistente.observacion_llamada = modelo.InformacionContacto.observacion_llamada;
-              datoExistente.Contactos.nombre_apellidos = modelo.InformacionContacto.Contactos.nombre_apellidos;
-              datoExistente.Contactos.numero_contacto = modelo.InformacionContacto.Contactos.numero_contacto;
-              datoExistente.Contactos.correo_contacto = modelo.InformacionContacto.Contactos?.correo_contacto!;
-              datoExistente.Contactos.nombre_empresa = modelo.InformacionContacto.Contactos.nombre_empresa;
-              datoExistente.Contactos.profesion = modelo.InformacionContacto.Contactos.profesion;
-              datoExistente.Contactos.intereses = modelo.InformacionContacto.Contactos.intereses;
-              datoExistente.Contactos.observaciones = modelo.InformacionContacto.Contactos.observaciones;
-              datoExistente.Contactos.Sexo_contacto.id_sexo = modelo.InformacionContacto.Contactos.Sexo_contacto?.id_sexo!;
-              datoExistente.Contactos.Ciudad_contacto.id_ciudad = modelo.InformacionContacto.Contactos.Ciudad_contacto?.id_ciudad!;
-              datoExistente.Contactos.Pais_contacto.id_pais = modelo.InformacionContacto.Contactos.Pais_contacto?.id_pais!;
-              datoExistente.Contactos.Estado.id_estado_contacto = modelo.InformacionContacto.Contactos.Estado?.id_estado_contacto!;
-              datoExistente.TipoSeguimiento.id_tipo_seguimiento = modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento!;
+          // const datoExistente = this.dataSourceSide.find((item: any) => item.id_historico === modelo.InformacionContacto.id_historico);
+          //   if (datoExistente) {
+          //     console.log('Lo encontro')
+          //     datoExistente.fecha_actualizacion = modelo.InformacionContacto.fecha_actualizacion;
+          //     datoExistente.prox_llamada = modelo.InformacionContacto.prox_llamada;
+          //     datoExistente.observacion_llamada = modelo.InformacionContacto.observacion_llamada;
+          //     datoExistente.Contactos.nombre_apellidos = modelo.InformacionContacto.Contactos.nombre_apellidos;
+          //     datoExistente.Contactos.numero_contacto = modelo.InformacionContacto.Contactos.numero_contacto;
+          //     datoExistente.Contactos.correo_contacto = modelo.InformacionContacto.Contactos?.correo_contacto!;
+          //     datoExistente.Contactos.nombre_empresa = modelo.InformacionContacto.Contactos.nombre_empresa;
+          //     datoExistente.Contactos.profesion = modelo.InformacionContacto.Contactos.profesion;
+          //     datoExistente.Contactos.intereses = modelo.InformacionContacto.Contactos.intereses;
+          //     datoExistente.Contactos.observaciones = modelo.InformacionContacto.Contactos.observaciones;
+          //     datoExistente.Contactos.Sexo_contacto.id_sexo = modelo.InformacionContacto.Contactos.Sexo_contacto?.id_sexo!;
+          //     datoExistente.Contactos.Ciudad_contacto.id_ciudad = modelo.InformacionContacto.Contactos.Ciudad_contacto?.id_ciudad!;
+          //     datoExistente.Contactos.Pais_contacto.id_pais = modelo.InformacionContacto.Contactos.Pais_contacto?.id_pais!;
+          //     datoExistente.Contactos.Estado.id_estado_contacto = modelo.InformacionContacto.Contactos.Estado?.id_estado_contacto!;
+          //     datoExistente.TipoSeguimiento.id_tipo_seguimiento = modelo.InformacionContacto.TipoSeguimiento?.id_tipo_seguimiento!;
 
-            } else {
-              console.log('Fallo en el intento');
-            }
+          //   } else {
+          //     console.log('Fallo en el intento');
+          //   }
           
           //this.dataSource._renderChangesSubscription;
           //this.table.renderRows();

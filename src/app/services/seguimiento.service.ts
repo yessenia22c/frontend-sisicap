@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ActualizarContactoSeguimiento, AllContactosSeguimiento, AllEstado, AllTipoSeguimiento, ContactosAgregar, ContactosSeguimiento, CreaGrupoSeguimiento, Estado, GrupoSeguimiento, UnSeguimiento } from '../models/seguimiento';
-import { Observable } from 'rxjs';
-import { AllCambio, Cambio, SeguimientoContacto } from '../models/contacto';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AllCambio, Cambio, InformacionContacto, SeguimientoContacto } from '../models/contacto';
 
 @Injectable({
   providedIn: 'root'
@@ -60,4 +60,22 @@ export class SeguimientoService {
   eliminarSeguimiento(id_grupo_seguimiento:number):Observable<GrupoSeguimiento>{
     return this.http.delete<GrupoSeguimiento>(`${this.apiUrl}grupoSeguimiento/delete/${id_grupo_seguimiento}`);
   }
+
+
+  private listaContactosSource = new BehaviorSubject<{ id: number, contactoSeguimiento: InformacionContacto } | null>(null);
+
+
+  actualizarContacto(contactoSeguimiento: InformacionContacto) {
+    this.listaContactosSource.next({ id: contactoSeguimiento.id_historico, contactoSeguimiento });
+  }
+  eliminarContacto(contactoSeguimiento: InformacionContacto) {
+    this.listaContactosSource.next({ id: contactoSeguimiento.id_historico, contactoSeguimiento});
+  }
+
+
+  obtenerActualizacionesContactos() {
+    return this.listaContactosSource.asObservable();
+  }
 }
+
+

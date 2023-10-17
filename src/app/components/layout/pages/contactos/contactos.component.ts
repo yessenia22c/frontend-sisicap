@@ -26,6 +26,8 @@ import { DialogAsignarContactosComponent } from './dialog-asignar-contactos/dial
 import { PaginatorService } from 'src/app/services/Paginator.service';
 import { FormCrearActualizarContactoComponent } from './form-crear-actualizar-contacto/form-crear-actualizar-contacto.component';
 import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/services/servicioActualizarCrearContactoSeguimiento.service';
+import { DialogEliminarContactoComponent } from './dialog-eliminar-contacto/dialog-eliminar-contacto.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-contactos',
   standalone: true,
@@ -90,6 +92,7 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     private _liveAnnouncer: LiveAnnouncer,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
+    private _snackBar: MatSnackBar,
     private servicioContactoSeguimiento: ServicioActualizarCrearContactoSeguimientoService,
     ) {}
   ngOnInit(): void {
@@ -230,9 +233,7 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  mostrarAlerta(){
 
-  };
   abirDialogAsignarContacto(){
     const dialogRef = this.dialog.open(DialogAsignarContactosComponent, {
       data: this.IdContactosSeleccionados
@@ -273,6 +274,50 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
       }
     })
     
+  }
+
+  mostrarAlerta(mensaje: string, accion: string) {
+    this._snackBar.open(mensaje, accion, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
+  }
+  dialogoEliminarContacto(dataContacto: AllContacto) {
+
+    this.dialog.open(DialogEliminarContactoComponent,{
+      
+      disableClose: true,
+      data:  dataContacto
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="eliminar"){
+        this.serviceContacto.eliminarContacto(dataContacto.id_contacto).subscribe({
+          next: (resp) => { 
+            console.log('RESP',resp);
+            this.mostrarAlerta('Contacto eliminado correctamente', 'Cerrar');
+
+            //Actualizar lista contacto pero sin el contacto eliminado
+            this.servicioContactoSeguimiento.obtenerActualizacionesContactos().subscribe(objetoEliminar => {
+              if (objetoEliminar) {
+                const indexEliminar = this.dataSource.data.findIndex(item => {
+                  return item.id_contacto === objetoEliminar.id; 
+                });
+        
+                if (indexEliminar !== -1) {
+                  this.dataSource.data.splice(indexEliminar, 1);
+        
+                  this.dataSource._updateChangeSubscription();
+                }
+              }
+          
+            });
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        });
+      }
+    })
   }
 }
 

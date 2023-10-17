@@ -17,7 +17,11 @@ export class ServicioActualizarCrearContactoSeguimientoService {
 //compartir dato entre componentes que no tienen relacion padre Hijo
 private listaContactosSource = new BehaviorSubject<{ id: number, contacto: AllContacto } | null>(null);
 
+
   actualizarContacto(contacto: AllContacto) {
+    this.listaContactosSource.next({ id: contacto.id_contacto, contacto });
+  }
+  eliminarContacto(contacto: AllContacto) {
     this.listaContactosSource.next({ id: contacto.id_contacto, contacto });
   }
 

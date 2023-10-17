@@ -4,6 +4,7 @@ export interface Seguimiento {
     id_capacitacion:    number;
     id_empleado:        number;
 }
+
 export interface GrupoSeguimiento {
     status:             number;
     UnGrupoSeguimiento: UnGrupoSeguimiento[];
@@ -92,12 +93,12 @@ export interface Contactos {
     id_contacto:      number;
     nombre_apellidos: string;
     numero_contacto:  string;
-    correo_contacto:  string;
+    correo_contacto:  string | null;
     nombre_empresa:   null | string;
     profesion:        null | string;
     intereses:        null | string;
     observaciones:    null | string;
-    Sexo_contacto:    SexoContacto ;
+    Sexo_contacto:    SexoContacto;
     Ciudad_contacto:  CiudadContacto;
     Pais_contacto:    PaisContacto;
     Estado:           Estado;
@@ -120,7 +121,7 @@ export interface PaisContacto {
 
 export interface SexoContacto {
     id_sexo:     number | null;
-    nombre_sexo: string     | null;
+    nombre_sexo: string | null;
 }
 
 export interface TipoSeguimiento {
@@ -138,6 +139,7 @@ export interface AllContactosSeguimiento {
     Contactos:            Contactos;
     TipoSeguimiento:      TipoSeguimiento ;
     observacion_llamada:  string | null;
+    informacionActualizadoContacto: any
 }
 
 export interface ActualizarContactoSeguimiento {

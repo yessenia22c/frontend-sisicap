@@ -44,6 +44,10 @@ export class ContactoService {
     return this.http.put<CreaContacto>(`${this.apiUrl}contacto/update`, modelo);
   }
 
+  eliminarContacto(id: number): Observable<CreaContacto> {
+    return this.http.delete<CreaContacto>(`${this.apiUrl}contacto/delete/${id}`);
+  }
+
   // Método para emitir el evento de nuevo contacto
   emitNuevoContacto(modelo: CreaContacto) {
     this.nuevoContactoSubject.next(modelo);

@@ -141,7 +141,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
   columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
   expandedElement!: AllContactosSeguimiento | null;
   listContactos$: Observable<ContactosSeguimiento> | undefined;
-  dataSource = new MatTableDataSource<AllContactosSeguimiento>();
+  dataSource = new MatTableDataSource<InformacionContacto>();
   @ViewChild(MatTable) table!: MatTable<AllContactosSeguimiento>;
   listaCambios$: Observable<AllCambio> | undefined;
   // dataSource = new MatTableDataSource<any>([], {
@@ -239,7 +239,36 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
   ngOnInit() {
     this.verSeguimiento();
     this.mostrarContactos();
+    //this.seguimientoService.obtenerActualizacionesContactos().subscribe();
+    this.seguimientoService.obtenerActualizacionesContactos().subscribe(update => {
+      if (update) {
+        // Update the specific item in your array based on the id
+        const index = this.dataSource.data.findIndex(item => {
+          console.log('ITEM IGUAL', item.id_historico === update.id);
+          return item.id_historico === update.id; 
+        });
 
+        console.log("id_contacto update", update.id)
+        console.log('INDEX', index);
+        if (index !== -1) {
+          // Update the specific field
+          this.dataSource.data[index] = { ...this.dataSource.data[index], ...update.contactoSeguimiento };
+          console.log('DATOS DATA SOURCE', this.dataSource.data[index]);
+          console.log('DATOS DATA SOURCE ACT', update.contactoSeguimiento );
+
+          this.dataSource._updateChangeSubscription();
+
+          // Actualizar los selected después de la actualización
+          //quitar el elemento del seleccionado array
+          
+           // Detect changes
+          // this.cdr.detectChanges();
+          // this.table.renderRows();
+        }
+      }
+  
+    });
+    
     //Cerrar el sidenav si se cambia de ruta
     this.router.events.subscribe(event => {
       // Verifica si el evento es un cambio de ruta
@@ -330,7 +359,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
           }
         }));
         console.log('CONTACTOS DATA SOURCE', this.dataSource.data);
-        this.dataSource.filterPredicate = (data: AllContactosSeguimiento, filter: string) => {
+        this.dataSource.filterPredicate = (data: InformacionContacto, filter: string) => {
           const contactoDatas = data.Contactos;
 
           const values = Object.values(contactoDatas);
@@ -453,51 +482,51 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
   // }
   fechaActualEnBolivia = new Date().toLocaleString('en-US', { timeZone: 'America/La_Paz' });
   fechaActual = new Date().toISOString().substring(0, 10); //YYYY-MM-DD
-  getTipoSeguimientoNombre(idTipoSeguimiento: number): string {
-    const tipoSeguimientoNombres: { [id: number]: string } = {
-      1: "Abierto",
-      2: "Rechazado",
-      3: "Registrado",
-      4: "Pagado",
-    };
-    return tipoSeguimientoNombres[idTipoSeguimiento] || "";
-  }
-  getGenero(idGenero: number): string {
-    const tipoSexo: { [id: number]: string } = {
-      1: "FEMENINO",
-      2: "MASCULINO",
-    };
-    return tipoSexo[idGenero] || "";
-  }
-  getEstado(idEstado: number): string {
-    const tipoEstado: { [id: number]: string } = {
-      1: "CLIENTE",
-      2: "POSIBLE CLIENTE",
-      3: "BLOQUEADO"
-    };
-    return tipoEstado[idEstado] || "";
-  }
-  getCiudad(idCiudad: number): string {
-    const listaCiudad: { [id: number]: string } = {
-      1: "SANTA CRUZ",
-      2: "BENI",
-      3: "PANDO",
-      4: "TARIJA",
-      5: "CHUQUISACA",
-      6: "COCHABAMBA",
-      7: "ORURO",
-      8: "POTOSÍ",
-      9: "LA PAZ"
-    };
-    return listaCiudad[idCiudad] || "";
-  }
-  getPais(idPais: number): string {
-    const listPaises: { [id: number]: string } = {
-      1: "BOLIVIA",
-      2: "OTRO PAÍS"
-    };
-    return listPaises[idPais] || "";
-  }
+  // getTipoSeguimientoNombre(idTipoSeguimiento: number): string {
+  //   const tipoSeguimientoNombres: { [id: number]: string } = {
+  //     1: "Abierto",
+  //     2: "Rechazado",
+  //     3: "Registrado",
+  //     4: "Pagado",
+  //   };
+  //   return tipoSeguimientoNombres[idTipoSeguimiento] || "";
+  // }
+  // getGenero(idGenero: number): string {
+  //   const tipoSexo: { [id: number]: string } = {
+  //     1: "FEMENINO",
+  //     2: "MASCULINO",
+  //   };
+  //   return tipoSexo[idGenero] || "";
+  // }
+  // getEstado(idEstado: number): string {
+  //   const tipoEstado: { [id: number]: string } = {
+  //     1: "CLIENTE",
+  //     2: "POSIBLE CLIENTE",
+  //     3: "BLOQUEADO"
+  //   };
+  //   return tipoEstado[idEstado] || "";
+  // }
+  // getCiudad(idCiudad: number): string {
+  //   const listaCiudad: { [id: number]: string } = {
+  //     1: "SANTA CRUZ",
+  //     2: "BENI",
+  //     3: "PANDO",
+  //     4: "TARIJA",
+  //     5: "CHUQUISACA",
+  //     6: "COCHABAMBA",
+  //     7: "ORURO",
+  //     8: "POTOSÍ",
+  //     9: "LA PAZ"
+  //   };
+  //   return listaCiudad[idCiudad] || "";
+  // }
+  // getPais(idPais: number): string {
+  //   const listPaises: { [id: number]: string } = {
+  //     1: "BOLIVIA",
+  //     2: "OTRO PAÍS"
+  //   };
+  //   return listPaises[idPais] || "";
+  // }
 
   // EditarContactoSeguimiento(): void {
   //   console.log('FORMULARIO SEG CONTAC', this.formContacto.value);

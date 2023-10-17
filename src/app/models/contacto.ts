@@ -1,5 +1,7 @@
 export interface SeguimientoContacto {
     InformacionContacto: InformacionContacto;
+    informacionActualizadoContacto: any
+    
 }
 
 export interface InformacionContacto {
@@ -10,21 +12,22 @@ export interface InformacionContacto {
     Contactos:            Contactos;
     TipoSeguimiento:      TipoSeguimiento | null;
     observacion_llamada:  string | null;
+    
 }
 
 export interface Contactos {
     id_contacto:      number;
     nombre_apellidos: string;
     numero_contacto:  string;
-    correo_contacto:  string   | null;
+    correo_contacto:  string | null;
     nombre_empresa:   string | null;
     profesion:        string | null;
     intereses:        string    | null;
     observaciones:    string    | null;
-    Sexo_contacto:    SexoContacto | null;
-    Ciudad_contacto:  CiudadContacto | null;
-    Pais_contacto:    PaisContacto | null;
-    Estado:           Estado | null;
+    Sexo_contacto:    SexoContacto ;
+    Ciudad_contacto:  CiudadContacto ;
+    Pais_contacto:    PaisContacto ;
+    Estado:           Estado ;
 }
 
 export interface CiudadContacto {
