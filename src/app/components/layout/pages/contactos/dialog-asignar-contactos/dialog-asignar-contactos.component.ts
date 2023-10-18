@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -53,13 +53,15 @@ export class DialogAsignarContactosComponent implements OnInit {
   listSeguimientos$: Observable<GrupoSeguimiento>  |  undefined;
   UnSeguimiento$: Observable<UnSeguimiento> | undefined;
   selected3: any;
-  myControl = new FormControl('');
+  myControl = new FormControl('', Validators.required);
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions$!: Observable<UnGrupoSeguimiento[]>;
   selectedOptionValue!: string;
   seguimientos$!: Observable<UnGrupoSeguimiento[]> ;
 
   seleccionOpcion!: UnGrupoSeguimiento;
+
+  
   ngOnInit() {
     console.log('data seleccionada',this.data);
     this.mostrarSeguimientos();

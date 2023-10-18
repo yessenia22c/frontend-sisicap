@@ -52,6 +52,7 @@ import { FormContactoSeguimientoComponent } from "../form-contacto-seguimiento/f
 import { FormGrupoSeguimientoComponent } from '../form-grupo-seguimiento/form-grupo-seguimiento.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEliminarSeguimientoComponent } from '../dialog-eliminar-seguimiento/dialog-eliminar-seguimiento.component';
+import { DialogEliminarContactoSeguimientoComponent } from '../dialog-eliminar-contacto-seguimiento/dialog-eliminar-contacto-seguimiento.component';
 
 export const MY_DATE_FORMATS: NgxMatDateFormats  = {
   parse: {
@@ -132,7 +133,8 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     'id_sexo',
     'id_ciudad',
     'id_pais',
-    'id_estado_contacto'
+    'id_estado_contacto',
+    'botones'
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator ;
   @ViewChild(MatSort) sort!: MatSort ;
@@ -668,6 +670,40 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
             console.log('RESP',resp);
             this.mostrarAlerta('Seguimiento eliminado correctamente', 'Listo');
             this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        });
+      }
+    });
+  }
+
+  eliminarContactoSegumiento( dataContacto: InformacionContacto){
+    this.dialog.open(DialogEliminarContactoSeguimientoComponent,{
+      disableClose: true,
+      data:  dataContacto
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="eliminar"){
+        this.seguimientoService.eliminarContactoSeguimiento(dataContacto.id_historico).subscribe({
+          next: (resp) => { 
+            console.log('RESP',resp);
+            this.mostrarAlerta('Contacto eliminado del seguimiento correctamente', 'Listo');
+            //Actualizar lista contacto pero sin el contacto eliminado
+            this.seguimientoService.obtenerActualizacionesContactos().subscribe(objetoEliminar => {
+              if (objetoEliminar) {
+                const indexEliminar = this.dataSource.data.findIndex(item => {
+                  return item.id_historico === objetoEliminar.id; 
+                });
+        
+                if (indexEliminar !== -1) {
+                  this.dataSource.data.splice(indexEliminar, 1);
+        
+                  this.dataSource._updateChangeSubscription();
+                }
+              }
+          
+            });
           },
           error: (err) => {
             console.log(err);

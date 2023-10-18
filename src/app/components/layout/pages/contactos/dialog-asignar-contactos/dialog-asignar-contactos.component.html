@@ -50,7 +50,7 @@
       mat-raised-button
       color="primary"
       (click)="asignarContactos()"
-      [disabled]="myControl.invalid"
+      [disabled]="myControl.invalid || this.data.length === 0"
     >
       Asignar
     </button>

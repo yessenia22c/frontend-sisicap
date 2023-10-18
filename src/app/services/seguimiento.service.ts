@@ -76,6 +76,11 @@ export class SeguimientoService {
   obtenerActualizacionesContactos() {
     return this.listaContactosSource.asObservable();
   }
+
+
+  eliminarContactoSeguimiento(id: number): Observable<InformacionContacto> {
+    return this.http.delete<InformacionContacto>(`${this.apiUrl}historicoLlamadas/delete_contacto/${id}`);
+  }
 }
 
 
