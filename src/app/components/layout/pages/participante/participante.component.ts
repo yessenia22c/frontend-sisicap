@@ -21,26 +21,27 @@ import { Observable } from 'rxjs';
 import { ParticipanteService } from 'src/app/services/participante.service';
 import { AllParticipante, DatosPersona, NuevoParticipante, Participante, personas } from 'src/app/models/participante';
 import { PaginatorService } from 'src/app/services/Paginator.service';
-
-
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 
 @Component({
   selector: 'app-participante',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatDialogModule, MatFormFieldModule, 
-    MatInputModule, MatTableModule,MatPaginatorModule ],
+    MatInputModule, MatTableModule,MatPaginatorModule, MatPaginatorModule, ControlRolesDirective ],
   templateUrl: './participante.component.html',
   styleUrls: ['./participante.component.css'],
   providers: [
     // ...
     { provide: MatPaginatorIntl, useClass: PaginatorService } // Usa el servicio personalizado
-  ]
+  ],
+
 })
 export default class ParticipanteComponent {
   
   displayedColumns: string[] = ['id_participante', 'nombres_per', 'apellidos', 'nro_ci', 'correo', 'telefono', 'ocupacion', 'codigo_participante', 'id_ciudad', 'id_usuario', 'accion'];
   informacionParticipante$: Observable<Participante> | undefined;
 
+  nivelRequerido = 8;
   dataSource = new  MatTableDataSource<AllParticipante>();
 
   filtroDatos = new MatTableDataSource<AllParticipante["Personas"]>();
@@ -55,6 +56,8 @@ export default class ParticipanteComponent {
     ) {
     
   }
+
+  
   ngOnInit(): void {
     this.mostrarParticipantes();
   }

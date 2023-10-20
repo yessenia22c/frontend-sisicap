@@ -18,7 +18,8 @@ import { Nivel } from 'src/app/models/nivelRoles';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit{ 
-
+  nivelRequerido = 8;
+  
   currentScreenSize = '';
   orientation = '';
   displayNameMap = new Map([

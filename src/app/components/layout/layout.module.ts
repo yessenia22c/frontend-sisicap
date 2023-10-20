@@ -13,18 +13,21 @@ import { ControlRolesDirective } from 'src/app/directivas/control-roles.directiv
   declarations: [
     LayoutComponent,
     DashboardComponent,
-    ControlRolesDirective
+    
     
     
   ],
   imports: [
     CommonModule,
     LayoutRoutingModule,
-    SharedModule
+    SharedModule,
+    ControlRolesDirective,
+
     // RouterModule
   ],
-  // exports: [
+  exports: [
   //   RouterModule
-  //  ]
+      
+    ]
 })
 export class LayoutModule { }
