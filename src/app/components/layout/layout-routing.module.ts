@@ -19,6 +19,11 @@ const routes: Routes = [
         component:DashboardComponent,
       },
       {
+        path:'usuario',
+        loadComponent: () => import('../layout/pages/usuario/usuario.component'),
+        
+      },
+      {
         path:'persona',
         loadComponent: () => import('../layout/pages/persona/persona.component'),
         

@@ -40,5 +40,17 @@ export interface Persona {
 }
 
 export interface TipoUsuario {
+    id_tipo_usuario:   number;
     nombre_tipo_usuario: string;
+    TipoUsuarioAcceso:   TipoUsuarioAcceso[];
+}
+
+export interface TipoUsuarioAcceso {
+    id_acceso:   number;
+    id_nivel:    number;
+    NivelAcceso: NivelAcceso;
+}
+export interface NivelAcceso {
+    id_nivel: number;
+    nombre_nivel: string;
 }

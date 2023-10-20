@@ -1,3 +1,4 @@
+
 <div class="container-tolbar">
   <mat-toolbar color="primary">
     <button
@@ -88,6 +89,16 @@
             <li>
               <a
                 class="mi-lista-1 size-a"
+                routerLink="./usuario"
+                routerLinkActive="active"
+              >
+                <mat-icon>group</mat-icon>
+                Usuarios
+              </a>
+            </li>
+            <li>
+              <a
+                class="mi-lista-1 size-a"
                 routerLink="./persona"
                 routerLinkActive="active"
               >
@@ -95,16 +106,15 @@
                 Persona
               </a>
             </li>
-            <li>
-              <a
-                class="mi-lista-1 size-a"
-                routerLink="./participante"
-                routerLinkActive="active"
-              >
-                <mat-icon>groups_2</mat-icon>
-                Participantes
-              </a>
-            </li>
+            <!--PRUEBA PERMISO--->
+            <!-- <ng-container *ngFor="let item of dataNiveles"> -->
+              <li *appControlRoles="dataNiveles">
+                <a class="mi-lista-1 size-a" routerLink="./participante" routerLinkActive="active">
+                  <mat-icon>groups_2</mat-icon>
+                  Participantes
+                </a>
+              </li>
+            <!-- </ng-container> -->
             <!-- <li>
               <a class="mi-lista-1 " (click)="toggleCollapse()">
                 <mat-icon >school</mat-icon>

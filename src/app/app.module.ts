@@ -19,13 +19,15 @@ import { LoginComponent } from './pages/login/login.component';
 import {LoginService} from './services/login.service';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { ControlRolesDirective } from './directivas/control-roles.directive';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    // ControlRolesDirective
     
   ],
   imports: [

@@ -5,7 +5,9 @@ import { Router } from '@angular/router';
 import { Observable, map, shareReplay, tap } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 import { PerfilUsuarioService } from 'src/app/services/perfil-usuario.service';
-import { PerfilUsuario } from 'src/app/models/PerfilUsuario';
+import { PerfilUsuario, TipoUsuarioAcceso } from 'src/app/models/PerfilUsuario';
+import { RolesService } from 'src/app/services/roles.service';
+import { Nivel } from 'src/app/models/nivelRoles';
 
 
 
@@ -35,10 +37,12 @@ export class LayoutComponent implements OnInit{
   panelOpenState = false;
   user: Usuario | null = null;
   informacionUsuario: PerfilUsuario |  null = null ;
+  dataNiveles!: TipoUsuarioAcceso[] ;
   private breakpointObserver = inject(BreakpointObserver);
   private authService = inject(LoginService);
   private router = inject(Router);
   private perfilUsuario = inject(PerfilUsuarioService);
+  private nivelService = inject(RolesService);
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(
     [Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge]
@@ -53,9 +57,13 @@ export class LayoutComponent implements OnInit{
     //  });
     this.perfilUsuario.getUsuario().subscribe((data) => {
       this.informacionUsuario = data;
+      this.dataNiveles = data.usuario.tipo_usuario.TipoUsuarioAcceso;
       //console.log('INFO USER suscribe',this.informacionUsuario);
       
     });
+    // this.nivelService.getNivelRoles().subscribe((data) => {
+      
+    // });
 
 
     this.authService.authState$
