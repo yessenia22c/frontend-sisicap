@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 
 @Component({
   selector: 'app-seguimiento',
@@ -23,7 +24,8 @@ import { MatInputModule } from '@angular/material/input';
      MatIconModule, 
      MatCardModule, 
      MatFormFieldModule, 
-     MatInputModule
+     MatInputModule,
+     ControlRolesDirective
     ],
   templateUrl: './seguimiento.component.html',
   styleUrls: ['./seguimiento.component.css']

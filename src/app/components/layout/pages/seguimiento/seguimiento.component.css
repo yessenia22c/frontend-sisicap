@@ -60,7 +60,10 @@ mat-toolbar {
     max-width: 400px;
   }
 
-
+  
+  .mat-mdc-table-sticky{
+      z-index:-100;
+    }
   /*PARA EL FILTRO*/
 /*   
 .cartas{

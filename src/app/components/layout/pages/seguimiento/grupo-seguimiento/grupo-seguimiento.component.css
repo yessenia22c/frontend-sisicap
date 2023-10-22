@@ -304,8 +304,12 @@ td.mat-column-position {
   justify-content: center;
   width: 60px;
 }
-
-
+/* .elevarAbajo{
+  z-index: -1;
+} */
+.mat-mdc-table-sticky .mat-drawer {
+  z-index: 1;
+  }
 
 /*LINEAS DE TABLAS*/
 

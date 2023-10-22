@@ -1,6 +1,6 @@
 <mat-sidenav-container>
 
-    <mat-sidenav [opened]="sidenavService.isOpen$ | async" class="containder-side" #miFormSide position="end" mode="over" fixedInViewport="true" fixedTopGap="56" >
+    <mat-sidenav class="supeiorSidenav" [opened]="sidenavService.isOpen$ | async" class="containder-side" #miFormSide position="end" mode="over" fixedInViewport="true" fixedTopGap="56" >
         <header class="fondo-header">
             <ng-container *ngIf="this.Datomodelo$ | async as contacto ">
                 <div class="header-text">

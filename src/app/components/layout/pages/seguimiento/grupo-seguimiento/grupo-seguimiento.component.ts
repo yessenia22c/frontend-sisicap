@@ -54,6 +54,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogEliminarSeguimientoComponent } from '../dialog-eliminar-seguimiento/dialog-eliminar-seguimiento.component';
 import { DialogEliminarContactoSeguimientoComponent } from '../dialog-eliminar-contacto-seguimiento/dialog-eliminar-contacto-seguimiento.component';
 
+
+//Directivas 
+
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 export const MY_DATE_FORMATS: NgxMatDateFormats  = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -112,7 +116,9 @@ export const MY_DATE_FORMATS: NgxMatDateFormats  = {
         FormsModule,
         NgxMatDatetimePickerModule,
         MatDialogModule,
-        NgxMatNativeDateModule, FormContactoSeguimientoComponent]
+        NgxMatNativeDateModule, FormContactoSeguimientoComponent,
+        ControlRolesDirective
+      ]
 })
 
 export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit  {
@@ -265,7 +271,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
           
            // Detect changes
           // this.cdr.detectChanges();
-          // this.table.renderRows();
+           this.table.renderRows();
         }
       }
   
@@ -672,6 +678,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
             this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
           },
           error: (err) => {
+            this.mostrarAlerta('Error al eliminar el seguimiento', 'Error');
             console.log(err);
           }
         });
@@ -706,6 +713,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
             });
           },
           error: (err) => {
+            this.mostrarAlerta('Error al eliminar el contacto del seguimiento', 'Error');
             console.log(err);
           }
         });

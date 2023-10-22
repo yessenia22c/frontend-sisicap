@@ -105,3 +105,7 @@
   .ancho{
     width: 100%;
   }
+
+  .supeiorSidenav{
+    z-index: 100;
+  }
