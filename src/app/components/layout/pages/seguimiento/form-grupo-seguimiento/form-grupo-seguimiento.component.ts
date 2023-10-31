@@ -85,6 +85,7 @@ mostrarAlerta(mensaje: string, accion: string) {
     });
  
 }
+mensajeAdvertencia: string = '';
 fechaActualCreacion = new Date().toISOString().substring(0, 10); //YYYY-MM-DD
 crearSeguimiento() {
   // console.log(this.formGrupoSeguimiento)
@@ -118,6 +119,7 @@ crearSeguimiento() {
     // }
 
     //FUNCION PARA ACTUALIZAR LA FECHA
+    
     modelo.id_grupo_seguimiento = this.dataGrupoSeguimiento.UnGrupoSeguimiento.id_grupo_seguimiento;
     this.datoGrupoSeguimiento$ = this.seguimientoService.editarSeguimiento(this.dataGrupoSeguimiento.UnGrupoSeguimiento.id_grupo_seguimiento, modelo);
     this.datoGrupoSeguimiento$.subscribe({
@@ -138,7 +140,7 @@ ngOnInit(): void {
       ...empleados,
       Empleados: empleados.Empleados.map((empleado) => ({
         ...empleado,
-        nombreCompleto: `${empleado.persona.nombres_per} ${empleado.persona.apellidos}`
+        nombreCompleto: `${empleado.PersonaEmpleado.nombres_per} ${empleado.PersonaEmpleado.apellidos}`
       }))
     })
   ));
@@ -153,6 +155,7 @@ ngOnInit(): void {
       id_capacitacion: this.dataGrupoSeguimiento.UnGrupoSeguimiento.Capacitacion.id_capacitacion,
       id_empleado: this.dataGrupoSeguimiento.UnGrupoSeguimiento.Empleado.id_empleado
     });
+    this.mensajeAdvertencia = "⚠ No es recomendable editar si ya existen contactos asignados en el seguimiento"
     this.tituloAccion = 'Editar datos de seguimiento';
     this.botonAccion = 'Actualizar';
   }

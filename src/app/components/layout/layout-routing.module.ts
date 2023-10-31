@@ -24,6 +24,10 @@ const routes: Routes = [
         
       },
       {
+        path:'empleado',
+        loadComponent: () => import('../layout/pages/empleado/empleado.component'),
+      },
+      {
         path:'persona',
         loadComponent: () => import('../layout/pages/persona/persona.component'),
         

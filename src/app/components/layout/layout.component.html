@@ -37,8 +37,8 @@
 
             <div class="contenedor-usuario">
               <span class="item-usuario" style="font-size: 14px">
-                {{ informacionUsuario.usuario.empleado.persona.nombres_per }}
-                {{ informacionUsuario.usuario.empleado.persona.apellidos }}
+                {{ informacionUsuario.usuario.empleado.PersonaEmpleado.nombres_per }}
+                {{ informacionUsuario.usuario.empleado.PersonaEmpleado.apellidos }}
               </span>
               <span
                 style="font-size: 13px; font-family: 'Roboto'; font-weight: 100"
@@ -86,7 +86,7 @@
                 Dashboard
               </a>
             </li>
-            <li>
+            <li *appControlRoles="5" >
               <a
                 class="mi-lista-1 size-a"
                 routerLink="./usuario"
@@ -96,7 +96,17 @@
                 Usuarios
               </a>
             </li>
-            <li>
+            <li  >
+              <a
+                class="mi-lista-1 size-a"
+                routerLink="./empleado"
+                routerLinkActive="active"
+              >
+                <mat-icon>engineering</mat-icon>
+                Empleados
+              </a>
+            </li>
+            <li *appControlRoles="10" >
               <a
                 class="mi-lista-1 size-a"
                 routerLink="./persona"
@@ -129,7 +139,7 @@
                 </ul>
               </div>
             </li> -->
-            <li>
+            <li *appControlRoles="9" >
               <a
                 class="mi-lista-1 size-a collapse-toggle"
                 data-bs-toggle="collapse"
@@ -165,7 +175,7 @@
                 </ul>
               </div>
             </li>
-            <li>
+            <li *appControlRoles="7" >
               <a
                 class="mi-lista-1 size-a"
                 routerLink="./contactos"

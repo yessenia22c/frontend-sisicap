@@ -50,8 +50,8 @@
     <div class="row">
         <div class="col-md-12">
             <mat-form-field>
-                <mat-label>Filter</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+                <mat-label>Filtrar</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Introduce el texto a filtrar" #input>
             </mat-form-field>
 
             <section class="example-container mat-elevation-z8" tabindex="0">
@@ -124,7 +124,7 @@
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Tipo seguimiento </th>
                         <td mat-cell *matCellDef="let element" class="mat-colum">
                             <span [class.color-amarillo]="element.TipoSeguimiento?.id_tipo_seguimiento === 1" [class.color-rojo]="element.TipoSeguimiento?.id_tipo_seguimiento === 2"
-                            [class.color-azul]="element.TipoSeguimiento?.id_tipo_seguimiento === 3" [class.color-verde]="element.TipoSeguimiento?.id_tipo_seguimiento === 4"  class="badge ">{{ element.TipoSeguimiento.nombre_tipo_seguimiento}}</span>
+                            [class.color-azul]="element.TipoSeguimiento?.id_tipo_seguimiento === 3" [class.color-verde]="element.TipoSeguimiento?.id_tipo_seguimiento === 4"  class="badge ">{{ element.TipoSeguimiento?.nombre_tipo_seguimiento}}</span>
                             
                             <!-- <mat-icon >radio_button_checked</mat-icon> -->
                         </td>
@@ -153,22 +153,22 @@
 
                     <ng-container matColumnDef="id_sexo">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Género </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Sexo_contacto.nombre_sexo}} </td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Sexo_contacto?.nombre_sexo}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="id_ciudad">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Ciudad </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Ciudad_contacto.nombre_ciudad}}</td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Ciudad_contacto?.nombre_ciudad}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="id_pais">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> País </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Pais_contacto.nombre_pais}} </td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Pais_contacto?.nombre_pais}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="id_estado_contacto">
                         <th mat-header-cell *matHeaderCellDef class="mat-colum"> Estado </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Estado.nombre_estado}}</td>
+                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Estado?.nombre_estado}}</td>
                     </ng-container>
 
                     <ng-container    matColumnDef="botones" >

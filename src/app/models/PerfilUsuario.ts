@@ -31,10 +31,10 @@ export interface Usuario {
 
 export interface Empleado {
     id_empleado: number;
-    persona:     Persona;
+    PersonaEmpleado:     PersonaEmpleado;
 }
 
-export interface Persona {
+export interface PersonaEmpleado {
     nombres_per:      string;
     apellidos:  string;
 }

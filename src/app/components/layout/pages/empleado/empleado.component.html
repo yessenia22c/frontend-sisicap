@@ -1,0 +1,86 @@
+<div class="container-fluid">
+    <div style="padding-bottom: 1em;">
+        <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Empleados</h4>
+          <button mat-raised-button color="primary"  > Nuevo empleado</button>
+  
+      </div>
+    <section class="example-container mat-elevation-z8" tabindex="0">
+        <table mat-table [dataSource]="dataSource">
+      
+          <!-- Position Column -->
+          <ng-container matColumnDef="id_empleado">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.id_empleado}} </td>
+          </ng-container>
+          <ng-container matColumnDef="nombres_per">
+            <th mat-header-cell *matHeaderCellDef> Nombre(s) </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.nombres_per}} </td>
+          </ng-container>
+          <ng-container matColumnDef="apellidos">
+            <th mat-header-cell *matHeaderCellDef> Apelldios </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.apellidos}} </td>
+          </ng-container>
+          <ng-container matColumnDef="nro_ci">
+            <th mat-header-cell *matHeaderCellDef> C.I. </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.nro_ci}} </td>
+          </ng-container>
+          <ng-container matColumnDef="fecha_contrato">
+            <th mat-header-cell *matHeaderCellDef> Fecha de contrato</th>
+            <td mat-cell *matCellDef="let element"> {{element.fecha_contrato}} </td>
+          </ng-container>
+          <ng-container matColumnDef="correo">
+            <th mat-header-cell *matHeaderCellDef> Correo electrónico </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.correo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="telefono">
+            <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.telefono}} </td>
+          </ng-container>
+          <ng-container matColumnDef="empresa_empleadora">
+            <th mat-header-cell *matHeaderCellDef> Empresa </th>
+            <td mat-cell *matCellDef="let element"> {{element.empresa_empleadora.nombre_empleador}} </td>
+          </ng-container>
+          <ng-container matColumnDef="cargo">
+            <th mat-header-cell *matHeaderCellDef> Cargo</th>
+            <td mat-cell *matCellDef="let element"> {{element.cargo.nombre_cargo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="fecha_nac">
+            <th mat-header-cell *matHeaderCellDef> Fecha de nacimiento </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.fecha_nac}} </td>
+          </ng-container>
+          <ng-container matColumnDef="id_pais">
+            <th mat-header-cell *matHeaderCellDef> Pais </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.Pais.nombre_pais}} </td>
+          </ng-container>
+          <ng-container matColumnDef="id_ciudad">
+            <th mat-header-cell *matHeaderCellDef> Ciudad </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.ciudad.nombre_ciudad}} </td>
+          </ng-container>
+          <ng-container matColumnDef="id_sexo">
+            <th mat-header-cell *matHeaderCellDef> Género </th>
+            <td mat-cell *matCellDef="let element"> {{element.PersonaEmpleado.sexo.nombre_sexo}} </td>
+          </ng-container>
+          
+    
+          <ng-container matColumnDef="accion" stickyEnd>
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="example-button-container">
+                <button mat-icon-button color="primary" aria-label="Boton editar">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" aria-label="Boton eliminar" >
+                  <mat-icon>delete</mat-icon>
+                </button>
+                
+              </div>
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </section>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+  

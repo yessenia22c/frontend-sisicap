@@ -23,6 +23,7 @@ import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/servi
 import { SidenavService } from 'src/app/services/sidenav.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
+// import * as moment from 'moment-timezone';
 
 
 @Component({
@@ -166,7 +167,7 @@ export class FormContactoSeguimientoComponent implements OnInit {
 
     this.servicioContactoSeguimiento.disparadorContactosAct.subscribe(data => {
       this.dataSourceSide = data;
-      console.log('DATASOUSE QUE LLGA', this.dataSourceSide);
+      //console.log('DATASOUSE QUE LLGA', this.dataSourceSide);
     });
 
   }
@@ -180,7 +181,7 @@ export class FormContactoSeguimientoComponent implements OnInit {
     4: 'green',
     // Agrega más entradas según tus necesidades
   };
-
+  //fechaActualEnBolivia = moment.tz(new Date(), 'America/La_Paz').format();
   fechaActualEnBolivia = new Date().toLocaleString('en-US', { timeZone: 'America/La_Paz' });
   fechaActual = new Date().toISOString().substring(0, 10); //YYYY-MM-DD
 

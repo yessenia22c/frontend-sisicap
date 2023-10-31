@@ -2,7 +2,7 @@
   <h1 mat-dialog-title>{{tituloAccion}} </h1>
 <div mat-dialog-content>
   <form [formGroup]="formGrupoSeguimiento">
-    
+    <p class="nota">{{mensajeAdvertencia}}</p>
       <div class="row">
         <div class="row-md-4" >
           <mat-form-field appearance="fill" class=>
@@ -24,12 +24,12 @@
             </ng-select>
           </ng-container>
         </div>
-        <pre>
+        <!-- <pre>
           {{formGrupoSeguimiento.value | json}}
         </pre>
         <pre>
           {{this.dataGrupoSeguimiento | json}}
-        </pre>
+        </pre> -->
       
     </div>
   </form>

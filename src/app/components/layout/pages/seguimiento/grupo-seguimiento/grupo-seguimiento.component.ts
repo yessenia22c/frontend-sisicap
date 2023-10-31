@@ -271,7 +271,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
           
            // Detect changes
           // this.cdr.detectChanges();
-           this.table.renderRows();
+          // this.table.renderRows();
         }
       }
   
@@ -340,32 +340,32 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
         this.dataSource.data = data.AllContactosSeguimiento;
         this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data);
         console.log('CONTACTOS DATA SOURCE ENVIADOS', this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data));
-        this.dataSource.data = data.AllContactosSeguimiento.map(item => ({
-          ...item,
-          TipoSeguimiento: setDefaultIfNull(item.TipoSeguimiento, {
-            id_tipo_seguimiento: null,
-            nombre_tipo_seguimiento: null
-          }),
-          Contactos: {
-            ...item.Contactos,
-            Sexo_contacto: setDefaultIfNull(item.Contactos.Sexo_contacto, {
-              id_sexo: null,
-              nombre_sexo: null
-            }),
-            Ciudad_contacto: setDefaultIfNull(item.Contactos.Ciudad_contacto, {
-              id_ciudad: null,
-              nombre_ciudad: null
-            }),
-            Pais_contacto: setDefaultIfNull(item.Contactos.Pais_contacto, {
-              id_pais: null,
-              nombre_pais: null
-            }),
-            Estado: setDefaultIfNull(item.Contactos.Estado, {
-              id_estado_contacto: null,
-              nombre_estado: null
-            })
-          }
-        }));
+        // this.dataSource.data = data.AllContactosSeguimiento.map(item => ({
+        //   ...item,
+        //   TipoSeguimiento: setDefaultIfNull(item.TipoSeguimiento, {
+        //     id_tipo_seguimiento: null,
+        //     nombre_tipo_seguimiento: null
+        //   }),
+        //   Contactos: {
+        //     ...item.Contactos,
+        //     Sexo_contacto: setDefaultIfNull(item.Contactos.Sexo_contacto, {
+        //       id_sexo: null,
+        //       nombre_sexo: null
+        //     }),
+        //     Ciudad_contacto: setDefaultIfNull(item.Contactos.Ciudad_contacto, {
+        //       id_ciudad: null,
+        //       nombre_ciudad: null
+        //     }),
+        //     Pais_contacto: setDefaultIfNull(item.Contactos.Pais_contacto, {
+        //       id_pais: null,
+        //       nombre_pais: null
+        //     }),
+        //     Estado: setDefaultIfNull(item.Contactos.Estado, {
+        //       id_estado_contacto: null,
+        //       nombre_estado: null
+        //     })
+        //   }
+        // }));
         console.log('CONTACTOS DATA SOURCE', this.dataSource.data);
         this.dataSource.filterPredicate = (data: InformacionContacto, filter: string) => {
           const contactoDatas = data.Contactos;
@@ -713,7 +713,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
             });
           },
           error: (err) => {
-            this.mostrarAlerta('Error al eliminar el contacto del seguimiento', 'Error');
+            this.mostrarAlerta('Este contacto no se puede eliminiar', 'Error');
             console.log(err);
           }
         });

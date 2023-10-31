@@ -31,12 +31,12 @@ export class ControlRolesDirective implements OnInit {
     this.PerfilActual.subscribe({
       next: (usuario: PerfilUsuario) => {
         this.usuarioActual = usuario.usuario
-        console.log('NG-USAER ACT',this.usuarioActual)
+        //console.log('NG-USAER ACT',this.usuarioActual)
         if (this.tieneAcceso()) {
-          console.log('TIENE ACCESO')
+          //console.log('TIENE ACCESO')
           this.viewContainer.createEmbeddedView(this.templateRef);
         } else {
-          console.log('RESPONDE FALSE')
+          //console.log('RESPONDE FALSE')
           this.viewContainer.clear();
         }
       }
@@ -55,13 +55,13 @@ export class ControlRolesDirective implements OnInit {
   @Input('appControlRoles') nivelRequerido!: number;
   
   private tieneAcceso(): boolean {
-    console.log('TIENE ACCESO',this.usuarioActual)
+    //console.log('TIENE ACCESO',this.usuarioActual)
     if (this.usuarioActual && this.usuarioActual.tipo_usuario.TipoUsuarioAcceso) {
-      console.log('Entra al IF ')
+      //console.log('Entra al IF ')
       return this.usuarioActual.tipo_usuario.TipoUsuarioAcceso.some(acceso => {
         //aseguro que this.nivelRequerido sea un numero
         this.nivelRequerido = Number(this.nivelRequerido);
-        console.log('ID_nivel_tipoUsarioAcceso', acceso.id_nivel, 'ID mandado por el html ', this.nivelRequerido);
+        //console.log('ID_nivel_tipoUsarioAcceso', acceso.id_nivel, 'ID mandado por el html ', this.nivelRequerido);
          return acceso.id_nivel === this.nivelRequerido
       });
     }

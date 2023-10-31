@@ -28,6 +28,9 @@ import { FormCrearActualizarContactoComponent } from './form-crear-actualizar-co
 import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/services/servicioActualizarCrearContactoSeguimiento.service';
 import { DialogEliminarContactoComponent } from './dialog-eliminar-contacto/dialog-eliminar-contacto.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
+
 @Component({
   selector: 'app-contactos',
   standalone: true,
@@ -41,7 +44,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatCheckboxModule,
     MatButtonModule,
     MatDialogModule,
-    RouterModule
+    RouterModule,
+    ControlRolesDirective
   ],
   templateUrl: './contactos.component.html',
   styleUrls: ['./contactos.component.css'],
@@ -252,7 +256,7 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
       if(resultado==="Creado"){
         //this.mostrarContactos();
         //this.dataSource.push();
-        this.table.renderRows();
+        //this.table.renderRows();
         // this.mostrarContactos();
         // this.dataToDisplay = [...this.dataToDisplay, ELEMENT_DATA[randomElementIndex]];
         // this.dataSource.setData(this.dataToDisplay);
