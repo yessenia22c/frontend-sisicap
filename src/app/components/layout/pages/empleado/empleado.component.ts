@@ -7,16 +7,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { Observable } from 'rxjs';
-import { Empleado, EmpleadoList } from 'src/app/models/empleado';
+import { Empleado, EmpleadoList, NuevoEmpleado } from 'src/app/models/empleado';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaginatorService } from 'src/app/services/Paginator.service';
+import { FormCrearActualizarEmpleadoComponent } from './form-crear-actualizar-empleado/form-crear-actualizar-empleado.component';
+import { DialogEliminarEmpleadoComponent } from './dialog-eliminar-empleado/dialog-eliminar-empleado.component';
 
 @Component({
   selector: 'app-empleado',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatPaginatorModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatPaginatorModule,MatDialogModule ],
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css'],
   providers: [
@@ -34,7 +36,7 @@ export default class EmpleadoComponent {
   @ViewChild(MatSort) sort!: MatSort ;
 
   constructor(private empleadoService: EmpleadoService, 
-    //public dialog: MatDialog,
+    public dialog: MatDialog,
     private _snackBar: MatSnackBar
     ) {
     
@@ -78,6 +80,62 @@ export default class EmpleadoComponent {
       
     })
   };
+  nuevoEmpleado() {
+    this.dialog.open(FormCrearActualizarEmpleadoComponent,{
+      disableClose: true,
+      width: '700px',
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="Creado"){
+        this.mostrarEmpleados();
+      }
+    })
+    
+  }
+  
+  editarEmpleado(dataEmpleado: NuevoEmpleado) {
+    console.log('DATA',dataEmpleado);
+    this.dialog.open(FormCrearActualizarEmpleadoComponent,{
+      
+      disableClose: true,
+      width: '700px',
+      data:  dataEmpleado
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="editado"){
+        this.mostrarEmpleados();
+      }
+    })
+    
+  }
+  mostrarAlerta(mensaje: string, accion: string) {
+    this._snackBar.open(mensaje, accion,{
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000
 
+    });
+  }
+  dialogoEliminarEmpleado(dataEmpleado: NuevoEmpleado) {
 
+    this.dialog.open(DialogEliminarEmpleadoComponent,{
+      
+      disableClose: true,
+      data:  dataEmpleado
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="eliminar"){
+        this.empleadoService.eliminarEmpleado(dataEmpleado.id_empleado).subscribe({
+          next: (resp) => { 
+            console.log('RESP',resp);
+            this.mostrarAlerta('Informacion del empleado eliminado correctamente', 'Listo');
+            
+            this.mostrarEmpleados();
+          },
+          error: (err) => {
+
+            this.mostrarAlerta('Error al eliminar el empleado', 'Cerrar');
+            console.log(err);
+          }
+        });
+      }
+    })
+  }
 }

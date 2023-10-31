@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Eliminar participante</h2>
+<mat-dialog-content class="mat-typography">
+    ¿Desea eliminar la información del empleado {{dataEmpleado.PersonaEmpleado.nombres_per}} {{dataEmpleado.PersonaEmpleado.apellidos}}?
+    
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">No</button>
+  <button  mat-raised-button color="primary"
+    (click)="confirmarDelete()"
+    cdkFocusInitial
+    >Si, Eliminar
+  </button>
+
+</div>
+<!-- <mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary"[mat-dialog-close]="true" cdkFocusInitial>Guardar</button>
+</mat-dialog-actions> -->

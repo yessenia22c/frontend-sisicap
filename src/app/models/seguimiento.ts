@@ -25,7 +25,7 @@ export interface Capacitacion {
 
 export interface Empleado {
     id_empleado: number;
-    persona:     Persona;
+    PersonaEmpleado:     Persona;
 }
 
 export interface Persona {

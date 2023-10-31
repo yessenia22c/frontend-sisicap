@@ -235,7 +235,7 @@ fechaMinimaValidator(control: FormControl) {
 
 ngOnInit(): void {
    this.listaPais$ = this.personaService.getListPais();
-  this.listaCiudad$ = this.personaService.getListCiudad();
+    this.listaCiudad$ = this.personaService.getListCiudad();
    this.listaSexo$ = this.personaService.getListSexo();
 
   if (this.dataParticipante){
