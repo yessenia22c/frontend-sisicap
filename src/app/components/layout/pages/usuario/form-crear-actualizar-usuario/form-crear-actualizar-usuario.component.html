@@ -1,0 +1,54 @@
+<div class="container-fluid">
+    <h1 mat-dialog-title>{{tituloAccion}} </h1>
+  <div mat-dialog-content>
+    <form [formGroup]="formUsuario">
+      <!-- <p class="nota">{{mensajeAdvertencia}}</p> -->
+        <div class="row">
+          <div class="row-md-4" >
+            <mat-form-field appearance="fill" class=>
+              <mat-label>Nombre de usuario</mat-label>
+              <input  type="text" matInput formControlName="nombre_usuario" autocomplete="off" >
+            </mat-form-field>
+          </div>
+          <div class="row-md-4" >
+            <mat-form-field appearance="fill" class=>
+              <mat-label>Contraseña</mat-label>
+              <input  type="text" matInput formControlName="contrasena_us" autocomplete="off" >
+            </mat-form-field>
+          </div>
+          <div class="row-md-4">
+            <ng-container *ngIf="this.listaEmpleados$ | async as ListaEmpleado">
+              <ng-select [items]="ListaEmpleado.Empleados" formControlName="id_empleado"  bindLabel="nombreCompleto" bindValue="id_empleado" 
+                placeholder="Seleccione un empleado para usuario">
+              </ng-select>
+            </ng-container>
+          </div>
+          <div class="row-md-4">
+            <ng-container *ngIf="this.listaTipoUsuarios$ | async as Lista">
+              <ng-select [items]="Lista.tipoUsuario" formControlName="id_tipo_usuario" bindLabel="nombre_tipo_usuario" bindValue="id_tipo_usuario"
+                placeholder="Seleccione un tipo de usuario">
+              </ng-select>
+            </ng-container>
+          </div>
+          <!-- <pre>
+            {{formGrupoSeguimiento.value | json}}
+          </pre>
+          <pre>
+            {{this.dataGrupoSeguimiento | json}}
+          </pre> -->
+        
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    <button mat-raised-button color="primary"
+      (click)="nuevoUsuario()"
+      [disabled]="formUsuario.invalid"
+      >{{botonAccion}}
+    </button>
+  
+  </div>
+  </div>
+  
+  
