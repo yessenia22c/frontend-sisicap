@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NuevoUsuario, TiposUsuarios, UsuariosSistema } from '../models/Usuarios';
 import {environment} from '../../environments/environment'
 import { Observable } from 'rxjs';
@@ -19,6 +19,15 @@ export class UsuarioService {
   }
   crearUsuario(usuario: NuevoUsuario): Observable<NuevoUsuario> {
     return this.http.post<NuevoUsuario>(`${this.apiUrl}usuario/create`, usuario);
+  }
+
+  crearNuevoUsuario(usuario: NuevoUsuario, archivo:File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+    formData.append('nuevoUsuario', JSON.stringify(usuario));
+    const headers = new HttpHeaders();
+    
+    return this.http.post<NuevoUsuario>(`${this.apiUrl}usuario/create`, formData, {headers: headers});
   } 
 
   actualizarUsuario(usuario: NuevoUsuario): Observable<NuevoUsuario> {

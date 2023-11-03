@@ -125,7 +125,7 @@ export class DialogInscribirParticipanteComponent implements OnInit {
   actualizarOpcionesSeleccionadas(event: any) {
 
     this.seleccionado = event;
-    this.mostrarParticipantesNoInscritos(); //Saber por qué esta esto aqui
+    this.mostrarParticipantesNoInscritos(); // Actualizar la lista de participantes no inscritos
     this.id_cap = parseInt(this.data.id_capacitacion);
     const idCapacitacion: number = this.id_cap;
    

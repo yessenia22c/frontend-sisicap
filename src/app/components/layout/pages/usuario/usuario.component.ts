@@ -86,7 +86,7 @@ export default class UsuarioComponent {
   nuevoUsuario() : void {
     this.dialog.open(FormCrearActualizarUsuarioComponent,{
       disableClose: true,
-      width: '700px',
+      width: '400px',
     }).afterClosed().subscribe(resultado => {
       if(resultado==="Creado"){
         this.mostrarUsuarios();
@@ -100,7 +100,7 @@ export default class UsuarioComponent {
     this.dialog.open(FormCrearActualizarUsuarioComponent, {
 
       disableClose: true,
-      width: '700px',
+      width: '400px',
       data: datoUsuario
     }).afterClosed().subscribe(resultado => {
       if (resultado === "editado") {
@@ -113,7 +113,8 @@ export default class UsuarioComponent {
   }
 
   onImageError(event: any) {
-    event.target.src = '../../../assets/img/defecto-usuario.png'; // Reemplaza con la ruta de tu imagen por defecto
+    //../../../assets/img/defecto-usuario.png
+    event.target.src = '../../../../../assets/img/defecto-usuario.png'; // Reemplaza con la ruta de tu imagen por defecto
   }
 }
 

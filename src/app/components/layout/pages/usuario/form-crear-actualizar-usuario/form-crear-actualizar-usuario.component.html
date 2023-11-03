@@ -1,32 +1,50 @@
-<div class="container-fluid">
-    <h1 mat-dialog-title>{{tituloAccion}} </h1>
+
+  <h1 mat-dialog-title>{{tituloAccion}} </h1>
   <div mat-dialog-content>
     <form [formGroup]="formUsuario">
       <!-- <p class="nota">{{mensajeAdvertencia}}</p> -->
         <div class="row">
           <div class="row-md-4" >
-            <mat-form-field appearance="fill" class=>
+            <mat-form-field appearance="fill" class="ancho">
               <mat-label>Nombre de usuario</mat-label>
               <input  type="text" matInput formControlName="nombre_usuario" autocomplete="off" >
             </mat-form-field>
           </div>
           <div class="row-md-4" >
-            <mat-form-field appearance="fill" class=>
+            <mat-form-field appearance="fill" class="ancho">
               <mat-label>Contraseña</mat-label>
-              <input  type="text" matInput formControlName="contrasena_us" autocomplete="off" >
+              <input  type="text" matInput [type]="escondeContra ? 'password' : 'text'"  formControlName="contrasena_us" autocomplete="off" >
+              <button mat-icon-button matSuffix (click)="escondeContra = !escondeContra" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="escondeContra">
+                <mat-icon>{{escondeContra ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
             </mat-form-field>
           </div>
           <div class="row-md-4">
-            <ng-container *ngIf="this.listaEmpleados$ | async as ListaEmpleado">
-              <ng-select [items]="ListaEmpleado.Empleados" formControlName="id_empleado"  bindLabel="nombreCompleto" bindValue="id_empleado" 
-                placeholder="Seleccione un empleado para usuario">
+            <div class="ancho">
+              <label for="fileInput" class="subir-archivo">
+                <mat-icon class="material-symbols-outlined" fontIcon="upload"></mat-icon>
+                <span class="texto-input">Seleccionar foto</span>
+                <!-- <input type="file" formControlName="archivo" autocomplete="off"> -->
+                <input type="file" (change)="onFileSelected($event)" #fileInput mat-button formControlName="archivo" extended id="fileInput" name="fileInput">
+              </label>
+            </div>
+          </div>
+          <div class="row-md-4 " >
+            <ng-container class="ng-select-container"  *ngIf="this.listaEmpleados$ | async as ListaEmpleado">
+              <ng-select 
+                [items]="ListaEmpleado.Empleados" 
+                formControlName="id_empleado"  
+                bindLabel="nombreCompleto" 
+                bindValue="id_empleado" 
+                placeholder="Seleccione un empleado">
               </ng-select>
             </ng-container>
           </div>
           <div class="row-md-4">
             <ng-container *ngIf="this.listaTipoUsuarios$ | async as Lista">
               <ng-select [items]="Lista.tipoUsuario" formControlName="id_tipo_usuario" bindLabel="nombre_tipo_usuario" bindValue="id_tipo_usuario"
-                placeholder="Seleccione un tipo de usuario">
+                placeholder="Tipo de usuario">
               </ng-select>
             </ng-container>
           </div>
@@ -49,6 +67,6 @@
     </button>
   
   </div>
-  </div>
+
   
   
