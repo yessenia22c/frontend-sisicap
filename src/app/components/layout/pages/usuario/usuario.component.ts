@@ -14,6 +14,7 @@ import { PaginatorService } from 'src/app/services/Paginator.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsuarioList, UsuariosSistema } from 'src/app/models/Usuarios';
 import { FormCrearActualizarUsuarioComponent } from './form-crear-actualizar-usuario/form-crear-actualizar-usuario.component';
+import { DialogEliminarUsuarioComponent } from './dialog-eliminar-usuario/dialog-eliminar-usuario.component';
 
 
 
@@ -108,13 +109,44 @@ export default class UsuarioComponent {
       }
     })
   }
-  eliminarUsuario(usuario: UsuarioList) : void {
-
-  }
-
   onImageError(event: any) {
     //../../../assets/img/defecto-usuario.png
     event.target.src = '../../../../../assets/img/defecto-usuario.png'; // Reemplaza con la ruta de tu imagen por defecto
+  }
+
+  mostrarAlerta(mensaje: string, accion: string) {
+    this._snackBar.open(mensaje, accion, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000
+
+    });
+
+  }
+
+  dialogEliminarUsaurio(dataUsuario: UsuarioList) {
+
+    this.dialog.open(DialogEliminarUsuarioComponent,{
+      
+      disableClose: true,
+      data:  dataUsuario
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="eliminar"){
+        this.usuariosService.eliminarUsuario(dataUsuario.id_usuario).subscribe({
+          next: (resp) => { 
+            console.log('RESP',resp);
+            this.mostrarAlerta('Informacion del usuario eliminado correctamente', 'Listo');
+            
+            this.mostrarUsuarios();
+          },
+          error: (err) => {
+
+            this.mostrarAlerta('Error al eliminar el usuario', 'Cerrar');
+            console.log(err);
+          }
+        });
+      }
+    })
   }
 }
 

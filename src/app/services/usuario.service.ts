@@ -30,12 +30,20 @@ export class UsuarioService {
     return this.http.post<NuevoUsuario>(`${this.apiUrl}usuario/create`, formData, {headers: headers});
   } 
 
-  actualizarUsuario(usuario: NuevoUsuario): Observable<NuevoUsuario> {
-    return this.http.put<NuevoUsuario>(`${this.apiUrl}usuario/update`, usuario);
+  actualizarUsuario(usuario: NuevoUsuario, archivo:File): Observable<any> {
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+    formData.append('nuevoUsuario', JSON.stringify(usuario));
+    const headers = new HttpHeaders();
+    return this.http.put<NuevoUsuario>(`${this.apiUrl}usuario/update`,  formData, {headers: headers});
   }
 
   getTiposUsuarios(): Observable<TiposUsuarios> {
     return this.http.get<TiposUsuarios>(`${this.apiUrl}tipoUsuarios/readAll`);
+  }
+
+  eliminarUsuario(id_usuario: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}usuario/delete/${id_usuario}`);
   }
 }
 

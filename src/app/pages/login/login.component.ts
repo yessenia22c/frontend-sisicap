@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
 
   usuarioIncorrecto(){  
     this.incorrecto= true;  
-    this.mensajeError = "Usuario incorrecto";
+    this.mensajeError = "Nombre de usuario o contraseña incorrectos";
   }
   falsoCargando(){
     this.cargando = true;

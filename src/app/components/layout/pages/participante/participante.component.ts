@@ -27,7 +27,7 @@ import { ControlRolesDirective } from 'src/app/directivas/control-roles.directiv
   selector: 'app-participante',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatDialogModule, MatFormFieldModule, 
-    MatInputModule, MatTableModule,MatPaginatorModule, MatPaginatorModule, ControlRolesDirective ],
+    MatInputModule, MatTableModule,MatPaginatorModule, ControlRolesDirective ],
   templateUrl: './participante.component.html',
   styleUrls: ['./participante.component.css'],
   providers: [

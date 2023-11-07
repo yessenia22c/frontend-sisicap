@@ -56,9 +56,12 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private empleadoService: EmpleadoService,
+    private config: NgSelectConfig,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public dataUsuario: UsuarioList,
     public dialogReferencia: MatDialogRef<FormCrearActualizarUsuarioComponent>) {
+      this.config.notFoundText = 'No se encontraron resultados';
+      this.config.appendTo = 'body';
 
     this.formUsuario = this.fb.group({
       id_usuario: [''],
@@ -106,13 +109,17 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
     });
 
   }
-
+  //selectedFile: File | undefined;
+  imageUrl: string | ArrayBuffer | null = null;
   onFileSelected(event: any): void {
     const selectedFile = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = e => this.imageUrl = reader.result;
 
     if (selectedFile) {
       // Aquí puedes trabajar con el archivo seleccionado (por ejemplo, asignarlo a una propiedad del componente).
       // En tu caso, puedes asignarlo a this.foto.
+      reader.readAsDataURL(selectedFile);
       this.foto = selectedFile;
     }
   }
@@ -130,7 +137,8 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
       
     }
     if (this.dataUsuario === null) {
-      formData.append('modelo', JSON.stringify(modelo));
+      //formData.append('modelo', JSON.stringify(modelo));
+      
       //this.formUsuario.get('id_empleado')?.enable();
       // if (this.formGrupoSeguimiento.value.fecha_fin_cap === null || this.formGrupoSeguimiento.value.fecha_fin_cap === '') {
       //   modelo.fecha_fin_cap = null; // Establecer el valor en null     
@@ -152,9 +160,9 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
       // }
   
       //FUNCION PARA ACTUALIZAR LA FECHA
-      
+      //formData.append('modelo', JSON.stringify(modelo));
       modelo.id_usuario = this.dataUsuario.id_usuario;
-      this.datoUsuario$ = this.usuarioService.actualizarUsuario( modelo);
+      this.datoUsuario$ = this.usuarioService.actualizarUsuario( modelo, this.foto);
       this.datoUsuario$.subscribe({
         next: (data) => {
           this.mostrarAlerta('Usuario editado correctamente', 'Listo');
