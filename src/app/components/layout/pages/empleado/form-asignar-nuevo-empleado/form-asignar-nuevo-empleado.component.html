@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>{{tituloAccion}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formEmpleado">
+        <div class="row">
+            <div class="row-md-3" >
+                <!-- <mat-form-field appearance="fill" class="ancho"> -->
+                    <ng-container class="ng-select-container" *ngIf="this.listaPersonas$ | async as ListaPersonas">
+                        <ng-select [items]="ListaPersonas.personasNoEmpleados" formControlName="id_persona" bindLabel="nombreCompleto"
+                            bindValue="id_persona" placeholder="Seleccione una persona">
+                        </ng-select>
+                    </ng-container>
+        
+                <!-- </mat-form-field> -->
+            </div>
+            <div class="row-md-3">
+                <mat-form-field appearance="fill" class="ancho">
+                    <mat-label>Cargo</mat-label>
+                    <mat-select formControlName="id_cargo">
+                        <div *ngIf="this.listaCargo$ | async as listaCargos">
+                            <mat-option *ngFor="let item of listaCargos.Cargos" [value]="item.id_cargo">
+                                {{item.nombre_cargo}}
+                            </mat-option>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row-md-3">
+                <mat-form-field appearance="fill" class="ancho">
+                    <mat-label>Empresa</mat-label>
+                    <mat-select formControlName="id_empresa_empleadora">
+                        <div *ngIf="this.listaEmpresa$ | async as listaEmpresas">
+                            <mat-option *ngFor="let item of listaEmpresas.Empresas" [value]="item.id_empresa">
+                                {{item.nombre_empleador}}
+                            </mat-option>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row-md-3">
+                <mat-form-field appearance="fill" class="ancho">
+                    <mat-label>Fecha de contrato</mat-label>
+                    <input matInput formControlName="fecha_contrato" autocomplete="off" [matDatepicker]="picker3">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+        
+                    <!-- <mat-error *ngIf="formParticipante.get('Personas.fecha_nac')?.hasError">Debe ser mayor de edad.</mat-error>                 -->
+                    <!--   -->
+        
+                    <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['mayorEdad']">Debes ser mayor de edad.</mat-error> -->
+                    <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['fechaMinima']">La fecha no puede ser menor a 1920.</mat-error> -->
+                </mat-form-field>
+            </div>
+        
+        
+        </div>
+      </form>
+      
+      <!-- <p>
+        <pre>
+          {{formEmpleado.value | json}}
+        </pre> -->
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+  <button  mat-raised-button color="primary"
+    (click)="asignarEmpleado()"
+    [disabled]="formEmpleado.invalid"
+    >{{botonAccion}}
+  </button>
+
+</div>
+

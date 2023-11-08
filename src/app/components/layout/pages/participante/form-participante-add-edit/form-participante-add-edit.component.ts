@@ -127,7 +127,8 @@ crearParticipante() {
   const token = localStorage.getItem('access_token');
   if (token) {
     const decodedToken: any = decode(token);
-    const id_regis = decodedToken.id_user;
+    console.log('TOKEN', decodedToken);
+    const id_regis = decodedToken.ius;
     
 
     // PAra verificar que hay ingresado en le formulario

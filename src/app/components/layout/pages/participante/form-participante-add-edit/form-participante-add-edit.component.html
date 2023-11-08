@@ -86,8 +86,7 @@
                   <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                   <mat-datepicker #picker2></mat-datepicker>
                   
-                  <!-- <mat-error *ngIf="formParticipante.get('Personas.fecha_nac')?.hasError">Debe ser mayor de edad.</mat-error>                 -->
-                  <!--   -->
+                  <mat-error *ngIf="formParticipante.get('Personas.fecha_nac')?.hasError">Debe ser mayor de edad.</mat-error> 
                   
                   <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['mayorEdad']">Debes ser mayor de edad.</mat-error> -->
                   <!-- <mat-error *ngIf="formParticipante.controls['fecha_nac'].errors?.['fechaMinima']">La fecha no puede ser menor a 1920.</mat-error> -->

@@ -22,6 +22,7 @@ import { ParticipanteService } from 'src/app/services/participante.service';
 import { AllParticipante, DatosPersona, NuevoParticipante, Participante, personas } from 'src/app/models/participante';
 import { PaginatorService } from 'src/app/services/Paginator.service';
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
+import { FormAsignarNuevoParticipanteComponent } from './form-asignar-nuevo-participante/form-asignar-nuevo-participante.component';
 
 @Component({
   selector: 'app-participante',
@@ -108,7 +109,16 @@ export default class ParticipanteComponent {
     })
     
   }
-  
+  asignarNuevoEmpleado(){
+    this.dialog.open(FormAsignarNuevoParticipanteComponent,{
+      disableClose: true,
+      width: '400px',
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="Creado"){
+        this.mostrarParticipantes();
+      }
+    })
+  }
   editarParticipante(dataParticipante: NuevoParticipante) {
     console.log('DATA',dataParticipante);
     this.dialog.open(FormParticipanteAddEditComponent,{

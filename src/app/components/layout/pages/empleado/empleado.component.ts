@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaginatorService } from 'src/app/services/Paginator.service';
 import { FormCrearActualizarEmpleadoComponent } from './form-crear-actualizar-empleado/form-crear-actualizar-empleado.component';
 import { DialogEliminarEmpleadoComponent } from './dialog-eliminar-empleado/dialog-eliminar-empleado.component';
+import { FormAsignarNuevoEmpleadoComponent } from './form-asignar-nuevo-empleado/form-asignar-nuevo-empleado.component';
 
 @Component({
   selector: 'app-empleado',
@@ -90,6 +91,16 @@ export default class EmpleadoComponent {
       }
     })
     
+  }
+  asignarNuevoEmpleado() {
+    this.dialog.open(FormAsignarNuevoEmpleadoComponent,{
+      disableClose: true,
+      width: '400px',
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="Creado"){
+        this.mostrarEmpleados();
+      }
+    })
   }
   
   editarEmpleado(dataEmpleado: NuevoEmpleado) {

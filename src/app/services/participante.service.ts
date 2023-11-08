@@ -3,7 +3,7 @@ import { environment } from './../../environments/environment';
 import { Observable } from 'rxjs';
 import { Persona, AllPersona, creaPersona, Ciudad, Pais, Sexo, AllCiudades, AllPaises, AllSexos } from '../models/persona';
 import { HttpClient } from '@angular/common/http';
-import { AllParticipante, NuevoParticipante, Participante } from '../models/participante';
+import { AllParticipante, AsignarNuevoParticipante, NuevoParticipante, Participante, PersonaNoParticipante } from '../models/participante';
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +39,11 @@ constructor(private http: HttpClient) {}
    
   }
   
+  getPersonasNoParticipantes(): Observable<PersonaNoParticipante>{
+    return this.http.get<PersonaNoParticipante>(`${this.apiUrl}participante/participantesAll`);
+  }
+
+  crearAsignarParticipante(participante: AsignarNuevoParticipante): Observable<AsignarNuevoParticipante>{
+    return this.http.post<AsignarNuevoParticipante>(`${this.apiUrl}participante/create`, participante);
+  }
 }

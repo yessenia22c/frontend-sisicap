@@ -76,3 +76,27 @@ export interface DatosPersona {
     fecha_nac:   string | null;
     id_pais:     number;
 }
+
+
+//Personas No participantes
+
+export interface PersonaNoParticipante {
+    status:                  number;
+    personasNoParticipantes: PersonasNoParticipante[];
+}
+
+export interface PersonasNoParticipante {
+    id_persona:  number;
+    nombres_per: string;
+    apellidos:   string;
+    nro_ci:      string;
+    Personas:    null;
+}
+
+
+export interface AsignarNuevoParticipante {
+    id_participante: number;
+    id_persona:      number;
+    id_registrante:  number;
+    ocupacion:       string;
+}

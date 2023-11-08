@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CargosList, Empleado, EmpresasList, NuevoEmpleado } from '../models/empleado';
+import { AsignarNuevoEmpleado, CargosList, Empleado, EmpresasList, NuevoEmpleado, PersonaNoEmpleado } from '../models/empleado';
 import { CreaGrupoSeguimiento } from '../models/seguimiento';
 
 @Injectable({
@@ -23,6 +23,9 @@ export class EmpleadoService {
   crearEmpleado(modelo: NuevoEmpleado): Observable<NuevoEmpleado> {
     return this.http.post<NuevoEmpleado>(`${this.apiUrl}empleado/create`, modelo);
   }
+  crearAsignarNuevoEmpleado(modelo: AsignarNuevoEmpleado): Observable<AsignarNuevoEmpleado> {
+    return this.http.post<AsignarNuevoEmpleado>(`${this.apiUrl}empleado/asignarNuevo`, modelo);
+  }
   actualizaEmpleado( modelo: NuevoEmpleado): Observable<NuevoEmpleado> {
     return this.http.put<NuevoEmpleado>(`${this.apiUrl}empleado/update`, modelo);
   }
@@ -39,4 +42,7 @@ export class EmpleadoService {
     return this.http.delete<NuevoEmpleado>(`${this.apiUrl}empleado/delete/${id}`);
   }
 
+  getPersonasNoEmpleados(): Observable<PersonaNoEmpleado> {
+    return this.http.get<PersonaNoEmpleado>(`${this.apiUrl}empleado/personasAll`);
+  }
 }

@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>{{tituloAccion}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="formParticipante">
+        <div class="row">
+            <div class="row-md-6">
+                <ng-container class="ng-select-container" *ngIf="this.listaPersonas$ | async as ListaPersonas">
+                    <ng-select [items]="ListaPersonas.personasNoParticipantes" formControlName="id_persona" bindLabel="nombreCompleto"
+                        bindValue="id_persona" placeholder="Seleccione una persona">
+                    </ng-select>
+                </ng-container>
+            </div>
+            
+            
+            <div class="row-md-6">
+              <mat-form-field appearance="fill" class="ancho">
+                <mat-label>Ocupación</mat-label>
+                <input type="text" matInput formControlName="ocupacion" autocomplete="off">
+              </mat-form-field>
+            </div>
+          
+            
+            
+        </div>
+      </form>
+      
+      <!-- <p>
+        <pre>
+          {{formParticipante.value | json}}
+        </pre> -->
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+  <button  mat-raised-button color="primary"
+    (click)="crearParticipante()"
+    [disabled]="formParticipante.invalid"
+    >{{botonAccion}}
+  </button>
+
+</div>

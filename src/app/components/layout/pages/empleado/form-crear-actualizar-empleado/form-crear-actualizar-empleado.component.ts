@@ -58,7 +58,7 @@ export const MY_DATE_FORMATS = {
 export class FormCrearActualizarEmpleadoComponent implements OnInit {
   formEmpleado: FormGroup;
   //datos_UnaPersonaEmpleado: FormGroupName;
-  tituloAccion: string = 'Registrar participante';
+  tituloAccion: string = 'Registrar empleado';
   botonAccion: string = 'Guardar';
 
   listaPais$: Observable<Pais> | undefined;

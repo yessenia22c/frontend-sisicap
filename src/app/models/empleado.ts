@@ -84,3 +84,28 @@ export interface EmpresasList {
     status: number;
     Empresas: EmpresaEmpleadora[];
 }
+
+
+export interface AsignarNuevoEmpleado{
+    id_empleado: number;
+    id_persona: number;
+    id_cargo: number;
+    id_empresa_empleadora: number;
+    fecha_contrato: string | null;
+}
+
+
+//PErsonas no empleados
+
+export interface PersonaNoEmpleado {
+    status:              number;
+    personasNoEmpleados: PersonasNoEmpleado[];
+}
+
+export interface PersonasNoEmpleado {
+    id_persona:      number;
+    nombres_per:     string;
+    apellidos:       string;
+    nro_ci:          string;
+    PersonaEmpleado: null;
+}
