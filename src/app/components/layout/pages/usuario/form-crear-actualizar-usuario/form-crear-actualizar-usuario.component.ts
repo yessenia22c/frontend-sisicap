@@ -17,6 +17,10 @@ import { Empleado, EmpleadoList } from 'src/app/models/empleado';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgSelectConfig, NgSelectModule } from '@ng-select/ng-select';
+import { ValidacionServiceService } from 'src/app/services/validacion-service.service';
+import { Validaciones } from 'src/app/utils/validaciones';
+
+
 @Component({
   selector: 'app-form-crear-actualizar-usuario',
   standalone: true,
@@ -50,12 +54,13 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
   listaTipoUsuarios$: Observable<TiposUsuarios> | undefined;
   datoUsuario$: Observable<NuevoUsuario> | undefined;
   escondeContra = true;
-
+  //modoEdicion!: boolean;
   filteredOptions!: Observable<string[]>;
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private empleadoService: EmpleadoService,
+    private validacionService: ValidacionServiceService,
     private config: NgSelectConfig,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public dataUsuario: UsuarioList,
@@ -69,8 +74,17 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
       archivo: [''],
       id_tipo_usuario: ['', Validators.required],
       nombre_usuario: ['', Validators.required],
+      //nombre_usuario: ['', Validators.required,  Validaciones.validarNombreUsuario(this.validacionService)],
       contrasena_us: ['', Validators.required]
     });
+    if (this.dataUsuario != null) {
+      console.log('entrando a modo edicion');
+      this.formUsuario.get('nombre_usuario')?.clearAsyncValidators();
+    }else{
+      console.log('entrando a modo crear');
+      this.formUsuario.get('nombre_usuario')?.setAsyncValidators(Validaciones.validarNombreUsuario(this.validacionService));
+    }
+    this.formUsuario.get('nombre_usuario')?.updateValueAndValidity();
 
   }
   ngOnInit(): void {
@@ -86,7 +100,8 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
 
     this.listaTipoUsuarios$ = this.usuarioService.getTiposUsuarios();
 
-    if (this.dataUsuario ) {
+    if (this.dataUsuario) {
+      //this.modoEdicion = true;
       console.log('DATA DIALOG Usuario', this.dataUsuario);
       this.formUsuario.patchValue({
         id_usuario: this.dataUsuario.id_usuario,
@@ -137,6 +152,9 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
       
     }
     if (this.dataUsuario === null) {
+
+      
+      //this.modoEdicion = false;
       //formData.append('modelo', JSON.stringify(modelo));
       
       //this.formUsuario.get('id_empleado')?.enable();
@@ -155,12 +173,15 @@ export class FormCrearActualizarUsuarioComponent implements OnInit {
       });
       console.log('MODELO', modelo);
     }else{
+      
       // if (this.formGrupoSeguimiento.value.fecha_fin_cap === null || this.formGrupoSeguimiento.value.fecha_fin_cap === '') {
       //   modelo.fecha_fin_cap = null; // Establecer el valor en null     
       // }
   
       //FUNCION PARA ACTUALIZAR LA FECHA
       //formData.append('modelo', JSON.stringify(modelo));
+      //this.modoEdicion = true;
+      //console.log('entrando a modo acti', this.modoEdicion);
       modelo.id_usuario = this.dataUsuario.id_usuario;
       this.datoUsuario$ = this.usuarioService.actualizarUsuario( modelo, this.foto);
       this.datoUsuario$.subscribe({

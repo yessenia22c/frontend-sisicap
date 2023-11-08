@@ -24,6 +24,11 @@ const routes: Routes = [
         
       },
       {
+        path:'usuario/gestionar-roles',
+        loadComponent: () => import('../layout/pages/usuario/gestionar-roles-usuario/gestionar-roles-usuario.component'),
+        
+      },
+      {
         path:'empleado',
         loadComponent: () => import('../layout/pages/empleado/empleado.component'),
       },

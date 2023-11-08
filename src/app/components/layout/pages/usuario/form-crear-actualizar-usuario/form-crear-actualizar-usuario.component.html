@@ -8,6 +8,7 @@
             <mat-form-field appearance="fill" class="ancho">
               <mat-label>Nombre de usuario</mat-label>
               <input  type="text" matInput formControlName="nombre_usuario" autocomplete="off" >
+              <mat-error *ngIf="formUsuario.get('nombre_usuario')?.hasError('nombreUsuarioNoDisponible')">Nombre de usuario no disponible.</mat-error>
             </mat-form-field>
           </div>
           <div class="row-md-4" >

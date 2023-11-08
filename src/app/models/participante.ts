@@ -60,7 +60,7 @@ export interface CreaParticipante {
 export interface NuevoParticipante {
     Personas:  DatosPersona;
     id_participante: number;
-    id_registrante: number;
+    //id_registrante: number;
     ocupacion:      string;
 }
 

@@ -24,6 +24,8 @@ import { PersonaService } from 'src/app/services/persona.service';
 import { Persona, AllPersona, Pais, Ciudad, Sexo, AllPaises, AllCiudades, AllSexos } from 'src/app/models/persona';
 import { creaPersona } from 'src/app/models/persona';
 import { Observable, of } from 'rxjs';
+import { Validaciones } from 'src/app/utils/validaciones';
+import { ValidacionServiceService } from 'src/app/services/validacion-service.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -69,6 +71,7 @@ export class FormPersonaAddEditComponent implements OnInit {
     private fb: FormBuilder,
     private personaService: PersonaService,
     private _snackBar: MatSnackBar,
+    private validacionService: ValidacionServiceService,
     @Inject(MAT_DIALOG_DATA) public dataPersona: AllPersona,
     public dialogReferencia: MatDialogRef<FormPersonaAddEditComponent>) {
     
@@ -76,13 +79,28 @@ export class FormPersonaAddEditComponent implements OnInit {
       nombres_per: ['', Validators.required],
       apellidos: ['', Validators.required],
       nro_ci: ['', Validators.required],
+      //nro_ci: ['', Validators.required, Validaciones.validarCarnetIdentidad(this.validacionService)],
       id_sexo: ['', Validators.required],
-      correo: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      //correo: ['', [Validators.required, Validators.email], Validaciones.validarCorreo(this.validacionService)],
       telefono: [''],
       id_ciudad: [''],
       fecha_nac: ['', this.mayorEdadValidator],
       id_pais: ['', Validators.required],    
-    });  
+    }); 
+    
+    if (this.dataPersona != null) {
+      console.log('entrando a modo edicion');
+      this.formPersona.get('nro_ci')?.clearAsyncValidators();
+      this.formPersona.get('correo')?.clearAsyncValidators();
+    }else{
+      console.log('entrando a modo crear');
+      this.formPersona.get('nro_ci')?.setAsyncValidators(Validaciones.validarCarnetIdentidad(this.validacionService));
+      this.formPersona.get('correo')?.setAsyncValidators(Validaciones.validarCorreo(this.validacionService));
+
+    }
+    this.formPersona.get('nro_ci')?.updateValueAndValidity();
+    this.formPersona.get('correo')?.updateValueAndValidity();
 }
 
 
@@ -137,10 +155,10 @@ crearPersona() {
     console.log('MODELO', modelo);  
     this.datoPersona$.subscribe({
       next: (data) => {
-        this.mostrarAlerta('Datos personales actualizados correctamente', 'Listo');
+        this.mostrarAlerta('Datos personales actualizados correctamente.', 'Listo');
         this.dialogReferencia.close("editado");
       }, error: (e) => {
-        this.mostrarAlerta('No se pudo editar', 'Error');
+        this.mostrarAlerta('No se pudo editar, existen datos duplicados.', 'Error');
       }
     });
     console.log('MODELO ACTUALIZAR', modelo);

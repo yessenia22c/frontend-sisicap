@@ -59,7 +59,7 @@ export const MY_DATE_FORMATS = {
 export class FormAsignarNuevoParticipanteComponent implements OnInit {
   formParticipante: FormGroup;
   //datos_UnaPersonaEmpleado: FormGroupName;
-  tituloAccion: string = 'Asignar nuevo empleado';
+  tituloAccion: string = 'Asignar a nuevo participante';
   botonAccion: string = 'Guardar';
 
   listaPais$: Observable<Pais> | undefined;

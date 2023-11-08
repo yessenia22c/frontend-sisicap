@@ -33,6 +33,8 @@ import { ParticipanteService } from 'src/app/services/participante.service';
 
 import jwt_decode from 'jwt-decode';
 import decode  from 'jwt-decode'
+import { Validaciones } from 'src/app/utils/validaciones';
+import { ValidacionServiceService } from 'src/app/services/validacion-service.service';
 export interface User {
   name: string;
 }
@@ -88,6 +90,7 @@ export class FormParticipanteAddEditComponent implements OnInit {
     private fb: FormBuilder,
     private personaService: PersonaService,
     private participanteService: ParticipanteService,
+    private validacionService: ValidacionServiceService,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public dataParticipante: AllParticipante,
     public dialogReferencia: MatDialogRef<FormParticipanteAddEditComponent>) {
@@ -110,6 +113,19 @@ export class FormParticipanteAddEditComponent implements OnInit {
       ocupacion: [''],
 
     });  
+
+    if (this.dataParticipante != null) {
+      console.log('entrando a modo edicion');
+      this.formParticipante.get('Personas.nro_ci')?.clearAsyncValidators();
+      this.formParticipante.get('Personas.correo')?.clearAsyncValidators();
+    }else{
+      console.log('entrando a modo crear');
+      this.formParticipante.get('Personas.nro_ci')?.setAsyncValidators(Validaciones.validarCarnetIdentidad(this.validacionService));
+      this.formParticipante.get('Personas.correo')?.setAsyncValidators(Validaciones.validarCorreo(this.validacionService));
+
+    }
+    this.formParticipante.get('Personas.nro_ci')?.updateValueAndValidity();
+    this.formParticipante.get('Personas.correo')?.updateValueAndValidity();
 }
 
 
@@ -125,74 +141,78 @@ mostrarAlerta(mensaje: string, accion: string) {
 
 crearParticipante() {
   const token = localStorage.getItem('access_token');
-  if (token) {
-    const decodedToken: any = decode(token);
-    console.log('TOKEN', decodedToken);
-    const id_regis = decodedToken.ius;
-    
-
-    // PAra verificar que hay ingresado en le formulario
-  console.log('FORMULARIO', this.formParticipante.value);
-
-  const modelo: NuevoParticipante = {
-    Personas: {
-      id_persona:           this.formParticipante.value.Personas.id_persona,
-      nombres_per:          this.formParticipante.value.Personas.nombres_per,
-      apellidos:            this.formParticipante.value.Personas.apellidos,
-      nro_ci:               this.formParticipante.value.Personas.nro_ci,
-      id_sexo:              this.formParticipante.value.Personas.id_sexo,
-      correo:               this.formParticipante.value.Personas.correo,
-      telefono:             this.formParticipante.value.Personas.telefono,
-      id_ciudad:            this.formParticipante.value.Personas.id_ciudad,
-      fecha_nac:            moment(this.formParticipante.value.Personas.fecha_nac).format('YYYY-MM-DD'),
-      id_pais:              this.formParticipante.value.Personas.id_pais
-    },
-    id_participante:       0, 
-    id_registrante:       id_regis, //SOLO PARA QUE NO DE ERROR
-    ocupacion:            this.formParticipante.value.ocupacion,
-  }
-  //VALIDACION DE FECHA NULLA
   
-  if (this.dataParticipante === null) {
-    //si es null entonces crear
-    
-    const fechaNac = this.formParticipante.get('Personas.fecha_nac')?.value;
-    if (fechaNac === null || fechaNac === '' ) {
-      modelo.Personas.fecha_nac = null; // Establecer el valor en null     
-    }
-    this.datoParticipante$ = this.participanteService.crearParticipante(modelo);
-    this.datoParticipante$.subscribe({
-      next: (data) => {
-        this.mostrarAlerta('Participante creada correctamente', 'Listo');
-        this.dialogReferencia.close("Creado");
-      }, error: (e) => {
-        this.mostrarAlerta('No se pudo crear', 'Error');
-      }
-    });
-    console.log('MODEL CREAR', modelo);
-  }else{
-    //si es diferente de null entonces editar
-    //VALIDAR SI EL CAMPO DE FECHA ESTA VACIO
-    const fechaNac = this.formParticipante.get('Personas.fecha_nac')?.value;
-    if (fechaNac === null || fechaNac === '' ) {
-      modelo.Personas.fecha_nac = null; // Establecer el valor en null     
-    }
-    modelo.id_participante = this.dataParticipante.id_participante;
-    this.datoParticipante$ = this.participanteService.actualizaParticipante(this.dataParticipante.id_participante, modelo);
-    console.log('MODELO ACTUALIZAR', modelo);
-    this.datoParticipante$.subscribe({
-      next: (data) => {
-        this.mostrarAlerta('Datos de participante actualizados correctamente', 'Listo');
-        this.dialogReferencia.close("editado");
-      }, error: (e) => {
-        this.mostrarAlerta('No se pudo editar', 'Error');
-        console.log('MODELO ACTUALIZAR error', modelo);
-      }
-    });
-    
-  }
+    // PAra verificar que hay ingresado en le formulario
+    console.log('FORMULARIO', this.formParticipante.value);
 
-  }
+    const modelo: NuevoParticipante = {
+      Personas: {
+        id_persona: this.formParticipante.value.Personas.id_persona,
+        nombres_per: this.formParticipante.value.Personas.nombres_per,
+        apellidos: this.formParticipante.value.Personas.apellidos,
+        nro_ci: this.formParticipante.value.Personas.nro_ci,
+        id_sexo: this.formParticipante.value.Personas.id_sexo,
+        correo: this.formParticipante.value.Personas.correo,
+        telefono: this.formParticipante.value.Personas.telefono,
+        id_ciudad: this.formParticipante.value.Personas.id_ciudad,
+        fecha_nac: moment(
+          this.formParticipante.value.Personas.fecha_nac
+        ).format('YYYY-MM-DD'),
+        id_pais: this.formParticipante.value.Personas.id_pais,
+      },
+      id_participante:       0,
+      //id_registrante: id_regis, //SOLO PARA QUE NO DE ERROR
+      ocupacion: this.formParticipante.value.ocupacion,
+    };
+    //VALIDACION DE FECHA NULLA
+
+    if (this.dataParticipante === null) {
+      //si es null entonces crear
+
+      const fechaNac = this.formParticipante.get('Personas.fecha_nac')?.value;
+      if (fechaNac === null || fechaNac === '') {
+        modelo.Personas.fecha_nac = null; // Establecer el valor en null
+      }
+      this.datoParticipante$ =
+        this.participanteService.crearParticipante(modelo);
+      this.datoParticipante$.subscribe({
+        next: (data) => {
+          this.mostrarAlerta('Participante creada correctamente', 'Listo');
+          this.dialogReferencia.close('Creado');
+        },
+        error: (e) => {
+          this.mostrarAlerta('No se pudo crear', 'Error');
+        },
+      });
+      console.log('MODEL CREAR', modelo);
+    } else {
+      //si es diferente de null entonces editar
+      //VALIDAR SI EL CAMPO DE FECHA ESTA VACIO
+      const fechaNac = this.formParticipante.get('Personas.fecha_nac')?.value;
+      if (fechaNac === null || fechaNac === '') {
+        modelo.Personas.fecha_nac = null; // Establecer el valor en null
+      }
+      //modelo.id_participante = this.dataParticipante.id_participante;
+      this.datoParticipante$ = this.participanteService.actualizaParticipante(
+        this.dataParticipante.id_participante,
+        modelo
+      );
+      console.log('MODELO ACTUALIZAR', modelo);
+      this.datoParticipante$.subscribe({
+        next: (data) => {
+          this.mostrarAlerta(
+            'Datos de participante actualizados correctamente',
+            'Listo'
+          );
+          this.dialogReferencia.close('editado');
+        },
+        error: (e) => {
+          this.mostrarAlerta('No se pudo editar, existen datos duplicados.', 'Error');
+          console.log('MODELO ACTUALIZAR error', modelo);
+        },
+      });
+    }
+  
 
   
 

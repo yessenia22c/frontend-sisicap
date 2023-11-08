@@ -19,6 +19,7 @@
         <mat-form-field appearance="fill" class="ancho">
           <mat-label>C.I</mat-label>
           <input type="text" matInput formControlName="nro_ci" autocomplete="off">
+          <mat-error *ngIf="formPersona.get('nro_ci')?.hasError('carnetYaRegistrado')">Ya existe este C.I. registrado a una persona.</mat-error>
         </mat-form-field>
       </mat-grid-tile>
 
@@ -39,6 +40,10 @@
         <mat-form-field appearance="fill" class="ancho">
           <mat-label>Correo electrónico</mat-label>
           <input type="email" matInput formControlName="correo" autocomplete="off">
+          <mat-error *ngIf="formPersona.get('correo')?.hasError('correoYaRegistrado')">Ya existe este correo electrónico registrado.</mat-error>
+                  <mat-error *ngIf="formPersona.get('correo')?.hasError('email') && !formPersona.hasError('required')">
+                    Introduce un correo electrónico válido.
+                  </mat-error>
         </mat-form-field>
       </mat-grid-tile>
       

@@ -63,6 +63,7 @@ export class FormAsignarNuevoEmpleadoComponent implements OnInit {
   //datos_UnaPersonaEmpleado: FormGroupName;
   tituloAccion: string = 'Asignar nuevo empleado';
   botonAccion: string = 'Guardar';
+  mostrarDesplegable: boolean = false;
 
   listaPais$: Observable<Pais> | undefined;
   listaCiudad$: Observable<Ciudad> | undefined;
@@ -142,6 +143,22 @@ export class FormAsignarNuevoEmpleadoComponent implements OnInit {
       
       this.mostrarAlerta('No se puede editar datos del empleado', 'Cerrar');
         
+    }
+  }
+
+  cargarDatosPersona(event:any): void {
+    console.log('DATOS PERSONA',event);
+    // si hay una persona seleccionada ocultar desplegable
+    if (event != null) {
+      this.mostrarDesplegable = false;}
+  }
+
+  onSearch(event: any): void {
+    console.log('SEARCH',event);
+    if (event.term.length > 0) {
+      this.mostrarDesplegable = true;
+    }else{
+      this.mostrarDesplegable = false;
     }
   }
 }

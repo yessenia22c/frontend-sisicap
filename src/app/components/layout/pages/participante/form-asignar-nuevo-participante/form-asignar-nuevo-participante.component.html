@@ -6,7 +6,7 @@
             <div class="row-md-6">
                 <ng-container class="ng-select-container" *ngIf="this.listaPersonas$ | async as ListaPersonas">
                     <ng-select [items]="ListaPersonas.personasNoParticipantes" formControlName="id_persona" bindLabel="nombreCompleto"
-                        bindValue="id_persona" placeholder="Seleccione una persona">
+                        bindValue="id_persona" placeholder="Buscar a una persona">
                     </ng-select>
                 </ng-container>
             </div>

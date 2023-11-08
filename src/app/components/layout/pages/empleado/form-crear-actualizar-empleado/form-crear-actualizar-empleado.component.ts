@@ -20,6 +20,8 @@ import { PersonaService } from 'src/app/services/persona.service';
 import * as moment from 'moment';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Validaciones } from 'src/app/utils/validaciones';
+import { ValidacionServiceService } from 'src/app/services/validacion-service.service';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -75,6 +77,7 @@ export class FormCrearActualizarEmpleadoComponent implements OnInit {
     private fb: FormBuilder,
     private empleadoService: EmpleadoService,
     private personaService: PersonaService,
+    private validacionService: ValidacionServiceService,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public dataEmpleado: EmpleadoList,
     public dialogReferencia: MatDialogRef<FormCrearActualizarEmpleadoComponent>
@@ -97,6 +100,19 @@ export class FormCrearActualizarEmpleadoComponent implements OnInit {
       fecha_contrato: [''],
       id_empresa_empleadora: [''],
     });
+
+    if (this.dataEmpleado != null) {
+      console.log('entrando a modo edicion');
+      this.formEmpleado.get('UnaPersonaEmpleado.nro_ci')?.clearAsyncValidators();
+      this.formEmpleado.get('UnaPersonaEmpleado.correo')?.clearAsyncValidators();
+    }else{
+      console.log('entrando a modo crear');
+      this.formEmpleado.get('UnaPersonaEmpleado.nro_ci')?.setAsyncValidators(Validaciones.validarCarnetIdentidad(this.validacionService));
+      this.formEmpleado.get('UnaPersonaEmpleado.correo')?.setAsyncValidators(Validaciones.validarCorreo(this.validacionService));
+
+    }
+    this.formEmpleado.get('UnaPersonaEmpleado.nro_ci')?.updateValueAndValidity();
+    this.formEmpleado.get('UnaPersonaEmpleado.correo')?.updateValueAndValidity();
   }
 
   ngOnInit(): void {
@@ -186,7 +202,7 @@ export class FormCrearActualizarEmpleadoComponent implements OnInit {
           this.mostrarAlerta('Datos de empleado actualizado correctamente', 'Cerrar');
           this.dialogReferencia.close("editado");
         },error: (error) => {
-          this.mostrarAlerta('Error al actualizar el empleado', 'Cerrar');
+          this.mostrarAlerta('Error al actualizar el empleado, existen datos duplicados', 'Cerrar');
         }
       });
     }

@@ -15,7 +15,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsuarioList, UsuariosSistema } from 'src/app/models/Usuarios';
 import { FormCrearActualizarUsuarioComponent } from './form-crear-actualizar-usuario/form-crear-actualizar-usuario.component';
 import { DialogEliminarUsuarioComponent } from './dialog-eliminar-usuario/dialog-eliminar-usuario.component';
-
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -28,7 +28,8 @@ import { DialogEliminarUsuarioComponent } from './dialog-eliminar-usuario/dialog
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    RouterModule
 
   ],
   templateUrl: './usuario.component.html',
