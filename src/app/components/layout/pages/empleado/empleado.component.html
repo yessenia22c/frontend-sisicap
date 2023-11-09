@@ -9,7 +9,7 @@
         <mat-label>Buscar</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Juan" #input >
     </mat-form-field>
-    <section class="example-container mat-elevation-z8" tabindex="0">
+    <section *appControlRoles="29" class="example-container mat-elevation-z8" tabindex="0">
         <table mat-table [dataSource]="dataSource">
       
           <!-- Position Column -->

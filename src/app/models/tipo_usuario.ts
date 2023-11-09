@@ -24,3 +24,32 @@ export interface UnTipoUsuario{
     status: number;
     tipo_usuario: Tipo_usuario;
 }
+
+
+//Niveles de acceso para un tipo de usuario
+export interface NivelesAccesosTipoUsuario {
+    status:     number;
+    AllAccesos: AllAcceso[];
+}
+
+export interface AllAcceso {
+    id_acceso:   number;
+    NivelAcceso: NivelAcceso;
+}
+
+// export interface NivelAcceso {
+//     id_nivel:     number;
+//     nombre_nivel: string;
+// }
+
+
+//Asignar niveles de acceso a un tipo de usuario
+
+export interface AsignarNivelesAcceso {
+    id_tipo_usuario: number;
+    niveles:         Nivel[];
+}
+
+export interface Nivel {
+    id_nivel: number;
+}

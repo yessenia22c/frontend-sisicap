@@ -15,11 +15,12 @@ import { PaginatorService } from 'src/app/services/Paginator.service';
 import { FormCrearActualizarEmpleadoComponent } from './form-crear-actualizar-empleado/form-crear-actualizar-empleado.component';
 import { DialogEliminarEmpleadoComponent } from './dialog-eliminar-empleado/dialog-eliminar-empleado.component';
 import { FormAsignarNuevoEmpleadoComponent } from './form-asignar-nuevo-empleado/form-asignar-nuevo-empleado.component';
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 
 @Component({
   selector: 'app-empleado',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatPaginatorModule,MatDialogModule ],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatPaginatorModule,MatDialogModule, ControlRolesDirective ],
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css'],
   providers: [
