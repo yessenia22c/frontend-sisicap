@@ -1,1 +1,55 @@
-<p>gestionar-roles-usuario works!</p>
+<div class="container-fluid">
+    <div style="padding-bottom: 1em;">
+      <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Tipos de usuarios</h4>
+      <!-- <button mat-raised-button style="margin-right: 8px;" color="primary" (click)="nuevoUsuario()"> Nuevo usuario</button>
+      <button mat-raised-button color="primary" routerLink="gestionar-roles"> Gestionar roles</button> -->
+      
+  
+    </div>
+  
+    <mat-form-field style="width: 100%;">
+      <mat-label>Buscar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Juan" #input>
+    </mat-form-field>
+    <section class="example-container mat-elevation-z8" tabindex="0">
+      <table mat-table [dataSource]="dataSource" matSort>
+  
+        <!-- Position Column -->
+        <ng-container matColumnDef="id_tipo_usuario">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.id_tipo_usuario}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nombre_tipo_usuario">
+          <th mat-header-cell *matHeaderCellDef> Normbre tipo de usuario </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre_tipo_usuario}} </td>
+        </ng-container>
+        <ng-container matColumnDef="descripcion">
+          <th mat-header-cell *matHeaderCellDef> Descripción</th>
+          <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="accion" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="example-button-container">
+              <button mat-icon-button color="primary" aria-label="Boton editar" >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button [routerLink]="['ver', element.id_tipo_usuario]"  mat-icon-button color="primary" aria-label="Boton ajustes">
+                <mat-icon>settings</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" aria-label="Boton eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+              
+  
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </section>
+    <mat-paginator [pageSizeOptions]="[10, 20, 30, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>

@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Niveles de acceso</h4>
+    <div *ngIf="this.informacionTipoUsuario$ | async as TipoUsuario">
+        <h4>
+            {{TipoUsuario.tipo_usuario.nombre_tipo_usuario}}
+        </h4>
+        <p>
+            {{TipoUsuario.tipo_usuario.descripcion}}
+        </p>
+    </div>
+    <div>
+        <ul>
+            <ng-container *ngIf="this.informacionNiveles$ | async as niveles">
+                <li *ngFor="let item of niveles.nivelAcceso">
+                    <mat-checkbox 
+                    [(ngModel)]="item.id_nivel" 
+                    color="primary"  (ngModelChange)="seleccionarTodosNiveles()">
+                      {{item.nombre_nivel}}
+                    </mat-checkbox>
+                  </li>
+            </ng-container>
+
+        </ul>
+            
+    </div>
+</div>

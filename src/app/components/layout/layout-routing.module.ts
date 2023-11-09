@@ -29,6 +29,11 @@ const routes: Routes = [
         
       },
       {
+        path:'usuario/gestionar-roles/ver/:id_tipo_usuario',
+        loadComponent: () => import('../layout/pages/usuario/gestionar-roles-usuario/niveles-acceso/niveles-acceso.component'),
+        
+      },
+      {
         path:'empleado',
         loadComponent: () => import('../layout/pages/empleado/empleado.component'),
       },
