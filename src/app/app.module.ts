@@ -35,7 +35,8 @@ import { ControlRolesDirective } from './directivas/control-roles.directive';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    
    
   ],
   providers: [

@@ -1,1 +1,15 @@
-<p>dialog-eliminar-inscrito works!</p>
+<h2 mat-dialog-title>Eliminar capaciatción</h2>
+<mat-dialog-content class="mat-typography">
+    ¿Desea eliminar la inscripción del participante: <strong>{{dataParticipante.Participantes.Personas.nombres_per}} {{dataParticipante.Participantes.Personas.apellidos}}?</strong>
+    
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">No</button>
+  <button  mat-raised-button color="primary"
+    (click)="confirmarDelete()"
+    cdkFocusInitial
+    >Si, Eliminar
+  </button>
+
+</div>

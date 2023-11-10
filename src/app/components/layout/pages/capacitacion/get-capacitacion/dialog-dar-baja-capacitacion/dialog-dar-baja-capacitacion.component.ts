@@ -6,27 +6,28 @@ import {MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angula
 import { CapacitacionService } from 'src/app/services/capacitacion.service';
 import { GetCapacitacion, UnaCapacitacion } from 'src/app/models/capacitacion';
 @Component({
-  selector: 'app-dialog-eliminar-capacitacion',
+  selector: 'app-dialog-dar-baja-capacitacion',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule
-
-  ],
-  templateUrl: './dialog-eliminar-capacitacion.component.html',
-  styleUrls: ['./dialog-eliminar-capacitacion.component.css']
+  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  templateUrl: './dialog-dar-baja-capacitacion.component.html',
+  styleUrls: ['./dialog-dar-baja-capacitacion.component.css']
 })
-export class DialogEliminarCapacitacionComponent {
+export class DialogDarBajaCapacitacionComponent {
   constructor(
     private capacitacionService: CapacitacionService,
     @Inject(MAT_DIALOG_DATA) public dataCapacitacion: GetCapacitacion,
-      public dialogReferencia: MatDialogRef<DialogEliminarCapacitacionComponent>
+      public dialogReferencia: MatDialogRef<DialogDarBajaCapacitacionComponent>
   ) { }
 
-  confirmarDelete(){
+  confirmarBaja(){
     if(this.dataCapacitacion){
-      this.dialogReferencia.close("eliminar");
+      if(this.dataCapacitacion.UnaCapacitacion.vigente == true){
+        this.dialogReferencia.close("baja");
+
+      }else{
+        this.dialogReferencia.close("vigente");
+      }
     }
   }
+
 }

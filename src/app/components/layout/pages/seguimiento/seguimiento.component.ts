@@ -72,7 +72,8 @@ export default class SeguimientoComponent implements OnInit {
       this.filtrados = this.SegumientosLista ;
       return;
     }
-    this.filtrados = this.filtrados.filter(item =>item.nombre_seguimiento.toLowerCase().includes(filterValue));
+    this.filtrados = this.filtrados.filter(item =>item.nombre_seguimiento.toLowerCase().includes(filterValue) || 
+    item.Empleado.PersonaEmpleado.nombres_per.toLowerCase().includes(filterValue) || item.Capacitacion.nombre_capacitacion.toLowerCase().includes(filterValue));
     console.log('filtrados lista',this.SegumientosLista.filter(item =>item.nombre_seguimiento.toLowerCase().includes(filterValue)));     
   }
     

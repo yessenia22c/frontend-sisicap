@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{dataCapacitacion.UnaCapacitacion.vigente? 'Dar de baja' : 'Poner vigente'}}</h2>
+<mat-dialog-content class="mat-typography">
+    {{dataCapacitacion.UnaCapacitacion.vigente? 'La capacitación se dará de baja' : 'La capacitación se pondrá vigente'}}
+    <!-- ¿Desea dar de baja la capacitacón: <strong>{{dataCapacitacion.UnaCapacitacion.nombre_capacitacion}}?</strong> -->
+    
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close color="warn">No</button>
+  <button  mat-raised-button color="primary"
+    (click)="confirmarBaja()"
+    cdkFocusInitial
+    >Confirmar
+  </button>
+
+</div>

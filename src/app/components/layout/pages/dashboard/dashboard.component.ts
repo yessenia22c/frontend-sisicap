@@ -4,8 +4,12 @@ import { map } from 'rxjs';
 import { Usuario } from 'src/app/models/Usuarios';
 import { LoginService } from 'src/app/services/login.service';
 
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

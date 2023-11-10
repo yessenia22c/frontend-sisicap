@@ -57,6 +57,7 @@ export default class CapacitacionComponent implements OnInit {
     this.informacionCapacitaciones$.subscribe({
       next: (data) => {
         this.capacitacionesLista = data.UnaCapacitacion;
+        console.log('CAPACITACIONES',this.capacitacionesLista); 
         this.filtrados = data.UnaCapacitacion;
       },
       error: (error) => {
@@ -87,7 +88,7 @@ export default class CapacitacionComponent implements OnInit {
       this.filtrados = this.capacitacionesLista ;
       return;
     }
-    this.filtrados = this.filtrados.filter(item =>item.nombre_capacitacion.toLowerCase().includes(filterValue));
+    this.filtrados = this.filtrados.filter(item =>item.nombre_capacitacion.toLowerCase().includes(filterValue) || item.Categoria.nombre_categoria.toLowerCase().includes(filterValue));
     console.log('filtrados lista',this.capacitacionesLista.filter(item =>item.nombre_capacitacion.toLowerCase().includes(filterValue)));     
   }
 

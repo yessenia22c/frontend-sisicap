@@ -19,9 +19,40 @@
   </div>
 
      
-    
+  <div class="contenedor-grid">
+    <section  *ngFor="let item of filtrados">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title-group>
+            <section  class="contenedor-textos">
+              <mat-card-title class="texto-item " [ngClass]="{'long-title': item.nombre_seguimiento.length > 8}">
+                {{item.nombre_seguimiento}}
+              </mat-card-title>
+              <mat-card-subtitle><b>Encargado: </b>{{item.Empleado.PersonaEmpleado.nombres_per}} {{item.Empleado.PersonaEmpleado.apellidos}}</mat-card-subtitle>
+              <mat-card-subtitle><b>Capacitación: </b>{{item.Capacitacion.nombre_capacitacion}}</mat-card-subtitle>
+              
+            </section>
+           
+            <img mat-card-lg-image  src="./../../../../../assets/img/seguimiento-imagen.png">
+          </mat-card-title-group>
+          
+          <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+        </mat-card-header>
+        
+        <mat-card-content>
+        </mat-card-content>
+        <mat-card-actions>
+          <a [routerLink]="['ver', item.id_grupo_seguimiento]" class="no-overlap boton-curso" mat-raised-button
+            color="primary">Ver seguimiento</a>
 
-    <ng-container  >
+        </mat-card-actions>
+        
+      </mat-card>
+    </section>
+    
+   </div> 
+
+    <!-- <ng-container  >
       <div class="row"  >
         <div class="col-sm-3 py-2" *ngFor="let item of filtrados">
           <mat-card>
@@ -40,5 +71,5 @@
           </mat-card>
         </div>
       </div>
-    </ng-container>
+    </ng-container> -->
   </div>

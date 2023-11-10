@@ -21,8 +21,9 @@ mat-toolbar {
 }
 
 .texto-item{
-  font-size: 18px;
-  color: rgb(46, 46, 46);
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(114, 114, 114);
   font-family: Helvetica;
 
 }
@@ -55,3 +56,55 @@ mat-toolbar {
   color: #ffffff !important;
   background-color: #91BF23;
 }
+
+.color-rojo {
+  background-color: rgba(247, 95, 95, 0.396);
+  color: rgb(72, 9, 9); /* Cambia el color del texto si es necesario */
+
+}
+.color-verde{
+  background-color: rgb(33, 207, 71);
+  color: rgb(255, 255, 255); /* Cambia el color del texto si es necesario */
+
+}
+
+.badge{
+  width: 80px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contenedor-textos{
+  width: 300px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contenedor-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-gap: 16px;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* @media (max-width: 651px ) {
+  .contenedor-textos{
+    width: 400px;
+  }
+}
+
+@media (max-width : 650px ) {
+  .contenedor-textos{
+    width: 300px;
+  }
+}
+
+@media (max-width: 900px ) {
+  .contenedor-textos{
+    width: 300px;
+  }
+} */

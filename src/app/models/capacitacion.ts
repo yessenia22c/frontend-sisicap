@@ -8,6 +8,7 @@ export interface UnaCapacitacion {
     nombre_capacitacion: string;
     fecha_inicio_cap:    string ;
     fecha_fin_cap:       string | null;
+    vigente:             boolean;
     cantidad_modulos:    number;
     Categoria:           Categoria;
 }
@@ -40,6 +41,7 @@ export interface ParticipantesInscritos {
 }
 
 export interface Inscrito {
+    id_inscripcion:    number;
     Participantes: Participantes;
 }
 

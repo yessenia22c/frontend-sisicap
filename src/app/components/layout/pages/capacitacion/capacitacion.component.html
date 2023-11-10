@@ -23,16 +23,26 @@
     </div>
     
   </div>
-  <div  fxLayout="row wrap" fxLayoutGap="16px grid">
-    <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"
-      *ngFor="let item of filtrados">
+  <div class="contenedor-grid">
+    <section  *ngFor="let item of filtrados">
       <mat-card>
         <mat-card-header>
-          <mat-card-title class="texto-item"
-            [ngClass]="{'long-title': item.nombre_capacitacion.length > 8}">{{item.nombre_capacitacion}}</mat-card-title>
+          <mat-card-title-group>
+            <section  class="contenedor-textos">
+              <mat-card-title class="texto-item"
+              [ngClass]="{'long-title': item.nombre_capacitacion.length > 8}">{{item.nombre_capacitacion}}</mat-card-title>
+              <mat-card-subtitle>{{item.Categoria.nombre_categoria}}</mat-card-subtitle>
+              <mat-card-subtitle><b>Inicio: </b>{{item.fecha_inicio_cap| date:'dd/MM/yyyy'}}</mat-card-subtitle>
+              <mat-card-subtitle><b>Fin: </b>{{item.fecha_fin_cap| date:'dd/MM/yyyy'}}</mat-card-subtitle>
+              <mat-card-subtitle><span [class.color-verde]="item.vigente == true" [class.color-rojo]="item.vigente == false"  class="badge">{{item.vigente? 'Vigente': 'No vigente'}}</span></mat-card-subtitle>
+            </section>
+           
+            <img mat-card-lg-image  src="./../../../../../assets/img/capacitacion-imagen.png" style="padding-right: 8px;">
+          </mat-card-title-group>
+          
           <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
         </mat-card-header>
-        <img mat-card-image src="./../../../../../assets/img/img-generica.jpg" style="padding: 8px;">
+        
         <mat-card-content>
         </mat-card-content>
         <mat-card-actions>
@@ -40,7 +50,7 @@
         </mat-card-actions>
         
       </mat-card>
-    </div>
+    </section>
     
-  </div>
+   </div> 
 </div>

@@ -34,9 +34,16 @@ export class CapacitacionService {
   actualizarCapacitacion(id_capacitacion: number, capacitacion: Capacitacion): Observable<Capacitacion> {
     return this.http.put<Capacitacion>(`${this.apiUrl}capacitacion/update/${id_capacitacion}`, capacitacion);
   }
-  eliminarCapacitacion(id_capacitacion: number, capacitacion: Capacitacion): Observable<Capacitacion> {
-    return this.http.put<Capacitacion>(`${this.apiUrl}capacitacion/delete/${id_capacitacion}`, capacitacion);
+  eliminarCapacitacion(id_capacitacion: number ): Observable<Capacitacion> {
+    return this.http.delete<Capacitacion>(`${this.apiUrl}capacitacion/delete/${id_capacitacion}`);
 
+  }
+  eliminarParticipanteInscrito(id_inscripcion: number): Observable<Inscrito> {
+    return this.http.delete<Inscrito>(`${this.apiUrl}capacitacion/eliminarInscripcion/${id_inscripcion}`); 
+  }
+
+  noVigenteCapaciatcion(id_capacitacion: number): Observable<Capacitacion> {
+    return this.http.put<Capacitacion>(`${this.apiUrl}capacitacion/vigente/${id_capacitacion}`, null);
   }
 
   private listaTabla!: ParticipantesInscritos;

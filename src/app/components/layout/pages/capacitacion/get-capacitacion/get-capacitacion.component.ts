@@ -35,6 +35,10 @@ import { ParticipanteService } from 'src/app/services/participante.service';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FormParticipanteAddEditComponent } from '../../participante/form-participante-add-edit/form-participante-add-edit.component';
 import { VistaParticipanteComponent } from '../../participante/vista-participante/vista-participante.component';
+import { DialogEliminarCapacitacionComponent } from './dialog-eliminar-capacitacion/dialog-eliminar-capacitacion.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogEliminarInscritoComponent } from './dialog-eliminar-inscrito/dialog-eliminar-inscrito.component';
+import { DialogDarBajaCapacitacionComponent } from './dialog-dar-baja-capacitacion/dialog-dar-baja-capacitacion.component';
 
 @Component({
   selector: 'app-get-capacitacion',
@@ -89,6 +93,7 @@ export default class GetCapacitacionComponent implements OnInit {
   //tablaInscritos!: InscritosCapacitacionComponent ;
   constructor(private activatedRoute: ActivatedRoute, 
     private capacitacionService: CapacitacionService,
+    private _snackBar: MatSnackBar,
     private route: Router,
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog,
@@ -165,6 +170,90 @@ export default class GetCapacitacionComponent implements OnInit {
     })
     
   }
+  darBajaCapacitacion(dataCapacitacion: GetCapacitacion) {
+    this.dialog.open(DialogDarBajaCapacitacionComponent,{
+      disableClose: true,
+      width: '400px',
+      data: dataCapacitacion
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="baja"){
+        this.capacitacionService.noVigenteCapaciatcion(dataCapacitacion.UnaCapacitacion.id_capacitacion).subscribe({
+          next: (data) => {
+            console.log(data);
+            this.mostrarAlerta('Capacitación cambiada a NO VIGENTE','cerrar');
+            this.route.navigate(['../../'], { relativeTo: this.activatedRoute });
+          },
+          error: (error) => {
+            console.log(error);
+            this.mostrarAlerta('Error al dar de baja','cerrar');
+          }
+        });
+        
+      }else{
+        if(resultado=='vigente'){
+          this.capacitacionService.noVigenteCapaciatcion(dataCapacitacion.UnaCapacitacion.id_capacitacion).subscribe({
+            next: (data) => {
+              console.log(data);
+              this.mostrarAlerta('Capacitación cambiada a VIGENTE','cerrar');
+              this.route.navigate(['../../'], { relativeTo: this.activatedRoute });
+            },
+            error: (error) => {
+              console.log(error);
+              this.mostrarAlerta('Error al poner Vigente','cerrar');
+            }
+          });
+        }
+      }
+    })
+  }
+  eliminarCapacitacion(dataCapacitacion: GetCapacitacion) {  
+    this.dialog.open(DialogEliminarCapacitacionComponent,{
+      disableClose: true,
+      width: '400px',
+      data: dataCapacitacion
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="eliminar"){
+        this.capacitacionService.eliminarCapacitacion(dataCapacitacion.UnaCapacitacion.id_capacitacion).subscribe({
+          next: (data) => {
+            console.log(data);
+            this.mostrarAlerta('Capacitación eliminada con exito','cerrar');
+            this.route.navigate(['../../'], { relativeTo: this.activatedRoute });
+          },
+          error: (error) => {
+            console.log(error);
+            this.mostrarAlerta('Error al eliminar','cerrar');
+          }
+        });
+        
+      }
+    })
+    
+  }
+
+  eliminarParticipanteInscrito(dataParticipante: Inscrito) {  
+    this.dialog.open(DialogEliminarInscritoComponent,{
+      disableClose: true,
+      width: '400px',
+      data: dataParticipante
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="eliminar"){
+        this.capacitacionService.eliminarParticipanteInscrito(dataParticipante.id_inscripcion).subscribe({
+          next: (data) => {
+            console.log(data);
+            this.mostrarAlerta('Participante eliminado con exito','cerrar');
+            this.mostrarParticipantes();
+          },
+          error: (error) => {
+            console.log(error);
+            this.mostrarAlerta('Error al eliminar','cerrar');
+          }
+        });
+        
+      }
+    })
+
+  }
+  
   verReporte(){
     const id_capacitacion = this.activatedRoute.snapshot.params['id_capacitacion'];
     this.reportePdf$ = this.capacitacionService.getReportePdf(id_capacitacion);
@@ -189,7 +278,15 @@ export default class GetCapacitacionComponent implements OnInit {
   filterData() {
     this.dataSource.filter = this.filterValue.trim().toLowerCase();
   }
+  mostrarAlerta(mensaje: string, accion: string) {
+    this._snackBar.open(mensaje, accion,{
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000
 
+    });
+
+  }
   mostrarParticipantes(){
     const id_capacitacion = this.activatedRoute.snapshot.params['id_capacitacion'];
     //this.informacionParticipante$ = this.capacitacionService.getInscritosCapacitacion(id_capacitacion)

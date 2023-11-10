@@ -82,3 +82,23 @@ mat-toolbar {
   opacity: 0;
   order: 1;
 } */
+
+.contenedor-textos{
+  width: 300px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contenedor-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-gap: 16px;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+img{
+  border-radius: 8px;
+  padding-right: 8px;
+  
+}
