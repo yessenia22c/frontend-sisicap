@@ -1,8 +1,8 @@
 <div class="container-fluid">
     <div style="padding-bottom: 1em;">
       <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Tipos de usuarios</h4>
-      <!-- <button mat-raised-button style="margin-right: 8px;" color="primary" (click)="nuevoUsuario()"> Nuevo usuario</button>
-      <button mat-raised-button color="primary" routerLink="gestionar-roles"> Gestionar roles</button> -->
+      <button mat-raised-button style="margin-right: 8px;" color="primary" (click)="crearTipoUsuario()"> Nuevo tipo de usuario</button>
+      <!-- <button mat-raised-button color="primary" routerLink="gestionar-roles"> Gestionar roles</button> -->
       
   
     </div>
@@ -32,13 +32,13 @@
           <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
           <td mat-cell *matCellDef="let element">
             <div class="example-button-container">
-              <button mat-icon-button color="primary" aria-label="Boton editar" >
+              <button mat-icon-button color="primary" aria-label="Boton editar" (click)="editarTipoUsuario(element)" >
                 <mat-icon>edit</mat-icon>
               </button>
               <button [routerLink]="['ver', element.id_tipo_usuario]"  mat-icon-button color="primary" aria-label="Boton ajustes">
                 <mat-icon>settings</mat-icon>
               </button>
-              <button mat-icon-button color="warn" aria-label="Boton eliminar">
+              <button mat-icon-button color="warn" (click)="eliminarTipoUsuario(element)" aria-label="Boton eliminar">
                 <mat-icon>delete</mat-icon>
               </button>
               

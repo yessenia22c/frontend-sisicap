@@ -14,6 +14,8 @@ import { PaginatorService } from 'src/app/services/Paginator.service';
 import { TipoUsuarioList, Tipo_usuario } from 'src/app/models/tipo_usuario';
 import { Observable } from 'rxjs';
 import { RouterModule} from '@angular/router';
+import { FormCrearActualizarTipoUsuarioComponent } from './form-crear-actualizar-tipo-usuario/form-crear-actualizar-tipo-usuario.component';
+import { DialogEliminarTipoUsuarioComponent } from './dialog-eliminar-tipo-usuario/dialog-eliminar-tipo-usuario.component';
 
 
 @Component({
@@ -81,6 +83,62 @@ export default class GestionarRolesUsuarioComponent  implements OnInit {
           horizontalPosition: 'center',
           verticalPosition: 'bottom'
         });
+      }
+    })
+  }
+  editarTipoUsuario(dataTipoUsuario: Tipo_usuario) {  
+    console.log('DATO SEGUIMIENTO', dataTipoUsuario);
+    this.dialog.open(FormCrearActualizarTipoUsuarioComponent,{
+      disableClose: true,
+      width: '400px',
+      data: dataTipoUsuario
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="editado"){
+        this.mostrarTipoUsuarios();
+      }
+    })
+    
+  }
+  crearTipoUsuario() {
+    this.dialog.open(FormCrearActualizarTipoUsuarioComponent,{
+      disableClose: true,
+      width: '400px',
+      data: null
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="Creado"){
+        this.mostrarTipoUsuarios();
+      }
+    })
+  }
+  mostrarAlerta(mensaje: string, accion: string) {
+    this._snackBar.open(mensaje, accion,{
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000
+
+    });
+
+  }
+  eliminarTipoUsuario(dataTipoUsuario: Tipo_usuario) {
+    this.dialog.open(DialogEliminarTipoUsuarioComponent, {
+      disableClose: true,
+      width: '400px',
+      data: dataTipoUsuario
+    }).afterClosed().subscribe(resultado => {
+      if(resultado==="eliminar"){
+        this.tipoUsuarioService.eliminarTipoUsuario(dataTipoUsuario.id_tipo_usuario).subscribe({
+          next: (resp) => { 
+            this.mostrarTipoUsuarios();
+            console.log('RESP',resp);
+            this.mostrarAlerta('Tipo de usuario eliminado correctamente', 'Listo');
+            
+          },
+          error: (err) => {
+            this.mostrarAlerta('Error al eliminar el tipo de usuario', 'Error');
+            console.log(err);
+          }
+        });
+        
       }
     })
   }

@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <h1 mat-dialog-title>{{tituloAccion}} </h1>
+  <div mat-dialog-content>
+    <form [formGroup]="formTipoUsuario">
+        <div class="row">
+          <div class="row-md-4" >
+            <mat-form-field appearance="fill" class="ancho">
+              <mat-label>Nombre del tipo de usuario</mat-label>
+              <input  type="text" matInput formControlName="nombre_tipo_usuario" autocomplete="off" >
+            </mat-form-field>
+          </div>
+          <div class="row-md-4" >
+            <mat-form-field appearance="fill" class="ancho">
+              <mat-label>Descripción</mat-label>
+              <textarea placeholder="Describe el tipo de usuario"  type="text" matInput formControlName="descripcion" autocomplete="off" ></textarea>   
+            </mat-form-field>
+          </div>
+          <!-- <pre>
+            {{formGrupoSeguimiento.value | json}}
+          </pre>
+          <pre>
+            {{this.dataGrupoSeguimiento | json}}
+          </pre> -->
+        
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close color="warn">Cancelar</button>
+    <button mat-raised-button color="primary"
+      (click)="crearTipoUsuario()"
+      [disabled]="formTipoUsuario.invalid"
+      >{{botonAccion}}
+    </button>
+  
+  </div>
+  </div>
+  
+  

@@ -23,6 +23,12 @@ export class Tipo_usuarioService {
   crearTipoUsuario(tipo_usuario: Tipo_usuario): Observable<Tipo_usuario> {
     return this.http.post<Tipo_usuario>(`${this.apiUrl}tipoUsuario/create`, tipo_usuario);
   }
+  actualizarTipoUsuario(modelo: Tipo_usuario): Observable<Tipo_usuario> {
+    return this.http.put<Tipo_usuario>(`${this.apiUrl}tipoUsuario/update`, modelo);
+  }
+  eliminarTipoUsuario(id_tipo_usuario: number): Observable<Tipo_usuario> {
+    return this.http.delete<Tipo_usuario>(`${this.apiUrl}tipoUsuario/delete/${id_tipo_usuario}`);
+  }
   getNivelesAcceso(): Observable<Niveles> {
     return this.http.get<Niveles>(`${this.apiUrl}niveles/readAll`);
   }
