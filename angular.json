@@ -35,7 +35,8 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ],
             "allowedCommonJsDependencies": [
-              "moment"
+              "moment",
+              "rfdc"
             ]
           },
           "configurations": {
