@@ -263,15 +263,15 @@ export class FormContactoSeguimientoComponent implements OnInit {
           fecha_seguimiento: this.fechaActualEnBolivia,
         }
         console.log('EL CAMBIO OBSE',datosCambios);
-        this.registrarCambios$ = this.seguimientoService.registrarCambios(datosCambios);
-        this.registrarCambios$.subscribe(
-          {
-            next: (dato) => {
-              console.log('DATOS CAMBIOS REGISTRADOS', dato);
-            }
-          });
-        const nuevaObservacion = this.formContacto.value.InformacionContacto.observacion_llamada;
-        console.log('Observacion ANTES ', this.observacionLlamada, 'AHORA ', nuevaObservacion);
+        // this.registrarCambios$ = this.seguimientoService.registrarCambios(datosCambios);
+        // this.registrarCambios$.subscribe(
+        //   {
+        //     next: (dato) => {
+        //       console.log('DATOS CAMBIOS REGISTRADOS', dato);
+        //     }
+        //   });
+        // const nuevaObservacion = this.formContacto.value.InformacionContacto.observacion_llamada;
+        // console.log('Observacion ANTES ', this.observacionLlamada, 'AHORA ', nuevaObservacion);
       }
       //console.log('TIPO SEGUIMIENTO CAMBIO', this.id_tipo_seguimiento);
       modelo.InformacionContacto.id_historico = this.formContacto.value.InformacionContacto.id_historico;

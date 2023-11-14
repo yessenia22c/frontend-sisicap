@@ -1,24 +1,33 @@
-<div class="container">
-
+<div class="container-fluid">
   <h4 class="p-2" style="font-size: 20px; font-weight: 500; color: #002f8d;">Participantes en el sistema</h4>
-  <mat-card>
-    <mat-card-content>
-        <ngx-charts-bar-vertical
-    [view]="view"
-    [scheme]="colorScheme"
-    [results]="single"
-    [gradient]="gradient"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [legend]="showLegend"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    (select)="onSelect($event)">
-  </ngx-charts-bar-vertical>
-    </mat-card-content>
-  </mat-card>
+  <div class="row">
+    <div class="col-md-6">
+      <mat-card>
+        <mat-card-content>
+            <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="single"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-6">
+      
+    </div>
+  </div>
+
+  
+  
   
 
 </div>

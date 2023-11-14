@@ -160,7 +160,7 @@ crearParticipante() {
         ).format('YYYY-MM-DD'),
         id_pais: this.formParticipante.value.Personas.id_pais,
       },
-      id_participante:       0,
+      id_participante:       this.formParticipante.value.id_participante,
       //id_registrante: id_regis, //SOLO PARA QUE NO DE ERROR
       ocupacion: this.formParticipante.value.ocupacion,
     };
@@ -193,10 +193,7 @@ crearParticipante() {
         modelo.Personas.fecha_nac = null; // Establecer el valor en null
       }
       //modelo.id_participante = this.dataParticipante.id_participante;
-      this.datoParticipante$ = this.participanteService.actualizaParticipante(
-        this.dataParticipante.id_participante,
-        modelo
-      );
+      this.datoParticipante$ = this.participanteService.actualizaParticipante(this.dataParticipante.id_participante, modelo);
       console.log('MODELO ACTUALIZAR', modelo);
       this.datoParticipante$.subscribe({
         next: (data) => {
