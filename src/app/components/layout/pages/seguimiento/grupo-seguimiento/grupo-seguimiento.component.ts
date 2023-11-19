@@ -58,6 +58,7 @@ import { DialogEliminarContactoSeguimientoComponent } from '../dialog-eliminar-c
 //Directivas 
 
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
+import { ExportarExcelService } from 'src/app/services/ExportarExcel.service';
 export const MY_DATE_FORMATS: NgxMatDateFormats  = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -83,6 +84,7 @@ export const MY_DATE_FORMATS: NgxMatDateFormats  = {
     ],
     providers: [
         // ...
+        ExportarExcelService,
         DatePipe,
         { provide: MatPaginatorIntl, useClass: PaginatorService },
         { provide: MAT_DATE_LOCALE, useValue: 'es-BO' },
@@ -174,6 +176,8 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
 
   id_tipo_seguimiento: number | null  = null;
 
+  excelReporte$: Observable<any> | undefined;
+
   constructor(
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -182,6 +186,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     private seguimientoService: SeguimientoService,
     private _liveAnnouncer: LiveAnnouncer,
     private personaService: PersonaService,
+    private exportarExcelService: ExportarExcelService,
     private datePipe: DatePipe,
     private servicioContactoSeguimiento: ServicioActualizarCrearContactoSeguimientoService,
     public sidenavService: SidenavService,
@@ -293,6 +298,32 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     // this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.disable();
 
   }
+
+  exportarReporteExcelSeguimiento():void{
+    const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
+    this.excelReporte$ = this.exportarExcelService.exportarReporteExcel(id_grupo_seguimiento);
+    this.excelReporte$.subscribe({
+      next: (data: Blob) => {
+        const obtenerFechaActual = new Date();
+            const dia = obtenerFechaActual.getDate();
+            const mes = obtenerFechaActual.getMonth() + 1; // Nota: Los meses en JavaScript son indexados desde 0, por lo que sumamos 1.
+            const anio = obtenerFechaActual.getFullYear();
+            const fileName = `ReporteSeguimiento-${dia}-${mes}-${anio}.xlsx`;
+        const blob = new Blob([data], { type: 'application/octet-stream' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+        
+      },error: (err) => {
+        
+          console.log(err);
+          this.mostrarAlerta('Error al exportar el reporte', 'Error');
+        
+      
+      }
+    });
+  }
   verSeguimiento() {
     const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
 
@@ -338,6 +369,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
       next: (data: ContactosSeguimiento) => {
         
         this.dataSource.data = data.AllContactosSeguimiento;
+        //console.log(this.dataSource.data)
         this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data);
         console.log('CONTACTOS DATA SOURCE ENVIADOS', this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data));
         // this.dataSource.data = data.AllContactosSeguimiento.map(item => ({

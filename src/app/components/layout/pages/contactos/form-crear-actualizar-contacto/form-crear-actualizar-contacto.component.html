@@ -12,6 +12,8 @@
         <mat-form-field appearance="fill" class="ancho">
           <mat-label>Número de contacto</mat-label>
           <input type="text" matInput formControlName="numero_contacto" autocomplete="off" >
+          <mat-error *ngIf="formContacto.get('numero_contacto')?.hasError('numeroContactoYaRegistrado')">Ya existe este numero de contacto registrado.</mat-error>
+
         </mat-form-field>
       </mat-grid-tile>
       <mat-grid-tile>

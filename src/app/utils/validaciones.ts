@@ -39,5 +39,15 @@ export class Validaciones {
             );
         };
     }
+    static validarNumeroTelefono(validacionService: ValidacionServiceService) {
+        return (control: AbstractControl) => {
+            const numero_contacto = control.value;
+            return validacionService.validarNumeroContacto(numero_contacto).pipe(
+                map((response: any) => {
+                    return response.disponible ? null : { numeroContactoYaRegistrado: true };
+                })
+            );
+        };
+    }
 
 }

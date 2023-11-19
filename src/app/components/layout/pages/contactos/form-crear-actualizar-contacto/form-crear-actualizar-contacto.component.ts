@@ -18,6 +18,8 @@ import { Ciudad, Pais, Sexo } from 'src/app/models/persona';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AllContacto, Contacto } from 'src/app/models/contactoAsignar';
 import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/services/servicioActualizarCrearContactoSeguimiento.service';
+import { ValidacionServiceService } from 'src/app/services/validacion-service.service';
+import { Validaciones } from 'src/app/utils/validaciones';
 
 @Component({
   selector: 'app-form-crear-actualizar-contacto',
@@ -53,6 +55,7 @@ export class FormCrearActualizarContactoComponent {
     private contactoService: ContactoService,
     private personaService: PersonaService,
     private _snackBar: MatSnackBar,
+    private validacionService: ValidacionServiceService,
     @Inject(MAT_DIALOG_DATA) public dataContacto: AllContacto,
     private servicioContactoSeguimiento: ServicioActualizarCrearContactoSeguimientoService,
     public dialogReferencia: MatDialogRef<FormCrearActualizarContactoComponent>
@@ -60,7 +63,7 @@ export class FormCrearActualizarContactoComponent {
     this.formContacto = this.fb.group({
       id_contacto: [''],
       nombre_apellidos: ['', Validators.required],
-      numero_contacto: ['', Validators.required],
+      numero_contacto: ['', Validators.required, Validaciones.validarNumeroTelefono(this.validacionService)],
       id_estado_contacto: [null],
       correo_contacto: [''],
       nombre_empresa: [''],
@@ -71,7 +74,15 @@ export class FormCrearActualizarContactoComponent {
       intereses: [''],
       observaciones: ['']
     });
-    
+    if (this.dataContacto != null) {
+      console.log('entrando a modo edicion');
+      this.formContacto.get('numero_contacto')?.clearAsyncValidators();
+
+    }else{
+      this.formContacto.get('numero_contacto ')?.setAsyncValidators(Validaciones.validarNumeroTelefono(this.validacionService));
+    }
+    //this.formContacto.get('nro_ci')?.setAsyncValidators(Validaciones.validarNumeroTelefono(this.validacionService));
+    this.formContacto.get('numero_contacto')?.updateValueAndValidity();
   }
   ngOnInit(): void {
     //Me suscribo a los datos que me llegan de la tabla

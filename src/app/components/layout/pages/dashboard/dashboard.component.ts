@@ -93,9 +93,9 @@ export class DashboardComponent implements OnInit {
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Ciudades de Bolivia';
+  xAxisLabel = '';
   showYAxisLabel = true;
-  yAxisLabel = 'Participantes';
+  yAxisLabel = '';
 
   
 

@@ -20,4 +20,7 @@ export class ValidacionServiceService {
   validarCorreo(correo: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}validacion/correo/${correo}`);
   }
+  validarNumeroContacto(numero_contacto: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}validacion/numeroContacto/${numero_contacto}`);
+  }
 }
