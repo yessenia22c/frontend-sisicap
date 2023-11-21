@@ -1,8 +1,9 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Usuario } from 'src/app/models/Usuarios';
 import { LoginService } from 'src/app/services/login.service';
+import { Router, RouterModule } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 
@@ -16,7 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NgxChartsModule, MatCardModule],
+  imports: [CommonModule, NgxChartsModule, MatCardModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -41,7 +42,7 @@ export class DashboardComponent implements OnInit {
   );
 
   colores = '#5AA454' ;
-
+  private router = inject(Router);
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dashboardService: DashboardService,
@@ -118,4 +119,5 @@ export class DashboardComponent implements OnInit {
   //     "value": 7200000
   //   }
   // ];
+
 }

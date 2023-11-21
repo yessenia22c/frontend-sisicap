@@ -25,14 +25,49 @@
 .boton{
   width: 180px;
   height: 100px;
+  margin: 5px;
   background-color: #ffffff;
   border: none;
-  box-shadow: #0000003e 0px 0px 16px;
+  box-shadow: #0000001e 0px 0px 16px;
   border-radius: 15px;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
+  transform: translateY(0px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
 }
 .boton:hover{
-  box-shadow: #00000024 0px 0px 16px;
+  box-shadow: #0000001e 0px 0px 16px;
+  transform: translateY(-8px);
   cursor: pointer;
+}
+.caja{
+  width: auto;
+  height: auto;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow: scroll;
+  text-overflow: ellipsis;
+
+}
+
+.card{
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  border: #e7e7e7 1px solid;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 15px;
+}
+
+.text-a{
+  text-decoration: none;
+  color: #474747;
 }
