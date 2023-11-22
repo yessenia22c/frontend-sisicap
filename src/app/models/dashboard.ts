@@ -1,4 +1,4 @@
-export interface CiudadesParticipante {
+export interface DataDashboard {
     status: number;
     data:   Datum[];
 }

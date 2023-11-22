@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <h4 class="p-2" style="font-size: 20px; font-weight: 500; color: #002f8d;">Dashboard</h4>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card">
+  <div class="contenedor">
+    <div >
+      <div class="mycard">
         <section   class="caja" >
         
           <ngx-charts-bar-vertical
             [view]="view"
-            [scheme]="colorScheme"
+            scheme="cool"
             [results]="single"
             [gradient]="gradient"
             [xAxis]="showXAxis"
@@ -23,22 +23,41 @@
           </ngx-charts-bar-vertical>
         </section>
       </div>
-      
-      
     </div>
-    <div class="col-md-6">
+    <div >
+      <div class="mycard">
+          <a *appControlRoles="6"  class="boton text-a" routerLink="./../seguimiento">Seguimientos</a>
+
+          <a *appControlRoles="5"  class="boton text-a" routerLink="./../usuario">Usuarios</a>
+
+          <a *appControlRoles="9"  class="boton text-a" routerLink="./../capacitacion">Capacitaciones</a>
+      </div>
+    </div>
+    <div></div>
+    <div></div>
+    <div >
+      <div class="mycard">
+        <section class="caja" >
+        
+          <ngx-charts-pie-grid
+            [view]="view2"
+            [scheme]="colorScheme2"
+            [results]="genero"
+             >
+            
+          </ngx-charts-pie-grid>
+        </section>
+      </div>
+    </div>
+    <div >
       <div class="card">
-          <a class="boton text-a" routerLink="./../seguimiento">Seguimientos</a>
+        <section class="caja" >
+        
+          <mat-calendar [(selected)]="selected"></mat-calendar>
 
-          <a class="boton text-a" routerLink="./../usuario">Usuarios</a>
-
-          <a class="boton text-a" routerLink="./../capacitacion">Capacitaciones</a>
+        </section>
       </div>
     </div>
   </div>
-
-  
-  
-  
 
 </div>
