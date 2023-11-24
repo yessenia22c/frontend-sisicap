@@ -72,7 +72,7 @@ export default class CapacitacionComponent implements OnInit {
       width: '400px',
     }).afterClosed().subscribe(resultado => {
       if(resultado==="Creado"){
-        this.informacionCapacitaciones$ = this.capacitacionService.getCapacitaciones();
+        this.mostrarCapacitaciones(); /// PROBLEMA RESUELTO
       }
     })
   }

@@ -64,6 +64,8 @@ export default class NivelesAccesoComponent implements OnInit {
       }
     }); // Para que se ejecute la petición
     this.mostrarNiveles();
+    //this.mostrarNivelesDeAcceso();
+
     // this.mostrarNivelesDeAcceso();
     // this.recorrerNiveles();
   }
@@ -74,13 +76,14 @@ export default class NivelesAccesoComponent implements OnInit {
     this.informacionNiveles$.subscribe({
       next: (data) => {
         this.listaNiveles = data.nivelAcceso;
+        this.mostrarNivelesDeAcceso();
         //console.log(data.nivelAcceso);
       },
       error: (error) => {
         console.log(error);
       }
     })
-    this.mostrarNivelesDeAcceso();
+    //this.mostrarNivelesDeAcceso();
   }
   mostrarNivelesDeAcceso(){
     //niveles de acceso para un tipo de usuario
@@ -88,6 +91,7 @@ export default class NivelesAccesoComponent implements OnInit {
     this.informacionNivelesAccessoTU$.subscribe({
       next: (data) => {
         this.datoTipoUsuarioNiveles = data.AllAccesos;
+        //console.log('NIVELES accesO',data.AllAccesos);
         this.recorrerNiveles(this.datoTipoUsuarioNiveles);
       },
       error: (error) => {
@@ -97,6 +101,8 @@ export default class NivelesAccesoComponent implements OnInit {
     
   }
   recorrerNiveles(NivelesConAcceso: AllAcceso[]){
+    console.log('NIVELES CON ACCESO',NivelesConAcceso);
+    console.log('LISTA DE NIVELES',this.listaNiveles);
     this.listaNiveles.forEach((element:NivelAcceso) => {
       NivelesConAcceso.forEach((element2:AllAcceso) => {
         if(element.id_nivel === element2.NivelAcceso.id_nivel){
@@ -135,13 +141,14 @@ export default class NivelesAccesoComponent implements OnInit {
   }
   crearNivelesAcceso(){
     const modelo: AsignarNivelesAcceso = {
-      id_tipo_usuario: this.id_tipo_usuario,
+      id_tipo_usuario: parseInt(this.id_tipo_usuario),
       niveles: this.selection.selected
     }
+    console.log('MODELO NIVELES DE ACCESO',modelo);
     this.asignarNivelesAcceso$ = this.tipoUsaurioService.asignarNivelesAcceso(modelo);
     this.asignarNivelesAcceso$.subscribe({
       next: (data) => {
-        this.mostrarAlerta('Contactos subidos exitosamente', 'Listo');
+        this.mostrarAlerta('Niveles de acceso del tipo de usuario actualizados', 'Listo');
         this.router.navigate(['../../'], {relativeTo: this.activatedRoute});
         console.log(data);
       },
