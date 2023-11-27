@@ -53,7 +53,7 @@ import { FormGrupoSeguimientoComponent } from '../form-grupo-seguimiento/form-gr
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEliminarSeguimientoComponent } from '../dialog-eliminar-seguimiento/dialog-eliminar-seguimiento.component';
 import { DialogEliminarContactoSeguimientoComponent } from '../dialog-eliminar-contacto-seguimiento/dialog-eliminar-contacto-seguimiento.component';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 //Directivas 
 
@@ -118,7 +118,7 @@ export const MY_DATE_FORMATS: NgxMatDateFormats  = {
         FormsModule,
         NgxMatDatetimePickerModule,
         MatDialogModule,
-        NgxMatNativeDateModule, FormContactoSeguimientoComponent,
+        NgxMatNativeDateModule, FormContactoSeguimientoComponent, MatProgressSpinnerModule,
         ControlRolesDirective
       ]
 })
@@ -159,6 +159,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
   // });
   
   resultsLength = 0;
+  isLoadingResults = true;
   ContactoSeguimiento$: Observable<SeguimientoContacto> | undefined;
 
   private modeloSubject = new BehaviorSubject<InformacionContacto | null>(null);
@@ -369,6 +370,8 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
       next: (data: ContactosSeguimiento) => {
         
         this.dataSource.data = data.AllContactosSeguimiento;
+
+        this.isLoadingResults = false;
         //console.log(this.dataSource.data)
         this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data);
         console.log('CONTACTOS DATA SOURCE ENVIADOS', this.servicioContactoSeguimiento.disparadorContactosAct.emit(this.dataSource.data));

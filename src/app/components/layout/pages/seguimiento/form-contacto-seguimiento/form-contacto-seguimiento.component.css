@@ -33,7 +33,7 @@
         #002f8d 0%, #0f56ed 56%,
         #1dcd63 100%);
     position: sticky;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     padding: 18px 0 0 15px;
     /* display: flex;
@@ -109,3 +109,18 @@
   .supeiorSidenav{
     z-index: 100;
   }
+  /* .example-container {
+    position: relative;
+  }
+  .example-loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 5px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.059);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  } */

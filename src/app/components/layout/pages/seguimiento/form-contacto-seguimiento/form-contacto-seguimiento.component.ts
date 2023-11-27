@@ -23,6 +23,10 @@ import { ServicioActualizarCrearContactoSeguimientoService } from 'src/app/servi
 import { SidenavService } from 'src/app/services/sidenav.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
+
 // import * as moment from 'moment-timezone';
 
 
@@ -42,7 +46,9 @@ import * as moment from 'moment';
     MatFormFieldModule,
     FormsModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   templateUrl: './form-contacto-seguimiento.component.html',
   styleUrls: ['./form-contacto-seguimiento.component.css']
@@ -61,6 +67,8 @@ export class FormContactoSeguimientoComponent implements OnInit {
   // @ViewChild('miFormSide') sidenav!: MatSidenav;
   private dataSubject = new BehaviorSubject<InformacionContacto | null>(null);
   Datomodelo$ = this.dataSubject.asObservable();
+
+  mostrarGuardando = false;
   constructor(
     private _snackBar: MatSnackBar,
     private fb: FormBuilder,
@@ -173,6 +181,7 @@ export class FormContactoSeguimientoComponent implements OnInit {
   }
   cerrarSidenav() {
     this.sidenavService.close();
+    this.mostrarGuardando = false;
   }
   colorMap: Record<number, string> = {
     1: 'yellow',
@@ -195,7 +204,7 @@ export class FormContactoSeguimientoComponent implements OnInit {
 
   }
   EditarContactoSeguimiento(): void {
-    
+    this.mostrarGuardando = true;
     console.log('FORMULARIO SEG CONTAC', this.formContacto.value);
     //funcion que ayuda a establecer los valores en null si no se ha seleccionado nada en el select
     function setDefaultIfNull(obj: any, defaultValue: any): any {
@@ -283,6 +292,7 @@ export class FormContactoSeguimientoComponent implements OnInit {
           //this.actualizarFila(modelo.InformacionContacto.Contactos.id_contacto, modelo.InformacionContacto);
           
           console.log('CONTACTO ACTUALIZADO', dato);
+          
           this.mostrarAlerta('Datos registrados correctamente', 'Listo');
           this.seguimientoService.actualizarContacto(dato.informacionActualizadoContacto);
           //this.mostrarContactos();

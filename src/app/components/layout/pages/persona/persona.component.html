@@ -51,7 +51,7 @@
         </ng-container>
         <ng-container matColumnDef="ciudad">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Ciudad</th>
-          <td mat-cell *matCellDef="let item "> {{item.ciudad.nombre_ciudad}} </td>
+          <td mat-cell *matCellDef="let item "> {{item.ciudad?.nombre_ciudad}} </td>
         </ng-container>
         <ng-container matColumnDef="Pais">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Pais </th>

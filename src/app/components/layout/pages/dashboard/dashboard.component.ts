@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Usuario } from 'src/app/models/Usuarios';
 import { LoginService } from 'src/app/services/login.service';
@@ -14,10 +14,11 @@ import { DataDashboard, Datum } from 'src/app/models/dashboard';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { MatCardModule } from '@angular/material/card';
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
-import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 
 
-import {MatCalendarHeader, MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCalendarHeader, MatDatepickerIntl, MatDatepickerModule} from '@angular/material/datepicker';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -25,7 +26,13 @@ import {MatCalendarHeader, MatDatepickerModule} from '@angular/material/datepick
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'es-BO'},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
 })
 
@@ -57,7 +64,10 @@ export class DashboardComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dashboardService: DashboardService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private _adapter: DateAdapter<any>,
+    private _intl: MatDatepickerIntl,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
   ) {
     //Datos del calendario
     
@@ -90,8 +100,29 @@ export class DashboardComponent implements OnInit {
       //console.log('change');
       this.user = user;
     });
+    this.spanish();
+  }
+  //Datos del calendario
+  spanish() {
+    this._locale = 'es';
+    this._adapter.setLocale(this._locale);
+    //this.updateCloseButtonLabel('Fermer le calendrier');
+  }
+  updateCloseButtonLabel(label: string) {
+    this._intl.closeCalendarLabel = label;
+    this._intl.changes.next();
   }
 
+  getDateFormatString(): string {
+    if (this._locale === 'es-ES') {
+      return 'YYYY/MM/DD';
+    } else if (this._locale === 'es') {
+      return 'DD/MM/YYYY';
+    }
+    return '';
+  }
+  //Fin datos del calendario
+  //Datos de las gráficas
   get single() {
     
     return this.multi
@@ -114,7 +145,7 @@ export class DashboardComponent implements OnInit {
     selectable: true,
     group: ScaleType.Ordinal,
 
-    domain: ['#FFA7EF', '#3D9AFC']
+    domain: ['#FFA7EF', '#3D9AFC', '#CBA9FF']
   };
   
   //single: any[] = [];

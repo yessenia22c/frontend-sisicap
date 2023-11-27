@@ -57,169 +57,176 @@
                 <mat-label>Filtrar</mat-label>
                 <input matInput (keyup)="applyFilter($event)" placeholder="Introduce el texto a filtrar" #input>
             </mat-form-field>
-
-            <section class="example-container mat-elevation-z8" tabindex="0">
-                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" multiTemplateDataRows>
-                    <!-- Position Column -->
-                    <ng-container matColumnDef="accion" sticky >
-                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">Acción</th>
-                        <td mat-cell *matCellDef="let element; ">
-                          <div class="example-button-container">
-                            <button mat-icon-button color="primary" aria-label="Boton editar" (click)="abrirSidenav(element)">
-                                <mat-icon>pending</mat-icon>
-                            </button>
-                            <button mat-icon-button aria-label="expand row"
+            
+            <div class="example-container">
+                <div class="example-loading-shade" *ngIf="isLoadingResults">
+                    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+                </div>
+                <section class="example-table-container" tabindex="0">
+                    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" multiTemplateDataRows>
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="accion" sticky >
+                            <th mat-header-cell *matHeaderCellDef aria-label="row actions">Acción</th>
+                            <td mat-cell *matCellDef="let element; ">
+                              <div class="example-button-container">
+                                <button mat-icon-button color="primary" aria-label="Boton editar" (click)="abrirSidenav(element)">
+                                    <mat-icon>pending</mat-icon>
+                                </button>
+                                <button mat-icon-button aria-label="expand row"
+                                    (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation(); verCambios(element.id_historico)">
+                                    <mat-icon mat-icon-button color="primary" *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                                    <mat-icon mat-icon-button color="primary" *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                                </button>
+                              </div>
+                            </td>
+                        </ng-container>
+                        <!-- <ng-container matColumnDef="expand">
+                            <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button aria-label="expand row"
                                 (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation(); verCambios(element.id_historico)">
                                 <mat-icon mat-icon-button color="primary" *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
                                 <mat-icon mat-icon-button color="primary" *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
                             </button>
-                          </div>
-                        </td>
-                    </ng-container>
-                    <!-- <ng-container matColumnDef="expand">
-                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-                        <td mat-cell *matCellDef="let element">
-                            <button mat-icon-button aria-label="expand row"
-                            (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation(); verCambios(element.id_historico)">
-                            <mat-icon mat-icon-button color="primary" *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
-                            <mat-icon mat-icon-button color="primary" *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
-                        </button>
-                        </td>
-                    </ng-container> -->
-
-                    <ng-container matColumnDef="id_contacto">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum" > No. </th>
-                        <td mat-cell *matCellDef="let item; " class="mat-colum">{{item.Contactos.id_contacto}} </td>
-                      </ng-container>
-
-                    <ng-container matColumnDef="nombre_apellidos">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Nombre y apellidos</th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.nombre_apellidos}} </td>
-                    </ng-container>
-
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="numero_contacto">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Nro Celular </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.numero_contacto}} </td>
-                    </ng-container>
-
-                    <!-- Weight Column -->
-                    <ng-container matColumnDef="correo_contacto">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Correo electrónico </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.correo_contacto}}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="fecha_actualizacion">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum" mat-sort-header sortActionDescription="Sort by fecha_actualizacion"> Actualización </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum" > {{element.fecha_actualizacion | date: 'dd/MM/yyyy'  }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="prox_llamada">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Próxima llamada </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.prox_llamada | date: 'dd/MM/yyyy HH:mm' }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="observacion_llamada">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Observación llamada </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.observacion_llamada}}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="id_tipo_seguimiento">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Tipo seguimiento </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum">
-                            <span [class.color-amarillo]="element.TipoSeguimiento?.id_tipo_seguimiento === 1" [class.color-rojo]="element.TipoSeguimiento?.id_tipo_seguimiento === 2"
-                            [class.color-azul]="element.TipoSeguimiento?.id_tipo_seguimiento === 3" [class.color-verde]="element.TipoSeguimiento?.id_tipo_seguimiento === 4"  class="badge ">{{ element.TipoSeguimiento?.nombre_tipo_seguimiento}}</span>
-                            
-                            <!-- <mat-icon >radio_button_checked</mat-icon> -->
-                        </td>
-                    </ng-container>
-
-                    <!-- Symbol Column -->
-                    <ng-container matColumnDef="nombre_empresa">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Empresa </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.nombre_empresa}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="profesion">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Profesión </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.profesion}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="intereses">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Intereses </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.intereses}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="observaciones">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Observaciones </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.observaciones}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="id_sexo">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Género </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Sexo_contacto?.nombre_sexo}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="id_ciudad">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Ciudad </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Ciudad_contacto?.nombre_ciudad}}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="id_pais">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> País </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Pais_contacto?.nombre_pais}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="id_estado_contacto">
-                        <th mat-header-cell *matHeaderCellDef class="mat-colum"> Estado </th>
-                        <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Estado?.nombre_estado}}</td>
-                    </ng-container>
-
-                    <ng-container    matColumnDef="botones" >
-                        <th   mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-                        <td   mat-cell *matCellDef="let element">
-                          <div *appControlRoles="20" class="example-button-container">
-                            <!-- <button mat-icon-button color="primary" aria-label="Boton editar" (click)="editarContacto(element)">
-                              <mat-icon>edit</mat-icon>
-                            </button> -->
-                            <button  mat-icon-button color="warn" aria-label="Boton eliminar" (click)="eliminarContactoSegumiento(element)">
-                              <mat-icon>delete</mat-icon>
-                            </button>
-                            
-                          </div>
-                        </td>
-                      </ng-container>
-
-                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-                    <ng-container matColumnDef="expandedDetail">
-                        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
-                            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsado'">
-                                <div class="body-acordion">
-                                    <ul>
-                                        <li *ngFor="let item of this.arrayListaCambios " [value]="item.id_historico">
-                                            <span class="example-element-description-attribution">{{ item.fecha_seguimiento | date: 'dd/MM/yyyy HH:mm'
-                                                }}</span>
-                                            <span class="example-element-description-attribution"> {{ item.observacion_llamada }}</span>
-                                        </li>
-                                    </ul>
+                            </td>
+                        </ng-container> -->
+    
+                        <ng-container matColumnDef="id_contacto">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum" > No. </th>
+                            <td mat-cell *matCellDef="let item; " class="mat-colum">{{item.Contactos.id_contacto}} </td>
+                          </ng-container>
+    
+                        <ng-container matColumnDef="nombre_apellidos">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Nombre y apellidos</th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.nombre_apellidos}} </td>
+                        </ng-container>
+    
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="numero_contacto">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Nro Celular </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.numero_contacto}} </td>
+                        </ng-container>
+    
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="correo_contacto">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Correo electrónico </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.correo_contacto}}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="fecha_actualizacion">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum" mat-sort-header sortActionDescription="Sort by fecha_actualizacion"> Actualización </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum" > {{element.fecha_actualizacion | date: 'dd/MM/yyyy'  }}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="prox_llamada">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Próxima llamada </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.prox_llamada | date: 'dd/MM/yyyy HH:mm' }}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="observacion_llamada">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Observación llamada </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.observacion_llamada}}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="id_tipo_seguimiento">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Tipo seguimiento </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum">
+                                <span [class.color-amarillo]="element.TipoSeguimiento?.id_tipo_seguimiento === 1" [class.color-rojo]="element.TipoSeguimiento?.id_tipo_seguimiento === 2"
+                                [class.color-azul]="element.TipoSeguimiento?.id_tipo_seguimiento === 3" [class.color-verde]="element.TipoSeguimiento?.id_tipo_seguimiento === 4"  class="badge ">{{ element.TipoSeguimiento?.nombre_tipo_seguimiento}}</span>
+                                
+                                <!-- <mat-icon >radio_button_checked</mat-icon> -->
+                            </td>
+                        </ng-container>
+    
+                        <!-- Symbol Column -->
+                        <ng-container matColumnDef="nombre_empresa">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Empresa </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.nombre_empresa}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="profesion">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Profesión </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.profesion}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="intereses">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Intereses </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.intereses}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="observaciones">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Observaciones </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.observaciones}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="id_sexo">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Género </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Sexo_contacto?.nombre_sexo}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="id_ciudad">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Ciudad </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Ciudad_contacto?.nombre_ciudad}}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="id_pais">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> País </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Pais_contacto?.nombre_pais}} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="id_estado_contacto">
+                            <th mat-header-cell *matHeaderCellDef class="mat-colum"> Estado </th>
+                            <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Contactos.Estado?.nombre_estado}}</td>
+                        </ng-container>
+    
+                        <ng-container    matColumnDef="botones" >
+                            <th   mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                            <td   mat-cell *matCellDef="let element">
+                              <div *appControlRoles="20" class="example-button-container">
+                                <!-- <button mat-icon-button color="primary" aria-label="Boton editar" (click)="editarContacto(element)">
+                                  <mat-icon>edit</mat-icon>
+                                </button> -->
+                                <button  mat-icon-button color="warn" aria-label="Boton eliminar" (click)="eliminarContactoSegumiento(element)">
+                                  <mat-icon>delete</mat-icon>
+                                </button>
+                                
+                              </div>
+                            </td>
+                          </ng-container>
+    
+                        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsado'">
+                                    <div class="body-acordion">
+                                        <ul>
+                                            <li *ngFor="let item of this.arrayListaCambios " [value]="item.id_historico">
+                                                <span class="example-element-description-attribution">{{ item.fecha_seguimiento | date: 'dd/MM/yyyy HH:mm'
+                                                    }}</span>
+                                                <span class="example-element-description-attribution"> {{ item.observacion_llamada }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns;" ></tr>
-                    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
-                    <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-                        class="example-element-row"
-                        [class.example-expanded-row]="expandedElement === element"
-                        >
-                    </tr>
-                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-                    <!-- Row shown when there is no matching data. -->
-                    <tr class="mat-row" *matNoDataRow>
-                        <td class="mat-cell" colspan="4">No se encuentran resultados"{{input.value}}"</td>
-                    </tr>
-                </table>
-            </section>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns;" ></tr>
+                        <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+                        <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+                            class="example-element-row"
+                            [class.example-expanded-row]="expandedElement === element"
+                            >
+                        </tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No se encuentran resultados {{input.value}}"</td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+
+            
               <mat-paginator [length]="resultsLength"  [pageSize]="50" aria-label="Mostrando paginas de contactos"></mat-paginator>
         </div>
 

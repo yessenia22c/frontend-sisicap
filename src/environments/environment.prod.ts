@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  endPoint:"https://prueba.eliteiso.org/api/v1/",
+  endPoint:"https://api.eliteiso.org/api/v1/",
 };

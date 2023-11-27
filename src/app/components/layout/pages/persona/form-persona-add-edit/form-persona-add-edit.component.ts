@@ -83,8 +83,8 @@ export class FormPersonaAddEditComponent implements OnInit {
       id_sexo: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
       //correo: ['', [Validators.required, Validators.email], Validaciones.validarCorreo(this.validacionService)],
-      telefono: [''],
-      id_ciudad: [''],
+      telefono: [null],
+      id_ciudad: [null],
       fecha_nac: ['', this.mayorEdadValidator],
       id_pais: ['', Validators.required],    
     }); 
@@ -141,6 +141,7 @@ crearPersona() {
         this.mostrarAlerta('Persona creada correctamente', 'Listo');
         this.dialogReferencia.close("Creado");
       }, error: (e) => {
+        console.log(e);
         this.mostrarAlerta('No se pudo crear', 'Error');
       }
     });
@@ -208,7 +209,7 @@ ngOnInit(): void {
       id_sexo:            this.dataPersona.sexo.id_sexo,
       correo:             this.dataPersona.correo,
       telefono:           this.dataPersona.telefono,
-      id_ciudad:          this.dataPersona.ciudad.id_ciudad,
+      id_ciudad:          this.dataPersona.ciudad?.id_ciudad,
       fecha_nac:          this.dataPersona.fecha_nac,
       id_pais:            this.dataPersona.Pais.id_pais,
 

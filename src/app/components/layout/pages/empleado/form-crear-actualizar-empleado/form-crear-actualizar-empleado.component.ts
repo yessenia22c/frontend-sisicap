@@ -90,15 +90,15 @@ export class FormCrearActualizarEmpleadoComponent implements OnInit {
         nro_ci: ['', Validators.required],
         id_sexo: ['', Validators.required],
         correo: ['', [Validators.required, Validators.email]],
-        telefono: [''],
-        id_ciudad: [''],
+        telefono: [null],
+        id_ciudad: [null, Validators.required],
         fecha_nac: ['', this.mayorEdadValidator],
         id_pais: ['', Validators.required],
       }),
       id_empleado: [''],
-      id_cargo: [''],
-      fecha_contrato: [''],
-      id_empresa_empleadora: [''],
+      id_cargo: ['', Validators.required],
+      fecha_contrato: ['', Validators.required],
+      id_empresa_empleadora: ['', Validators.required],
     });
 
     if (this.dataEmpleado != null) {
@@ -131,7 +131,7 @@ export class FormCrearActualizarEmpleadoComponent implements OnInit {
           id_sexo: this.dataEmpleado.PersonaEmpleado.sexo.id_sexo,
           correo: this.dataEmpleado.PersonaEmpleado.correo,
           telefono: this.dataEmpleado.PersonaEmpleado.telefono,
-          id_ciudad: this.dataEmpleado.PersonaEmpleado.ciudad.id_ciudad,
+          id_ciudad: this.dataEmpleado.PersonaEmpleado.ciudad?.id_ciudad,
           fecha_nac: this.dataEmpleado.PersonaEmpleado.fecha_nac,
           id_pais: this.dataEmpleado.PersonaEmpleado.Pais.id_pais,
         },
@@ -186,6 +186,7 @@ export class FormCrearActualizarEmpleadoComponent implements OnInit {
           this.mostrarAlerta('Empleado creado correctamente', 'Cerrar');
           this.dialogReferencia.close("Creado");
         },error: (error) => {
+          console.log(error);
           this.mostrarAlerta('Error al crear el empleado', 'Cerrar');
         }
       })

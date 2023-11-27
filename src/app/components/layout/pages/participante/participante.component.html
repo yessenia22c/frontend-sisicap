@@ -49,7 +49,7 @@
       </ng-container>
       <ng-container matColumnDef="id_ciudad">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Ciudad </th>
-        <td mat-cell *matCellDef="let item "> {{item.Personas.ciudad.nombre_ciudad}} </td>
+        <td mat-cell *matCellDef="let item "> {{item.Personas.ciudad?.nombre_ciudad}} </td>
       </ng-container>
       <ng-container matColumnDef="id_usuario">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Registrante</th>

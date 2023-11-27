@@ -90,10 +90,10 @@ export class FormAsignarNuevoEmpleadoComponent implements OnInit {
 
     this.formEmpleado = this.fb.group({
       id_empleado: [''],
-      id_persona: [''],
-      id_cargo: [''],
-      fecha_contrato: [''],
-      id_empresa_empleadora: [''],
+      id_persona: ['', Validators.required],
+      id_cargo: ['', Validators.required],
+      fecha_contrato: ['', Validators.required],
+      id_empresa_empleadora: ['', Validators.required],
     });
   }
 

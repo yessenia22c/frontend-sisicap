@@ -1,6 +1,7 @@
 <mat-sidenav-container>
 
     <mat-sidenav class="supeiorSidenav" [opened]="sidenavService.isOpen$ | async" class="containder-side" #miFormSide position="end" mode="over" fixedInViewport="true" fixedTopGap="56" >
+        
         <header class="fondo-header">
             <ng-container *ngIf="this.Datomodelo$ | async as contacto ">
                 <div class="header-text">
@@ -174,6 +175,9 @@
                    <button class="m-2" mat-raised-button color="warn" (click)="cerrarSidenav()">Cancelar</button>
                   <button class="m-2" mat-raised-button color="primary" (click)="EditarContactoSeguimiento()">Registrar</button> 
                 </mat-card-actions>
+                <mat-card-footer *ngIf="mostrarGuardando">
+                    <mat-progress-bar  mode="indeterminate"></mat-progress-bar>
+                  </mat-card-footer>
               </mat-card>
             <!-- <header class="cabecera-side" sticky>
                 <div>
