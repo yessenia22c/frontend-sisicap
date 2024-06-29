@@ -3,10 +3,44 @@
   }
   
   .example-margin {
-    margin: 0 12px;
+    margin: -4px;
   }
   
   ul {
     list-style-type: none;
     margin-top: 4px;
   }
+
+
+  .contenedor-niveles {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1f; /* Dos columnas de igual tamaño */
+    column-gap: 20px; /* Espacio entre columnas */
+}
+
+.contenedor-niveles ul {
+    columns: 3; /* Divide el contenido en dos columnas */
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    list-style: none; /* Elimina los puntos de las listas */
+    padding: 0;
+    margin: 0;
+}
+
+.contenedor-niveles li {
+    break-inside: avoid-column; /* Evita que los elementos se rompan entre columnas */
+    margin-bottom: 6px; /* Espacio entre los elementos de la lista */
+}
+
+
+@media (max-width: 640px) {
+  .contenedor-niveles {
+      grid-template-columns: 1fr; /* Una sola columna */
+  }
+
+  .contenedor-niveles ul {
+      columns: 1; /* Divide el contenido en una sola columna */
+      -webkit-columns: 1;
+      -moz-columns: 1;
+  }
+}

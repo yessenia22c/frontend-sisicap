@@ -9,7 +9,7 @@
         </p>
     </div>
     
-    <div>
+    <div >
         <div>
             <mat-checkbox class="example-margin"
                     color="primary"
@@ -20,7 +20,8 @@
                     Seleccionar todos los niveles de acceso
             </mat-checkbox>
         </div>
-        <ul>
+        <div class="contenedor-niveles">
+            <ul>
                 
                 <li *ngFor="let item of listaNiveles">
                     <mat-checkbox 
@@ -33,6 +34,8 @@
                   </li>
 
         </ul>
+        </div>
+        
         <!-- <pre>
             {{selection.selected | json}}
         </pre> -->
