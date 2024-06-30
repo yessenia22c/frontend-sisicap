@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component'
 import { myGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { AuthRedirectGuard } from './guards/authLogin.guard';
 
 
 const routes: Routes = [
@@ -15,8 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
-
+    component: LoginComponent,
+    canActivate: [AuthRedirectGuard]
   },
   {
     path: 'sisicap',
