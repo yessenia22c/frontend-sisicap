@@ -55,6 +55,7 @@ import { ControlRolesDirective } from 'src/app/directivas/control-roles.directiv
   ]
 })
 export default class ContactosComponent implements OnInit, AfterViewInit {
+  
 
   displayedColumns: string[] = [
     'accion',
@@ -70,7 +71,8 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     'id_ciudad',
     'id_pais',
     'id_estado_contacto',
-    'botones'
+    'botonEditar',
+    'botonEliminar'
   ];
   dataSource = new MatTableDataSource<AllContacto>();
  
@@ -139,7 +141,6 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
       //this.table.renderRows();
     });
   }
-
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -190,7 +191,7 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
   //FIN CHECKBOX 
 
   ngAfterViewInit() {
-
+    
     //DATASOURSE
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -236,6 +237,7 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
         };
       }
     });
+    
   }
 
   abirDialogAsignarContacto(){

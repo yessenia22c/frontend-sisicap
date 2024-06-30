@@ -94,8 +94,7 @@ td.mat-column-position {
 }
 
 .example-button-container {
-  display: flex;
-  justify-content: center;
+  background-color: white;
   width: 60px;
 }
 .col-md-8{
