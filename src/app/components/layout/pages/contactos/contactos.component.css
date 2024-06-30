@@ -95,7 +95,7 @@ td.mat-column-position {
 
 .example-button-container {
   background-color: white;
-  width: 60px;
+  padding: 0;
 }
 .col-md-8{
   display: flex;
