@@ -19,7 +19,7 @@ const routes: Routes = [
 
   },
   {
-    path: 'admin',
+    path: 'sisicap',
     
     loadChildren: () => import('./components/layout/layout.module').then(x => x.LayoutModule),
     canActivate: [myGuard],
