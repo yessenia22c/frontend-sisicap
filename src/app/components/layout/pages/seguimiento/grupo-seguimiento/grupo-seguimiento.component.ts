@@ -325,6 +325,12 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
       }
     });
   }
+  abirSeccionContactos(): void {
+    // ir a la ruta de contactos
+    // limpiar la ruta actual para ir a otra
+
+    this.router.navigate(['./../../../contactos'], { relativeTo: this.activatedRoute });
+  }
   verSeguimiento() {
     const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
 
