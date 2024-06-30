@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
   falsoCargando(){
     this.cargando = true;
     setTimeout(()=>{
-      this.router.navigate(['admin']);
+      this.router.navigate(['sisicap']);
       
     },1000);
   }
