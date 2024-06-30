@@ -11,10 +11,26 @@
             <button  *appControlRoles="2"   mat-raised-button color="primary" (click)="abirDialogCrearContacto()" ><mat-icon>add</mat-icon> crear contacto</button>
         </div>
         <div class="col-md-6 p-2" >
-            <mat-form-field >
-                <mat-label >Buscar</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. juan" #input>
-            </mat-form-field>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field class="w-100" >
+                        <mat-label >Buscar</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. juan" #input>
+                        
+                        
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field  class="w-100" >
+                        <mat-label>Filtrar por:</mat-label>
+                        <mat-select [(ngModel)]="seleccionFiltro" name="filtro" (selectionChange)="filterData()">
+                            <mat-option *ngFor="let filtro of listaFiltros" [value]="filtro.value">
+                                {{filtro.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
     </div>
     

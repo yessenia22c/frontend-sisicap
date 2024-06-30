@@ -18,6 +18,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 
@@ -36,6 +38,7 @@ import { ControlRolesDirective } from 'src/app/directivas/control-roles.directiv
   standalone: true,
   imports: [CommonModule,
     MatTableModule,
+    FormsModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatIconModule,
@@ -44,8 +47,9 @@ import { ControlRolesDirective } from 'src/app/directivas/control-roles.directiv
     MatCheckboxModule,
     MatButtonModule,
     MatDialogModule,
+    MatSelectModule,
     RouterModule,
-    ControlRolesDirective
+    ControlRolesDirective,
   ],
   templateUrl: './contactos.component.html',
   styleUrls: ['./contactos.component.css'],
@@ -78,7 +82,15 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
  
 
   @ViewChild(MatTable) table!: MatTable<AllContacto>;
-
+  seleccionFiltro: string = 'nombre_apellidos';
+  listaFiltros: any[] = [
+    {value :'nombre_apellidos', viewValue: 'Nombre y apellidos'}, 
+    {value :'numero_contacto', viewValue: 'Número de contacto'},
+    {value :'correo_contacto', viewValue: 'Correo de contacto'},
+    {value :'nombre_empresa', viewValue: 'Nombre de empresa'},
+    {value :'profesion', viewValue: 'Profesión'},
+    {value :'intereses', viewValue: 'Intereses'},
+  ];
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
@@ -229,11 +241,13 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
         console.log('CONTACTOS DATA SOURCE', this.dataSource.data);
         
         this.dataSource.filterPredicate = (data: AllContacto, filter: string) => {
-          const contactoDatas = data;
-
-          const values = Object.values(contactoDatas);
-          const valueStrings = values.map(value => (value !== null ? value.toString().toLowerCase() : ''));
-          return valueStrings.some(value => value.includes(filter));
+          const value = (data[this.seleccionFiltro as keyof AllContacto] || '').toString().toLowerCase()
+          return value.includes(filter);
+          // const contactoDatas = data;
+          // console.log('FILTRO', filter);
+          // const values = Object.values(contactoDatas);
+          // const valueStrings = values.map(value => (value !== null ? value.toString().toLowerCase() : ''));
+          // return valueStrings.some(value => value.includes(filter));
         };
       }
     });
