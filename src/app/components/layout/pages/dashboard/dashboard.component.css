@@ -46,11 +46,7 @@
 }
 .caja{
   width: 100%;
-  height: auto;
-  padding: 8px;
-  box-sizing: border-box;
-  overflow: scroll;
-  text-overflow: ellipsis;
+  
 
 }
 
@@ -149,6 +145,13 @@
   .contenedor div:nth-child(6){
     grid-column: 1/2;
     grid-row: 4/4;
+  }
+  .caja{
+    height: auto;
+    padding: 8px;
+    box-sizing: border-box;
+    overflow: scroll;
+    text-overflow: ellipsis;
   }
 }
 
