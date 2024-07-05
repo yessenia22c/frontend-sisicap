@@ -54,11 +54,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogEliminarSeguimientoComponent } from '../dialog-eliminar-seguimiento/dialog-eliminar-seguimiento.component';
 import { DialogEliminarContactoSeguimientoComponent } from '../dialog-eliminar-contacto-seguimiento/dialog-eliminar-contacto-seguimiento.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 //Directivas 
 
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 import { ExportarExcelService } from 'src/app/services/ExportarExcel.service';
+import { MostrarColumnDirective } from 'src/app/directivas/mostrar-column.directive';
+import { AccesoEvento } from 'src/app/models/AccesoEvento';
 export const MY_DATE_FORMATS: NgxMatDateFormats  = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -119,8 +121,10 @@ export const MY_DATE_FORMATS: NgxMatDateFormats  = {
         NgxMatDatetimePickerModule,
         MatDialogModule,
         NgxMatNativeDateModule, FormContactoSeguimientoComponent, MatProgressSpinnerModule,
-        ControlRolesDirective
-      ]
+        ControlRolesDirective,
+        MostrarColumnDirective
+      ],
+      
 })
 
 export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit  {
@@ -142,7 +146,6 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     'id_ciudad',
     'id_pais',
     'id_estado_contacto',
-    'botones'
   ];
   @ViewChild(MatPaginator) paginator!: MatPaginator ;
   @ViewChild(MatSort) sort!: MatSort ;
@@ -157,7 +160,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
   // dataSource = new MatTableDataSource<any>([], {
   //   data: (data: any) => data.id_historico // Debe ser una propiedad única en tus datos
   // });
-  
+  numAcceso: number = 20;
   resultsLength = 0;
   isLoadingResults = true;
   ContactoSeguimiento$: Observable<SeguimientoContacto> | undefined;
@@ -191,7 +194,8 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     private datePipe: DatePipe,
     private servicioContactoSeguimiento: ServicioActualizarCrearContactoSeguimientoService,
     public sidenavService: SidenavService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
 
     this.formContacto = this.fb.group({
@@ -250,6 +254,7 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
   onTipoSeguimientoChange(event: any) {
     this.selectedTipoSeguimiento = Number((event.target as HTMLSelectElement).value);
   }
+  
   ngOnInit() {
     this.verSeguimiento();
     this.mostrarContactos();
@@ -299,7 +304,12 @@ export default class GrupoSeguimientoComponent implements OnInit, AfterViewInit 
     // this.formContacto.get('InformacionContacto.Contactos.numero_contacto')?.disable();
 
   }
-
+  onAccesoDeterminado(tieneAcceso: boolean): void {
+    console.log('ACCESO DETERMINADO', tieneAcceso);
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botones']; // Forzar la detección de cambios
+    }
+  }
   exportarReporteExcelSeguimiento():void{
     const id_grupo_seguimiento = this.activatedRoute.snapshot.params['id_seguimiento'];
     this.excelReporte$ = this.exportarExcelService.exportarReporteExcel(id_grupo_seguimiento);
