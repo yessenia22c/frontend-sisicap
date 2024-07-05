@@ -40,9 +40,8 @@
   }
   
   .example-button-container {
-    display: flex;
-    justify-content: center;
-    width: 60px;
+    background-color: white;
+    padding: 0;
   }
   
   
