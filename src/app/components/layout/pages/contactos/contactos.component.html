@@ -133,25 +133,28 @@
                 <td mat-cell *matCellDef="let element" class="mat-colum"> {{element.Estado?.nombre_estado}}</td>
             </ng-container>
             
-            <ng-container matColumnDef="botonEditar">
-                <th *appControlRoles="16" mat-header-cell aria-label="row actions" ></th>
-                <th *matHeaderCellDef >&nbsp;</th>      
-                <td  mat-cell  *matCellDef="let element" class="example-button-container">
-                    <button  mat-icon-button color="primary" aria-label="Boton editar" (click)="editarContacto(element)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </td> 
-            </ng-container>
+            <ng-template   [appMostrarColumn]="16" (accesoDeterminado)="agregaEditarContacto($event)">
+                <ng-container matColumnDef="botonEditar">
+                    <th *matHeaderCellDef mat-header-cell aria-label="row actions">&nbsp;</th>      
+                    <td  mat-cell  *matCellDef="let element" class="example-button-container">
+                        <button  mat-icon-button color="primary" aria-label="Boton editar" (click)="editarContacto(element)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </td> 
+                </ng-container>
+            </ng-template>
             
-            <ng-container matColumnDef="botonEliminar" >
-                <th *appControlRoles="19" mat-header-cell aria-label="row actions" ></th>
-                <th *matHeaderCellDef>&nbsp; </th>
-                <td mat-cell *matCellDef="let element" class="example-button-container">
-                    <button  mat-icon-button color="warn" aria-label="Boton eliminar" (click)="dialogoEliminarContacto(element)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+            <ng-template   [appMostrarColumn]="19" (accesoDeterminado)="agregaEliminarContacto($event)">
+                <ng-container matColumnDef="botonEliminar" >
+                    <th *matHeaderCellDef mat-header-cell aria-label="row actions">&nbsp; </th>
+                    <td mat-cell *matCellDef="let element" class="example-button-container">
+                        <button  mat-icon-button color="warn" aria-label="Boton eliminar" (click)="dialogoEliminarContacto(element)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+            </ng-template>
+            
             
             <tr mat-header-row *matHeaderRowDef="displayedColumns;" ></tr>
              <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr> 

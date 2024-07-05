@@ -32,6 +32,8 @@ import { DialogEliminarContactoComponent } from './dialog-eliminar-contacto/dial
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
+import { AccesoEvento } from 'src/app/models/AccesoEvento';
+import { MostrarColumnDirective } from 'src/app/directivas/mostrar-column.directive';
 
 @Component({
   selector: 'app-contactos',
@@ -50,6 +52,7 @@ import { ControlRolesDirective } from 'src/app/directivas/control-roles.directiv
     MatSelectModule,
     RouterModule,
     ControlRolesDirective,
+    MostrarColumnDirective
   ],
   templateUrl: './contactos.component.html',
   styleUrls: ['./contactos.component.css'],
@@ -75,8 +78,6 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     'id_ciudad',
     'id_pais',
     'id_estado_contacto',
-    'botonEditar',
-    'botonEliminar'
   ];
   dataSource = new MatTableDataSource<AllContacto>();
  
@@ -160,7 +161,16 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     const numRowFiltered = this.dataSource.filteredData.length;
     return numSelected === numRows || numSelected === numRowFiltered;
   }
-
+  agregaEditarContacto(tieneAcceso: boolean){
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botonEditar']; // Forzar la detección de cambios
+    }
+  }
+  agregaEliminarContacto(tieneAcceso: boolean){
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botonEliminar']; // Forzar la detección de cambios
+    }
+  }
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
     if (this.isAllSelected()) {
