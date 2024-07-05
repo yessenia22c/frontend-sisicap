@@ -23,12 +23,13 @@ import { AllParticipante, DatosPersona, NuevoParticipante, Participante, persona
 import { PaginatorService } from 'src/app/services/Paginator.service';
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 import { FormAsignarNuevoParticipanteComponent } from './form-asignar-nuevo-participante/form-asignar-nuevo-participante.component';
+import { MostrarColumnDirective } from 'src/app/directivas/mostrar-column.directive';
 
 @Component({
   selector: 'app-participante',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, MatDialogModule, MatFormFieldModule, 
-    MatInputModule, MatTableModule,MatPaginatorModule, ControlRolesDirective ],
+    MatInputModule, MatTableModule,MatPaginatorModule, ControlRolesDirective, MostrarColumnDirective ],
   templateUrl: './participante.component.html',
   styleUrls: ['./participante.component.css'],
   providers: [
@@ -39,7 +40,7 @@ import { FormAsignarNuevoParticipanteComponent } from './form-asignar-nuevo-part
 })
 export default class ParticipanteComponent {
   
-  displayedColumns: string[] = ['id_participante', 'nombres_per', 'apellidos', 'nro_ci', 'correo', 'telefono', 'ocupacion', 'codigo_participante', 'id_ciudad', 'id_usuario', 'accion'];
+  displayedColumns: string[] = ['id_participante', 'nombres_per', 'apellidos', 'nro_ci', 'correo', 'telefono', 'ocupacion', 'codigo_participante', 'id_ciudad', 'id_usuario'];
   informacionParticipante$: Observable<Participante> | undefined;
 
   nivelRequerido = 8;
@@ -66,7 +67,16 @@ export default class ParticipanteComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
+  agregaEditarBoton(tieneAcceso: boolean){
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botonEditar']; // Forzar la detección de cambios
+    }
+  }
+  agregaEliminarBoton(tieneAcceso: boolean){
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botonEliminar']; // Forzar la detección de cambios
+    }
+  }
   applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
     this.filterData();

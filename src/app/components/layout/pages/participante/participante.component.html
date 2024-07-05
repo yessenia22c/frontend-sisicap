@@ -59,7 +59,7 @@
 
 
       <!-- Star Column -->
-      <ng-container matColumnDef="accion" stickyEnd>
+      <!-- <ng-container matColumnDef="accion" stickyEnd>
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
         <td mat-cell *matCellDef="let element">
           <div class="example-button-container">
@@ -73,7 +73,28 @@
 
           </div>
         </td>
-      </ng-container>
+      </ng-container> -->
+      <ng-template   [appMostrarColumn]="15" (accesoDeterminado)="agregaEditarBoton($event)">
+          <ng-container matColumnDef="botonEditar">
+              <th *matHeaderCellDef mat-header-cell aria-label="row actions">&nbsp;</th>      
+              <td  mat-cell  *matCellDef="let element" class="example-button-container">
+                  <button  mat-icon-button color="primary" aria-label="Boton editar" (click)="editarParticipante(element)">
+                      <mat-icon>edit</mat-icon>
+                  </button>
+              </td> 
+          </ng-container>
+      </ng-template>
+      
+      <ng-template   [appMostrarColumn]="21" (accesoDeterminado)="agregaEliminarBoton($event)">
+          <ng-container matColumnDef="botonEliminar" >
+              <th *matHeaderCellDef mat-header-cell aria-label="row actions">&nbsp; </th>
+              <td mat-cell *matCellDef="let element" class="example-button-container">
+                  <button  mat-icon-button color="warn" aria-label="Boton eliminar" (click)="dialogoEliminarParticipante(element)">
+                      <mat-icon>delete</mat-icon>
+                  </button>
+              </td>
+          </ng-container>
+      </ng-template>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
