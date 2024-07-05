@@ -16,11 +16,13 @@ import { FormCrearActualizarEmpleadoComponent } from './form-crear-actualizar-em
 import { DialogEliminarEmpleadoComponent } from './dialog-eliminar-empleado/dialog-eliminar-empleado.component';
 import { FormAsignarNuevoEmpleadoComponent } from './form-asignar-nuevo-empleado/form-asignar-nuevo-empleado.component';
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
+import { MostrarColumnDirective } from 'src/app/directivas/mostrar-column.directive';
 
 @Component({
   selector: 'app-empleado',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatTableModule, MatPaginatorModule,MatDialogModule, ControlRolesDirective ],
+  imports: [CommonModule, MatButtonModule, MatIconModule,
+     MatInputModule, MatTableModule, MatPaginatorModule,MatDialogModule, ControlRolesDirective, MostrarColumnDirective ],
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css'],
   providers: [
@@ -29,7 +31,7 @@ import { ControlRolesDirective } from 'src/app/directivas/control-roles.directiv
   ],
 })
 export default class EmpleadoComponent {
-  displayedColumns = ['id_empleado', 'nombres_per', 'apellidos', 'nro_ci','fecha_contrato', 'correo', 'telefono','empresa_empleadora', 'cargo','fecha_nac', 'id_pais', 'id_ciudad', 'id_sexo',  'accion'];
+  displayedColumns = ['id_empleado', 'nombres_per', 'apellidos', 'nro_ci','fecha_contrato', 'correo', 'telefono','empresa_empleadora', 'cargo','fecha_nac', 'id_pais', 'id_ciudad', 'id_sexo'];
   informacionEmpleado$: Observable<Empleado> | undefined;
   dataSource = new  MatTableDataSource<EmpleadoList>();
   filtroDatos = new MatTableDataSource<EmpleadoList["PersonaEmpleado"]>();
@@ -47,11 +49,22 @@ export default class EmpleadoComponent {
   ngOnInit(): void {
     this.mostrarEmpleados();
   }
+
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
+  agregaEditarBoton(tieneAcceso: boolean){
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botonEditar']; // Forzar la detección de cambios
+    }
+  }
+  agregaEliminarBoton(tieneAcceso: boolean){
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botonEliminar']; // Forzar la detección de cambios
+    }
+  }
   applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
     this.filterData();
