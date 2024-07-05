@@ -75,7 +75,7 @@
         </td>
       </ng-container> -->
       <ng-template   [appMostrarColumn]="15" (accesoDeterminado)="agregaEditarBoton($event)">
-          <ng-container matColumnDef="botonEditar">
+          <ng-container matColumnDef="botonEditar" stickyEnd>
               <th *matHeaderCellDef mat-header-cell aria-label="row actions">&nbsp;</th>      
               <td  mat-cell  *matCellDef="let element" class="example-button-container">
                   <button  mat-icon-button color="primary" aria-label="Boton editar" (click)="editarParticipante(element)">
@@ -86,7 +86,7 @@
       </ng-template>
       
       <ng-template   [appMostrarColumn]="21" (accesoDeterminado)="agregaEliminarBoton($event)">
-          <ng-container matColumnDef="botonEliminar" >
+          <ng-container matColumnDef="botonEliminar" stickyEnd>
               <th *matHeaderCellDef mat-header-cell aria-label="row actions">&nbsp; </th>
               <td mat-cell *matCellDef="let element" class="example-button-container">
                   <button  mat-icon-button color="warn" aria-label="Boton eliminar" (click)="dialogoEliminarParticipante(element)">
