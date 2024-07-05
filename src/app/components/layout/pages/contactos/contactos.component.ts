@@ -32,7 +32,6 @@ import { DialogEliminarContactoComponent } from './dialog-eliminar-contacto/dial
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
-import { AccesoEvento } from 'src/app/models/AccesoEvento';
 import { MostrarColumnDirective } from 'src/app/directivas/mostrar-column.directive';
 
 @Component({

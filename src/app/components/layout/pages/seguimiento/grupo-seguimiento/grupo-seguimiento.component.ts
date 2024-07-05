@@ -60,7 +60,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 import { ExportarExcelService } from 'src/app/services/ExportarExcel.service';
 import { MostrarColumnDirective } from 'src/app/directivas/mostrar-column.directive';
-import { AccesoEvento } from 'src/app/models/AccesoEvento';
 export const MY_DATE_FORMATS: NgxMatDateFormats  = {
   parse: {
     dateInput: 'DD/MM/YYYY',

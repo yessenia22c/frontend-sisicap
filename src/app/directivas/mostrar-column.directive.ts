@@ -3,7 +3,6 @@ import { PerfilUsuario, TipoUsuarioAcceso, Usuario } from '../models/PerfilUsuar
 import { PerfilUsuarioService } from '../services/perfil-usuario.service';
 import { Observable } from 'rxjs';
 import { RolesService } from '../services/roles.service';
-import { AccesoEvento } from '../models/AccesoEvento';
 
 @Directive({
   selector: '[appMostrarColumn]',
