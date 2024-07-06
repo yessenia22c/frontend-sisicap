@@ -1,17 +1,17 @@
 <div class="container-fluid">
     <div style="padding-bottom: 1em;">
       <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Tipos de usuarios</h4>
-      <button mat-raised-button style="margin-right: 8px;" color="primary" (click)="crearTipoUsuario()"> Nuevo tipo de usuario</button>
+      <button *appControlRoles="34" mat-raised-button style="margin-right: 8px;" color="primary" (click)="crearTipoUsuario()"> Nuevo tipo de usuario</button>
       <!-- <button mat-raised-button color="primary" routerLink="gestionar-roles"> Gestionar roles</button> -->
       
   
     </div>
   
-    <mat-form-field style="width: 100%;">
+    <mat-form-field style="width: 100%;" *appControlRoles="34">
       <mat-label>Buscar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Juan" #input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Administrador" #input >
     </mat-form-field>
-    <section class="example-container mat-elevation-z8" tabindex="0">
+    <section class="example-container mat-elevation-z8" tabindex="0" *appControlRoles="34">
       <table mat-table [dataSource]="dataSource" matSort>
   
         <!-- Position Column -->

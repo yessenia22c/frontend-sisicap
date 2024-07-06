@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { RouterModule} from '@angular/router';
 import { FormCrearActualizarTipoUsuarioComponent } from './form-crear-actualizar-tipo-usuario/form-crear-actualizar-tipo-usuario.component';
 import { DialogEliminarTipoUsuarioComponent } from './dialog-eliminar-tipo-usuario/dialog-eliminar-tipo-usuario.component';
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 
 
 @Component({
@@ -31,7 +32,8 @@ import { DialogEliminarTipoUsuarioComponent } from './dialog-eliminar-tipo-usuar
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,  
-    RouterModule
+    RouterModule,
+    ControlRolesDirective
   ],
   templateUrl: './gestionar-roles-usuario.component.html',
   styleUrls: ['./gestionar-roles-usuario.component.css'],
