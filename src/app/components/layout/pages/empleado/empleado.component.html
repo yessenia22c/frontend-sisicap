@@ -1,8 +1,8 @@
 <div class="container-fluid">
     <div style="padding-bottom: 1em;">
         <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Empleados</h4>
-          <button style="margin-right: 10px;" mat-raised-button color="primary" (click)="nuevoEmpleado()"  > Nuevo empleado</button>
-          <button mat-raised-button color="primary" (click)="asignarNuevoEmpleado()"  > Asignar a empleado</button>
+          <button *appControlRoles="30" style="margin-right: 10px;" mat-raised-button color="primary" (click)="nuevoEmpleado()"  > Nuevo empleado</button>
+          <button *appControlRoles="30" mat-raised-button color="primary" (click)="asignarNuevoEmpleado()"  > Asignar a empleado</button>
       </div>
 
       <mat-form-field style="width: 100%;">
