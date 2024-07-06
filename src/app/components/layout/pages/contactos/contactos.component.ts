@@ -90,6 +90,7 @@ export default class ContactosComponent implements OnInit, AfterViewInit {
     {value :'nombre_empresa', viewValue: 'Nombre de empresa'},
     {value :'profesion', viewValue: 'Profesión'},
     {value :'intereses', viewValue: 'Intereses'},
+    {value :'observaciones', viewValue: 'Observaciones'},
   ];
   resultsLength = 0;
   isLoadingResults = true;
