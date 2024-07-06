@@ -19,13 +19,14 @@ import { Observable } from 'rxjs';
 import { PersonaService } from 'src/app/services/persona.service';
 import { FormPersonaAddEditComponent } from './form-persona-add-edit/form-persona-add-edit.component';
 import { PaginatorService } from 'src/app/services/Paginator.service';
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 
 
 @Component({
   selector: 'app-persona',
   standalone: true,
   imports: [CommonModule, MatTableModule, MatPaginatorModule,MatFormFieldModule,
-    MatInputModule, MatButtonModule,MatIconModule, MatDialogModule],
+    MatInputModule, MatButtonModule,MatIconModule, MatDialogModule, ControlRolesDirective],
   templateUrl: './persona.component.html',
   styleUrls: ['./persona.component.css'],
   providers: [

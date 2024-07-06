@@ -1,7 +1,7 @@
 <div class="container-fluid" >
   <div style="padding-bottom: 1em;">
     <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Personas</h4>
-    <button mat-raised-button color="primary" (click)="nuevaPersona()" >Agregar persona</button>
+    <button *appControlRoles="10" mat-raised-button color="primary" (click)="nuevaPersona()" >Agregar persona</button>
     
   </div>
 
@@ -10,7 +10,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Juan" #input >
     </mat-form-field>
 
-    <section class="example-container mat-elevation-z8" tabindex="0">
+    <section class="example-container mat-elevation-z8" tabindex="0" *appControlRoles="10">
       <table mat-table [dataSource]="dataSource" matSort>
     
         <!-- ID Column -->
