@@ -16,6 +16,8 @@ import { UsuarioList, UsuariosSistema } from 'src/app/models/Usuarios';
 import { FormCrearActualizarUsuarioComponent } from './form-crear-actualizar-usuario/form-crear-actualizar-usuario.component';
 import { DialogEliminarUsuarioComponent } from './dialog-eliminar-usuario/dialog-eliminar-usuario.component';
 import { RouterModule } from '@angular/router';
+import { MostrarColumnDirective } from 'src/app/directivas/mostrar-column.directive';
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 
 
 @Component({
@@ -29,8 +31,9 @@ import { RouterModule } from '@angular/router';
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
-    RouterModule
-
+    RouterModule,
+    ControlRolesDirective,
+    MostrarColumnDirective
   ],
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css'],
@@ -40,7 +43,7 @@ import { RouterModule } from '@angular/router';
   ],
 })
 export default class UsuarioComponent {
-  displayedColumns = ['id_usuario', 'foto_perfil', 'nombre_usuario', 'id_tipo_usuario','nombres_per','apellidos','nro_ci', 'correo', 'telefono', 'accion'];
+  displayedColumns = ['id_usuario', 'foto_perfil', 'nombre_usuario', 'id_tipo_usuario','nombres_per','apellidos','nro_ci', 'correo', 'telefono'];
   informacionUsuarios$: Observable<UsuariosSistema> | undefined;
   dataSource = new  MatTableDataSource<UsuarioList>();
   filtroDatos = new MatTableDataSource<UsuarioList["empleado"]>();
@@ -62,7 +65,16 @@ export default class UsuarioComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
+  agregaEditarBoton(tieneAcceso: boolean){
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botonEditar']; // Forzar la detección de cambios
+    }
+  }
+  agregaEliminarBoton(tieneAcceso: boolean){
+    if (tieneAcceso) {
+      this.displayedColumns = [...this.displayedColumns, 'botonEliminar']; // Forzar la detección de cambios
+    }
+  }
   applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
     this.filterData();

@@ -1,8 +1,10 @@
 <div class="container-fluid">
   <div style="padding-bottom: 1em;">
     <h4 style="font-size: 20px; font-weight: 500; color: #002f8d; padding-top: 0.6rem;">Usuarios</h4>
-    <button mat-raised-button style="margin-right: 8px;" color="primary" (click)="nuevoUsuario()"> Nuevo usuario</button>
-    <button mat-raised-button color="primary" routerLink="gestionar-roles"> Gestionar roles</button>
+    <button *appControlRoles="26" mat-raised-button style="margin-right: 8px;" color="primary" (click)="nuevoUsuario()"> Nuevo usuario</button>
+    <button *appControlRoles="34" mat-raised-button color="primary" routerLink="gestionar-roles"> Gestionar roles</button>
+
+    
     
 
   </div>
@@ -59,8 +61,28 @@
         <th mat-header-cell *matHeaderCellDef> Teléfono </th>
         <td mat-cell *matCellDef="let element"> {{element.empleado.PersonaEmpleado.telefono}} </td>
       </ng-container>
-
-      <ng-container matColumnDef="accion" stickyEnd>
+      <ng-template [appMostrarColumn]="27" (accesoDeterminado)="agregaEditarBoton($event)">
+        <ng-container matColumnDef="botonEditar" stickyEnd>
+          <th *matHeaderCellDef mat-header-cell aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let element" class="example-button-container">
+            <button mat-icon-button color="primary" aria-label="Boton editar" (click)="editarUsuario(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      </ng-template>
+    
+      <ng-template [appMostrarColumn]="28" (accesoDeterminado)="agregaEliminarBoton($event)">
+        <ng-container matColumnDef="botonEliminar" stickyEnd>
+          <th *matHeaderCellDef mat-header-cell aria-label="row actions">&nbsp; </th>
+          <td mat-cell *matCellDef="let element" class="example-button-container">
+            <button mat-icon-button color="warn" aria-label="Boton eliminar" (click)="dialogEliminarUsaurio(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+    </ng-template>
+      <!-- <ng-container matColumnDef="accion" stickyEnd>
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
         <td mat-cell *matCellDef="let element">
           <div class="example-button-container">
@@ -73,7 +95,7 @@
 
           </div>
         </td>
-      </ng-container>
+      </ng-container> -->
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
