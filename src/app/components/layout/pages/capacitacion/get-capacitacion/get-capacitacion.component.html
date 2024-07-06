@@ -126,17 +126,17 @@
             <ul>
                 <li>
                     <h2>General</h2>
-                <li>
+                <li *appControlRoles="24">
                     <button mat-raised-button color="primary" (click)="inscribirParticipante()">Inscribir participantes</button>
                 </li>
                 <ng-container *ngIf="this.capacitacion$ | async as cap ">
-                <li>
+                <li *appControlRoles="12">
                     
                         <a class="link" matListItemTitle (click)="editarCapacitacion(cap)"
                             style="cursor: pointer;">Editar capacitación </a>
                     
                 </li>
-                <li>
+                <li *appControlRoles="17">
                     <a class="link" matListItemTitle (click)="eliminarCapacitacion(cap)">Eliminar capacitación</a>
                 </li>
                 

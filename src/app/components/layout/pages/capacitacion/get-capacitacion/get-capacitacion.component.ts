@@ -39,6 +39,7 @@ import { DialogEliminarCapacitacionComponent } from './dialog-eliminar-capacitac
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogEliminarInscritoComponent } from './dialog-eliminar-inscrito/dialog-eliminar-inscrito.component';
 import { DialogDarBajaCapacitacionComponent } from './dialog-dar-baja-capacitacion/dialog-dar-baja-capacitacion.component';
+import { ControlRolesDirective } from 'src/app/directivas/control-roles.directive';
 
 @Component({
   selector: 'app-get-capacitacion',
@@ -55,7 +56,8 @@ import { DialogDarBajaCapacitacionComponent } from './dialog-dar-baja-capacitaci
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    ControlRolesDirective
     
   ],
   templateUrl: './get-capacitacion.component.html',
