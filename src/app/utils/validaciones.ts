@@ -17,7 +17,7 @@ export class Validaciones {
 
 
     static validarCarnetIdentidad(validacionService: ValidacionServiceService) {
-        console.log('validarCarnetIdentidad');
+        //console.log('validarCarnetIdentidad');
         return (control: AbstractControl) => {
             const nro_ci = control.value;
             //console.log('CARNET A VALIDAD', nro_ci);
@@ -49,5 +49,40 @@ export class Validaciones {
             );
         };
     }
+    static validarContrasena() {
+        return (control: AbstractControl) => {
+            const contrasena = control.value || '';
+    
+            // Criterios individuales de validación
+            const tieneMayuscula = /[A-Z]/.test(contrasena);
+            const tieneMinuscula = /[a-z]/.test(contrasena);
+            const tieneNumero = /[0-9]/.test(contrasena);
+            const tieneCaracterEspecial = /[!@#$%^&*]/.test(contrasena);
+            const tieneLongitudSuficiente = contrasena.length >= 8;
+    
+            // Crear un objeto de errores vacío
+            let errores: any = {};
+    
+            if (!tieneMayuscula) {
+                errores.faltaMayuscula = 'La contraseña debe contener al menos una letra mayúscula';
+            }
+            if (!tieneMinuscula) {
+                errores.faltaMinuscula = 'La contraseña debe contener al menos una letra minúscula';
+            }
+            if (!tieneNumero) {
+                errores.faltaNumero = 'La contraseña debe contener al menos un número';
+            }
+            if (!tieneCaracterEspecial) {
+                errores.faltaCaracterEspecial = 'La contraseña debe contener al menos un carácter especial';
+            }
+            if (!tieneLongitudSuficiente) {
+                errores.faltaLongitud = 'La contraseña debe tener al menos 8 caracteres';
+            }
+    
+            // Si no hay errores, devolver null. Si hay errores, devolver el objeto de errores.
+            return Object.keys(errores).length > 0 ? errores : null;
+        };
+    }
+    
 
 }

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  endPoint:"https://backend-sisicap.onrender.com/api/v1/",
+  endPoint:"https://back-prueba.eliteiso.org/api/v1/",
 };

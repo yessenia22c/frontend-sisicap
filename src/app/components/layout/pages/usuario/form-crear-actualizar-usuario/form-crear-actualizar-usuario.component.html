@@ -19,6 +19,22 @@
                 [attr.aria-pressed]="escondeContra">
                 <mat-icon>{{escondeContra ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
+              <!-- Mensajes de error específicos -->
+              <mat-error *ngIf="formUsuario.get('contrasena_us')?.hasError('faltaMayuscula')">
+                Debe tener al menos una letra mayúscula.
+              </mat-error>
+              <mat-error *ngIf="formUsuario.get('contrasena_us')?.hasError('faltaMinuscula') && !formUsuario.get('contrasena_us')?.hasError('faltaMayuscula')">
+                Debe teber al menos una letra minúscula.
+              </mat-error>
+              <mat-error *ngIf="formUsuario.get('contrasena_us')?.hasError('faltaNumero') && !formUsuario.get('contrasena_us')?.hasError('faltaMayuscula') && !formUsuario.get('contrasena_us')?.hasError('faltaMinuscula')">
+                Debe tener al menos un número.
+              </mat-error>
+              <mat-error *ngIf="formUsuario.get('contrasena_us')?.hasError('faltaCaracterEspecial') && !formUsuario.get('contrasena_us')?.hasError('faltaMayuscula') && !formUsuario.get('contrasena_us')?.hasError('faltaMinuscula') && !formUsuario.get('contrasena_us')?.hasError('faltaNumero')">
+                Debe tener al menos un carácter especial.
+              </mat-error>
+              <mat-error *ngIf="formUsuario.get('contrasena_us')?.hasError('faltaLongitud') && !formUsuario.get('contrasena_us')?.hasError('faltaMayuscula') && !formUsuario.get('contrasena_us')?.hasError('faltaMinuscula') && !formUsuario.get('contrasena_us')?.hasError('faltaNumero') && !formUsuario.get('contrasena_us')?.hasError('faltaCaracterEspecial')">
+                Debe tener al menos 8 caracteres.
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="row-md-4">
