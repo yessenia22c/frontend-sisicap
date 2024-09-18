@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AsignarNuevoEmpleado, CargosList, Empleado, EmpresasList, NuevoEmpleado, PersonaNoEmpleado } from '../models/empleado';
+import { AsignarNuevoEmpleado, CargosList, Empleado, EmpresasList, NuevoEmpleado, PersonaNoEmpleado, UnEmpleado } from '../models/empleado';
 import { CreaGrupoSeguimiento } from '../models/seguimiento';
 
 @Injectable({
@@ -44,5 +44,8 @@ export class EmpleadoService {
 
   getPersonasNoEmpleados(): Observable<PersonaNoEmpleado> {
     return this.http.get<PersonaNoEmpleado>(`${this.apiUrl}empleado/personasAll`);
+  }
+  verEmpleado(id: number): Observable<UnEmpleado> {
+    return this.http.get<UnEmpleado>(`${this.apiUrl}empleado/read/${id}`);
   }
 }
