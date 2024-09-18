@@ -57,9 +57,15 @@
     </span>
 
     <mat-menu #belowMenu="matMenu" yPosition="below">
-      <button mat-menu-item>Perfil</button>
-      <button mat-menu-item>Tareas</button>
-      <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+      <a class="botones-Perfil" routerLink="./perfil" routerLinkActive="boton-activo" mat-menu-item>
+        <mat-icon routerLinkActive="boton-activo" class="botones-Perfil">account_box</mat-icon>Perfil</a>
+      <a class="botones-Perfil" routerLink="./acerca-de" routerLinkActive="boton-activo" mat-menu-item>
+        <mat-icon class="botones-Perfil" routerLinkActive="boton-activo">info</mat-icon>
+        Acerca de
+      </a>
+      <button class="botones-Perfil" mat-menu-item (click)="logout()">Cerrar sesión
+        <mat-icon routerLinkActive="boton-activo" class="botones-Perfil" >logout</mat-icon>
+      </button>
     </mat-menu>
   </mat-toolbar>
 
