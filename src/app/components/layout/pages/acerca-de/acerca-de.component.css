@@ -1,0 +1,33 @@
+.contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5fffc;
+}
+.info{
+    width: 1080px;
+}
+.contenedor-pdf{
+    width: 1080px;
+}
+@media screen and (max-width: 876px){
+    .contenedor-pdf{
+        width: 500px ;
+    }   
+    
+}
+@media screen and (max-width: 500px){
+    .contenedor-pdf{
+        width: 300px ;
+    }   
+    
+}
+@media screen and (max-width: 1080px){
+    .contenedor{
+        width: auto;
+    }
+    .info{
+        width: auto;
+    }
+    
+}

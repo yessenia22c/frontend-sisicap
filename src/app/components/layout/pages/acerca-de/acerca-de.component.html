@@ -1,0 +1,39 @@
+<div class="contenedor" style=" display: flex; flex-direction: column; margin: 0 auto; padding: 18px; ">
+    <section style="display: flex; flex-direction: column; align-items: center;">
+        <div class="info" style="display:flex; flex-direction: column; justify-content: center;">
+            <h1 style="font-size: 30px; font-weight: 500; color: #06306e;">Acerca del sistema</h1>
+            <div style="font-size: 16px">
+                <p>Este sistema fue desarrollado con el propósito de ofrecer una solución eficiente y moderna a las necesidades de la empresa ELITEISO S.R.L.</p>
+            
+                <h2>Versión Actual</h2>
+                <p><strong>Frontend:</strong> Versión: 1.3.0</p>
+                <p><strong>Backend:</strong> Versión: 1.2.0</p>
+                <h2>Tecnologías</h2>
+                <p>
+                    Este sistema fue desarrollado con la tecnología de Node.js versión 18 en el backend 
+                    y Angular 15 en el frontend, y cuenta con una arquitectura cliente-servidor.
+                </p>
+                
+                <h2>Contacto de soporte</h2>
+                <div class="contact-info">
+                    <p><strong>Nombre:</strong> Yessenia Villarte Vaca | Desarolladora web full-stack</p>
+                    <p><strong>Email</strong>: <a target="_blank" href="mailto:yesseniavillarte@gmail.com">yesseniavillarte&#64;gmail.com</a></p>
+                    <p><strong>Teléfono:</strong> (+591) 753 15 804</p>
+                    <p><strong>Sitio web: </strong><a target="_blank" href="https://yessenia.dev">www.yessenia.dev</a></p> 
+                    <p><strong>GitHub: </strong><a target="_blank" href="https://github.com/yessenia22c">Yessenia - Perfil</a></p>   
+                </div>
+            </div>
+        </div>
+    
+        <div>
+            <h2 style="font-size: 30px; font-weight: 500; color: #06306e; margin-top: 2rem;">Guia de usuario</h2>
+            <p style="font-size: 16px; padding-bottom: 1rem;">Puede descargar y ver la guía de usuario sobre cómo funciona el sistema en el PDF que se muestra en la parte de abajo.</p>
+            <div class="contenedor-pdf">
+                <!-- <iframe [src]="pdfUrl" width="50%" height="600px"></iframe> -->
+                <object [data]="pdfUrl" type="application/pdf" width="100%"  height="600px">
+                    <p>Tu navegador no soporta la visualización de PDFs. <a [href]="pdfUrl" target="_blank">Descargar PDF</a>.</p>
+                </object>
+            </div>
+        </div>
+    </section>
+</div>
