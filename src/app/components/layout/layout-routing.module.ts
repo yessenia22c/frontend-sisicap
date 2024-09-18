@@ -77,9 +77,15 @@ const routes: Routes = [
       {
         path:'contactos',
         loadComponent: () => import('../layout/pages/contactos/contactos.component')
-      }
-      
-
+      },   
+      {
+        path:'perfil',
+        loadComponent: () => import('../layout/pages/perfil/perfil.component')
+      },
+      {
+        path:'acerca-de',
+        loadComponent: () => import('../layout/pages/acerca-de/acerca-de.component')
+      },
       // {
       //   path:'capacitacion/inscritos',
       //   loadComponent: () => import('../layout/pages/capacitacion/inscritos-capacitacion/inscritos-capacitacion.component')
