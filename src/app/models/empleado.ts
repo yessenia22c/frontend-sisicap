@@ -109,3 +109,33 @@ export interface PersonasNoEmpleado {
     nro_ci:          string;
     PersonaEmpleado: null;
 }
+
+
+// Empleado por id
+export interface UnEmpleado {
+    status:         number;
+    Datos_empleado: DatosEmpleado;
+}
+
+export interface DatosEmpleado {
+    id_empleado:        number;
+    fecha_contrato:     string | null ;
+    PersonaEmpleado:    PersonaEmpleado;
+    empresa_empleadora: EmpresaEmpleadora;
+    cargo:              Cargo;
+}
+
+export interface PersonaEmpleado {
+    nombres_per: string;
+    apellidos:   string;
+    nro_ci:      string;
+}
+
+export interface Cargo {
+    nombre_cargo: string;
+}
+
+export interface EmpresaEmpleadora {
+    id_empresa:       number;
+    nombre_empleador: string;
+}
