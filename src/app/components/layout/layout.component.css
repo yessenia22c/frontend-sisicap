@@ -1,6 +1,21 @@
 .sidenav-container {
   flex: 1;
 }
+.botones-Perfil{
+  color: #5a5a5a;
+  fill: #5a5a5a;
+}
+.botones-Perfil:hover{
+  color: #5a5a5a;
+  fill: #5a5a5a;
+}
+
+.boton-activo{
+  color: #ffffff;
+  background: #002f8d;
+  fill: #ffffff;
+}
+
 
 .container-tolbar{
   display: flex;
