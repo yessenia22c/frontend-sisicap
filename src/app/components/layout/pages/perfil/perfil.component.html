@@ -1,0 +1,40 @@
+<ng-container *ngIf="informacionUsuario">
+    <div class="perfil datos">
+        <h2 style="font-size: 25px; font-weight: 600; color: #06306e; margin-top: 3rem;">ELITEISO S.R.L.</h2>
+        <img
+              [src]="informacionUsuario.usuario.foto_perfil"
+              (error)="onImageError($event)" 
+              alt="foto de perfil"
+              class="foto-perfil"
+            />
+        <div>
+            <div class="seccion">
+                <span>
+                    <strong>Nombre completo: </strong>  {{ informacionUsuario.usuario.empleado.PersonaEmpleado.nombres_per }}
+                     {{ informacionUsuario.usuario.empleado.PersonaEmpleado.apellidos }}
+                 </span>
+                 <span>
+                     <strong>Usuario: </strong> {{ informacionUsuario.usuario.nombre_usuario }}
+         
+                 </span>
+                 <span>
+                     <strong>Rol del sistema </strong> {{ informacionUsuario.usuario.tipo_usuario.nombre_tipo_usuario }}
+                 </span>
+            </div>
+    
+            <ng-container *ngIf="informacionEmpleado" >
+                <div class="datos seccion">
+                    <span>
+                        <strong>Cargo </strong> {{ informacionEmpleado.Datos_empleado.cargo.nombre_cargo }}
+                    </span>
+                    <span>
+                        <strong>Fecha de contrato: </strong> {{ informacionEmpleado.Datos_empleado.fecha_contrato }}
+                    </span>
+                    <span>
+                        <strong> Nro. C.I. </strong> {{ informacionEmpleado.Datos_empleado.PersonaEmpleado.nro_ci }}
+                    </span>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-container>

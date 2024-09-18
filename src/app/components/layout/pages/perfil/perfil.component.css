@@ -1,0 +1,46 @@
+.perfil{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 auto;
+    width: auto;
+}
+.foto-perfil{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px;
+}
+@media screen and (max-width: 380px){
+    .foto-perfil{
+        width: 150px;
+        height: 150px;
+    }
+    
+}
+.datos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 15px;
+}
+
+.seccion{
+    margin-top: 1rem;
+    border: 2px solid #06306e;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-radius: 20px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+strong{
+    font-size: 15px;
+    color: #06306e;
+}
