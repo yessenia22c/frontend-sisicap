@@ -36,7 +36,7 @@ export class MostrarColumnDirective implements OnInit{
       next: (usuario: PerfilUsuario) => {
         this.usuarioActual = usuario.usuario;
         const tieneAcceso = this.tieneAcceso();
-        console.log('Tiene acceso:', tieneAcceso);
+        // console.log('Tiene acceso:', tieneAcceso);
         this.accesoDeterminado.emit(tieneAcceso);
         // console.log('Emitiendo:', this.accesoDeterminado);
         this.actualizarVista(tieneAcceso);
